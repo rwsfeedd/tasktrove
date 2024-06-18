@@ -1,9 +1,9 @@
 package standard;
 
 public class Tile {
-	int x;
-	int y;
-	int type;
+	private int x;
+	private int y;
+	private int type;
 	
 	/*
 	 * @param x

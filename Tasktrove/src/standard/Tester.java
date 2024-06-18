@@ -17,24 +17,17 @@ public class Tester extends Application{
 	public int widthWindow = 900;
 	
 	public void start(Stage primaryStage) throws Exception{
-		Tile tile0 = new Tile(0, 0, 0);
-		Tile tile1 = new Tile(4, 0, 0);
-		Tile tile2 = new Tile(30, 0, 0);
+		
 		Field field = new Field();
-		
-		field.addTile(tile0);
-		field.addTile(tile1);
-		field.addTile(tile2);
-		
-		for(int i = 0; i < 3; i++) {
-			System.out.println(field.getTile(i).x);
+		for(int i = 0; i < field.getTileCount(); i++) {
+			System.out.println("Field " + i + " :x= " + field.getTile(i).getX() + ",y= " + field.getTile(i).getY());
 		}
 		
 		Image image = new Image("file:images/blackBackround.png");
 		ImageView imageView = new ImageView(image);
-		Label label = new Label("x of Field 0 = " + field.getTile(0).x);
-		Label label1 = new Label("x of Field 1 = " + field.getTile(1).x);
-		Label label2 = new Label("x of Field 2 = " + field.getTile(2).x);
+		Label label = new Label("x of Field 0 = " + field.getTile(0).getX());
+		Label label1 = new Label("x of Field 1 = " + field.getTile(1).getX());
+		Label label2 = new Label("x of Field 2 = " + field.getTile(2).getX());
 		TilePane pane = new TilePane(imageView);
 		VBox rootVBox = new VBox(label, label1, label2, pane);
 		Scene scene = new Scene(rootVBox, widthWindow, heightWindow);
