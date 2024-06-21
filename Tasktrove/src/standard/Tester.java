@@ -39,32 +39,32 @@ public class Tester extends Application{
 		Label label1 = new Label("x of Field 1 = " + field.getTile(1).getX());
 		Label label2 = new Label("x of Field 2 = " + field.getTile(2).getX());
 		
-		BorderWidths borderWidths = new BorderWidths(2);
-		BorderStrokeStyle borderStrokeStyle = BorderStrokeStyle.DOTTED;
+
+		//für die Randleiste der Szene
 		Paint stroke = null;
+		BorderStrokeStyle borderStrokeStyle = BorderStrokeStyle.DOTTED;
+		CornerRadii radii = null;
+		BorderWidths borderWidths = new BorderWidths(2);
 		
-		BorderPane pane0 = new BorderPane();
-		BorderStroke borderStroke0 = new BorderStroke(stroke, borderStrokeStyle, null, borderWidths);
-		Border border0 = new Border(borderStroke0);
-		pane0.setBorder(border0);
-		BorderPane pane1 = new BorderPane();
-		BorderStroke borderStroke1 = new BorderStroke(stroke, borderStrokeStyle, null, borderWidths);
-		Border border1 = new Border(borderStroke1);
-		pane1.setBorder(border1);
-		BorderPane pane2 = new BorderPane();
-		BorderStroke borderStroke2 = new BorderStroke(stroke, borderStrokeStyle, null, borderWidths);
-		Border border2 = new Border(borderStroke2);
-		pane2.setBorder(border2);
-		BorderPane pane3 = new BorderPane();
-		BorderStroke borderStroke3 = new BorderStroke(stroke, borderStrokeStyle, null, borderWidths);
-		Border border3 = new Border(borderStroke3);
-		pane3.setBorder(border3);
-		
+		BorderPane pane[] = new BorderPane[4];
+		Border border[] = new Border[4];
+		BorderStroke borderStroke[] = new BorderStroke[4];
+		for(int i = 0; i < 4;i++) {
+			borderStroke[i] = new BorderStroke(stroke, borderStrokeStyle, radii, borderWidths);
+			pane[i] = new BorderPane();
+			border[i] = new Border(borderStroke[i]);
+			pane[i].setBorder(border[i]);
+		}
 		BorderPane rootBorderPane = new BorderPane();
-		rootBorderPane.setLeft(pane0);
-		rootBorderPane.setRight(pane1);
-		rootBorderPane.setTop(pane2);
-		rootBorderPane.setBottom(pane3);
+		rootBorderPane.setLeft(pane[0]);
+		rootBorderPane.setRight(pane[1]);
+		rootBorderPane.setTop(pane[2]);
+		rootBorderPane.setBottom(pane[3]);
+		
+		//für das Zentrum der Scene
+		
+		
+		
 		Scene scene = new Scene(rootBorderPane, widthWindow, heightWindow);
 		primaryStage.setScene(scene);
 		primaryStage.show();

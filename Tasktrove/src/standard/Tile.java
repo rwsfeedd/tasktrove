@@ -1,9 +1,12 @@
 package standard;
 
+import javafx.scene.Node;
+
 public class Tile {
 	private int x;
 	private int y;
 	private int type;
+	private Node node;
 	
 	/*
 	 * @param x
@@ -39,5 +42,7 @@ public class Tile {
 	public void setType(int type) {
 		this.type = type;
 	}
-	
+	public Node getTile() {
+		return node;
+	}
 }
