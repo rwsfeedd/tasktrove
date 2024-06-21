@@ -18,7 +18,6 @@ public class Tile {
 		this.y = y;
 		this.type = type;
 	}
-
 	public int getX() {
 		return x;
 	}
@@ -42,7 +41,11 @@ public class Tile {
 	public void setType(int type) {
 		this.type = type;
 	}
-	public Node getTile() {
+	public Tile getTile() {
+		return this;
+	}
+	
+	public Node getNode() {
 		return node;
 	}
 }

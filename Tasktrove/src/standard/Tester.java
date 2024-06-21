@@ -1,6 +1,7 @@
 package standard;
 
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,6 +12,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
@@ -61,10 +63,19 @@ public class Tester extends Application{
 		rootBorderPane.setTop(pane[2]);
 		rootBorderPane.setBottom(pane[3]);
 		
+		/*
 		//für das Zentrum der Scene
-		
-		
-		
+		GridPane grid = new GridPane();
+		Tile tile;
+		Node node;
+		for(int i = 0; i < field.getTileCount()-1; i++) {
+			tile = field.getTile(i);
+			node = tile.getNode();
+			grid.add(node, tile.getY(), tile.getX());
+		}
+		//grid.gridLinesVisibleProperty();
+		rootBorderPane.setCenter(grid);
+		*/
 		Scene scene = new Scene(rootBorderPane, widthWindow, heightWindow);
 		primaryStage.setScene(scene);
 		primaryStage.show();
