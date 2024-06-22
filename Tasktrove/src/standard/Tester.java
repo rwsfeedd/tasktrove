@@ -34,9 +34,7 @@ public class Tester extends Application{
 		
 		
 		//stretch backround to needed parameters
-		
-		Image image = new Image("file:images/blackBackround.png");
-		ImageView imageView = new ImageView(image);
+
 		Label label = new Label("x of Field 0 = " + field.getTile(0).getX());
 		Label label1 = new Label("x of Field 1 = " + field.getTile(1).getX());
 		Label label2 = new Label("x of Field 2 = " + field.getTile(2).getX());
@@ -63,19 +61,20 @@ public class Tester extends Application{
 		rootBorderPane.setTop(pane[2]);
 		rootBorderPane.setBottom(pane[3]);
 		
-		/*
+		
 		//für das Zentrum der Scene
 		GridPane grid = new GridPane();
 		Tile tile;
 		Node node;
-		for(int i = 0; i < field.getTileCount()-1; i++) {
+		for(int i = 0; i < field.getTileCount(); i++) {
 			tile = field.getTile(i);
+			tile.setType(i%2);
 			node = tile.getNode();
-			grid.add(node, tile.getY(), tile.getX());
+			grid.add(node, tile.getX(), tile.getY());
 		}
 		//grid.gridLinesVisibleProperty();
 		rootBorderPane.setCenter(grid);
-		*/
+		
 		Scene scene = new Scene(rootBorderPane, widthWindow, heightWindow);
 		primaryStage.setScene(scene);
 		primaryStage.show();
