@@ -1,10 +1,18 @@
 package standard;
 
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Tile {
 	private int x;
 	private int y;
 	private int type;
-	
+	private Node node;
+	Image imageBlack = new Image("file:images/blackBackround.png");
+	ImageView imageViewBlack = new ImageView(imageBlack);
+	Image imageWhite = new Image("file:images/whiteBackround.png");
+	ImageView imageViewWhite = new ImageView(imageWhite);
 	/*
 	 * @param x
 	 * @param y
@@ -14,8 +22,8 @@ public class Tile {
 		this.x = x;
 		this.y = y;
 		this.type = type;
+		
 	}
-
 	public int getX() {
 		return x;
 	}
@@ -39,5 +47,19 @@ public class Tile {
 	public void setType(int type) {
 		this.type = type;
 	}
+	public Tile getTile() {
+		return this;
+	}
 	
+	public Node getNode() {
+		switch(type) {
+			case 0:
+				return imageViewWhite;
+			case 1:
+				return imageViewBlack;
+			default:
+				return imageViewBlack;
+		}
+
+	}
 }
