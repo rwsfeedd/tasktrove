@@ -2,23 +2,33 @@ package standard;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class WindowsFactory {
-	public static final int heightWindow = 900;
-	public static final int widthWindow = 1800;
+	public static final double heightWindow = 768;
+	public static final double widthWindow = 1024;
 	Group g;
 	Scene scene;
 	public Canvas canvas;
 	
 	public WindowsFactory() {
-		BorderPane pane = new BorderPane();
-		pane.setPrefSize(widthWindow,heightWindow);
+		VBox pane = new VBox();
+		pane.setPrefSize(widthWindow,heightWindow); //noch ändern, da Windowsgröße > Pane	
+		Label label = new Label("Hier die Angaben eintragen:");
+		TextField text = new TextField("Eingaben");
+		pane.getChildren().addAll(label, text);
+		
+		/*
 		canvas = new Canvas(widthWindow,heightWindow);
 		GraphicsContext graphics = canvas.getGraphicsContext2D();
 		graphics.setFill(Color.BLACK);
@@ -29,9 +39,9 @@ public class WindowsFactory {
 		double polyX[] = {point0[0], point1[0], point2[0], point3[0]};
 		double polyY[] = {point0[1], point1[1], point2[1], point3[1]};
 		graphics.fillPolygon(polyX, polyY, 4);
-		
 		pane.setCenter(canvas);
-		scene = new Scene(pane, 300, 300, Color.WHITE);
+		*/
+		scene = new Scene(pane, 300, 300, Color.BLACK);
 	}
 
 	

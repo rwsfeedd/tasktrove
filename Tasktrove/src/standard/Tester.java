@@ -80,9 +80,12 @@ public class Tester extends Application{
 	
 	public void start(Stage primaryStage) throws Exception{
 		WindowsFactory test = new WindowsFactory();
-		Scene gameScene = test.scene;
+		Scene testScene = test.scene;
 		Scene basicScene = basicLayout();
-		primaryStage.setScene(gameScene);
+		//setStage
+		primaryStage.setScene(testScene);
+		primaryStage.setMinHeight(WindowsFactory.heightWindow);
+		primaryStage.setMinWidth(WindowsFactory.widthWindow);
 		primaryStage.show();
 	}//start
 	
