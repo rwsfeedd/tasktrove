@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -22,11 +23,8 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class Tester extends Application{
-	public int heightWindow = 600;
-	public int widthWindow = 900;
 	
-	public void start(Stage primaryStage) throws Exception{
-		
+	public Scene basicLayout() {
 		Field field = new Field();
 		for(int i = 0; i < field.getTileCount(); i++) {
 			System.out.println("Field " + i + " :x= " + field.getTile(i).getX() + ",y= " + field.getTile(i).getY());
@@ -75,12 +73,21 @@ public class Tester extends Application{
 		//grid.gridLinesVisibleProperty();
 		rootBorderPane.setCenter(grid);
 		
-		Scene scene = new Scene(rootBorderPane, widthWindow, heightWindow);
-		primaryStage.setScene(scene);
+		Scene basicScene = new Scene(rootBorderPane, WindowsFactory.widthWindow, WindowsFactory.heightWindow);
+		return basicScene;
+		
+	}//basicLayout()
+	
+	public void start(Stage primaryStage) throws Exception{
+		WindowsFactory test = new WindowsFactory();
+		Scene gameScene = test.scene;
+		Scene basicScene = basicLayout();
+		primaryStage.setScene(gameScene);
 		primaryStage.show();
-	}
+	}//start
+	
 	public static void main(String[] args) {
 		launch(args);
-	}
+	}//main
 
 }
