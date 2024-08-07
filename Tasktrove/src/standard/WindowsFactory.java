@@ -1,5 +1,6 @@
 package standard;
 
+
 import java.awt.event.TextListener;
 
 import javafx.geometry.Point2D;
@@ -29,7 +30,6 @@ public class WindowsFactory {
 		Label label = new Label("Hier die Angaben eintragen:");
 		TextField text = new TextField("Eingaben");
 		pane.getChildren().addAll(label, text);
-		
 		/*
 		canvas = new Canvas(widthWindow,heightWindow);
 		GraphicsContext graphics = canvas.getGraphicsContext2D();

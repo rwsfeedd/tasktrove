@@ -30,14 +30,6 @@ public class Tester extends Application{
 			System.out.println("Field " + i + " :x= " + field.getTile(i).getX() + ",y= " + field.getTile(i).getY());
 		}
 		
-		
-		//stretch backround to needed parameters
-
-		Label label = new Label("x of Field 0 = " + field.getTile(0).getX());
-		Label label1 = new Label("x of Field 1 = " + field.getTile(1).getX());
-		Label label2 = new Label("x of Field 2 = " + field.getTile(2).getX());
-		
-
 		//für die Randleiste der Szene
 		Paint stroke = null;
 		BorderStrokeStyle borderStrokeStyle = BorderStrokeStyle.DOTTED;
@@ -83,7 +75,7 @@ public class Tester extends Application{
 		Scene testScene = test.scene;
 		Scene basicScene = basicLayout();
 		//setStage
-		primaryStage.setScene(testScene);
+		primaryStage.setScene(basicScene);
 		primaryStage.setMinHeight(WindowsFactory.heightWindow);
 		primaryStage.setMinWidth(WindowsFactory.widthWindow);
 		primaryStage.show();
