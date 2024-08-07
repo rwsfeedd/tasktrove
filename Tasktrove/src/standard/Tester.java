@@ -1,5 +1,8 @@
 package standard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -25,10 +28,6 @@ import javafx.stage.Stage;
 public class Tester extends Application{
 	
 	public Scene basicLayout() {
-		Field field = new Field();
-		for(int i = 0; i < field.getTileCount(); i++) {
-			System.out.println("Field " + i + " :x= " + field.getTile(i).getX() + ",y= " + field.getTile(i).getY());
-		}
 		
 		//für die Randleiste der Szene
 		Paint stroke = null;
@@ -54,13 +53,15 @@ public class Tester extends Application{
 		
 		//für das Zentrum der Scene
 		GridPane grid = new GridPane();
-		Tile tile;
+		List<Tile> tileList = new ArrayList<Tile>(35);
 		Node node;
-		for(int i = 0; i < field.getTileCount(); i++) {
-			tile = field.getTile(i);
-			tile.setType(i%2);
-			node = tile.getNode();
-			grid.add(node, tile.getX(), tile.getY());
+		int y = 0;
+		for(int i = 0; i < 35; i++) {
+			tileList.add(new Tile(i));
+			tileList.get(i).setType(i%2);
+			node = tileList.get(i).getNode();
+			grid.add(node, i%5, y);
+			if(i%5 > 3) y++;
 		}
 		//grid.gridLinesVisibleProperty();
 		rootBorderPane.setCenter(grid);
