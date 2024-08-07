@@ -2,6 +2,8 @@ package standard;
 
 
 import java.awt.event.TextListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -11,20 +13,28 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class WindowsFactory {
 	public static final double heightWindow = 768;
 	public static final double widthWindow = 1024;
 	Group g;
-	Scene scene;
+	Scene sceneEntry;
+	Scene sceneCalendar;
 	public Canvas canvas;
-	
-	public WindowsFactory() {
+
+	public void initCalendar() {
 		VBox pane = new VBox();
 		pane.setPrefSize(widthWindow,heightWindow); //noch ändern, da Windowsgröße > Pane	
 		Label label = new Label("Hier die Angaben eintragen:");
@@ -43,7 +53,61 @@ public class WindowsFactory {
 		graphics.fillPolygon(polyX, polyY, 4);
 		pane.setCenter(canvas);
 		*/
-		scene = new Scene(pane, 300, 300, Color.BLACK);
+		sceneEntry = new Scene(pane, 300, 300, Color.BLACK);
+
+	}
+	public void initEntry() {
+		//für die Randleiste der Szene
+		Paint stroke = null;
+		BorderStrokeStyle borderStrokeStyle = BorderStrokeStyle.DOTTED;
+		CornerRadii radii = null;
+		BorderWidths borderWidths = new BorderWidths(2);
+		
+		BorderPane pane[] = new BorderPane[4];
+		Border border[] = new Border[4];
+		BorderStroke borderStroke[] = new BorderStroke[4];
+		for(int i = 0; i < 4;i++) {
+			borderStroke[i] = new BorderStroke(stroke, borderStrokeStyle, radii, borderWidths);
+			pane[i] = new BorderPane();
+			border[i] = new Border(borderStroke[i]);
+			pane[i].setBorder(border[i]);
+		}
+		BorderPane rootBorderPane = new BorderPane();
+		rootBorderPane.setLeft(pane[0]);
+		rootBorderPane.setRight(pane[1]);
+		rootBorderPane.setTop(pane[2]);
+		rootBorderPane.setBottom(pane[3]);
+		
+		
+		//für das Zentrum der Scene
+		GridPane grid = new GridPane();
+		List<Tile> tileList = new ArrayList<Tile>(35);
+		Node node;
+		int y = 0;
+		for(int i = 0; i < 35; i++) {
+			tileList.add(new Tile(i));
+			tileList.get(i).setType(i%2);
+			node = tileList.get(i).getNode();
+			grid.add(node, i%5, y);
+			if(i%5 > 3) y++;
+		}
+		//grid.gridLinesVisibleProperty();
+		rootBorderPane.setCenter(grid);
+		
+		sceneCalendar = new Scene(rootBorderPane, WindowsFactory.widthWindow, WindowsFactory.heightWindow);
+
+	}
+	public WindowsFactory() {
+		initEntry();
+		initCalendar();
+	}
+	public Scene getScene(int typ) {
+		if(typ == 1) {
+			return sceneEntry;
+		}else {
+			return sceneCalendar;
+		}
+		
 	}
 
 	
