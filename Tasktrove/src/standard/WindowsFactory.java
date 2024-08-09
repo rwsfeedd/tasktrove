@@ -5,14 +5,22 @@ import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -33,13 +41,24 @@ public class WindowsFactory {
 	Scene sceneEntry;
 	Scene sceneCalendar;
 	public Canvas canvas;
-
-	public void initCalendar() {
+	
+	public void initEntry() {
 		VBox pane = new VBox();
 		pane.setPrefSize(widthWindow,heightWindow); //noch ändern, da Windowsgröße > Pane	
 		Label label = new Label("Hier die Angaben eintragen:");
 		TextField text = new TextField("Eingaben");
-		pane.getChildren().addAll(label, text);
+		text.addEventHandler(KeyEvent.KEY_TYPED,
+				new EventHandler<KeyEvent>() {
+					public void handle(KeyEvent b) {System.out.println("Textänderung");}
+				}
+		);
+		Button button = new Button("bitte funktioniere");
+		button.addEventHandler(ActionEvent.ACTION, 
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent e) {System.out.println("afikhafoiö");};
+				});
+		//text.setEventHandler(eventType, controller);
+		pane.getChildren().addAll(label, text, button);
 		/*
 		canvas = new Canvas(widthWindow,heightWindow);
 		GraphicsContext graphics = canvas.getGraphicsContext2D();
@@ -56,7 +75,7 @@ public class WindowsFactory {
 		sceneEntry = new Scene(pane, 300, 300, Color.BLACK);
 
 	}
-	public void initEntry() {
+	public void initCalendar() {
 		//für die Randleiste der Szene
 		Paint stroke = null;
 		BorderStrokeStyle borderStrokeStyle = BorderStrokeStyle.DOTTED;
