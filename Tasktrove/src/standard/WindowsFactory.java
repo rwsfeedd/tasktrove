@@ -92,10 +92,6 @@ public class WindowsFactory {
 			if(i%5 > 3) y++;
 		}
 		rootPane.getChildren().add(grid);
-		AnchorPane.setLeftAnchor(grid, null);
-		AnchorPane.setRightAnchor(grid, null);
-		AnchorPane.setTopAnchor(grid, 0.0);
-		AnchorPane.setBottomAnchor(grid, 0.0);
 		sceneCalendar = new Scene(rootPane, WindowsFactory.widthWindow, WindowsFactory.heightWindow);
 
 	}
