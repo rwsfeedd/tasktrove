@@ -1,7 +1,6 @@
 package standard;
 
 
-import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,30 +72,12 @@ public class WindowsFactory {
 		pane.setCenter(canvas);
 		*/
 		sceneEntry = new Scene(pane, 300, 300, Color.BLACK);
-
 	}
 	public void initCalendar() {
 		//für die Randleiste der Szene
-		Paint stroke = null;
-		BorderStrokeStyle borderStrokeStyle = BorderStrokeStyle.DOTTED;
-		CornerRadii radii = null;
-		BorderWidths borderWidths = new BorderWidths(2);
-		
-		BorderPane pane[] = new BorderPane[4];
-		Border border[] = new Border[4];
-		BorderStroke borderStroke[] = new BorderStroke[4];
-		for(int i = 0; i < 4;i++) {
-			borderStroke[i] = new BorderStroke(stroke, borderStrokeStyle, radii, borderWidths);
-			pane[i] = new BorderPane();
-			border[i] = new Border(borderStroke[i]);
-			pane[i].setBorder(border[i]);
-		}
+		Border border = new Border(new BorderStroke(null, BorderStrokeStyle.DOTTED, null, new BorderWidths(2)));
 		BorderPane rootBorderPane = new BorderPane();
-		rootBorderPane.setLeft(pane[0]);
-		rootBorderPane.setRight(pane[1]);
-		rootBorderPane.setTop(pane[2]);
-		rootBorderPane.setBottom(pane[3]);
-		
+		rootBorderPane.setBorder(border);
 		
 		//für das Zentrum der Scene
 		GridPane grid = new GridPane();
@@ -105,12 +86,10 @@ public class WindowsFactory {
 		int y = 0;
 		for(int i = 0; i < 35; i++) {
 			tileList.add(new Tile(i));
-			tileList.get(i).setType(i%2);
 			node = tileList.get(i).getNode();
 			grid.add(node, i%5, y);
 			if(i%5 > 3) y++;
 		}
-		//grid.gridLinesVisibleProperty();
 		rootBorderPane.setCenter(grid);
 		
 		sceneCalendar = new Scene(rootBorderPane, WindowsFactory.widthWindow, WindowsFactory.heightWindow);

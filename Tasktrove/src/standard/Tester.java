@@ -32,7 +32,7 @@ public class Tester extends Application{
 		Scene testScene = windowsFactory.getScene(1);
 		Scene basicScene = windowsFactory.getScene(0);
 		//setStage
-		primaryStage.setScene(testScene);
+		primaryStage.setScene(basicScene);
 		primaryStage.setMinHeight(WindowsFactory.heightWindow);
 		primaryStage.setMinWidth(WindowsFactory.widthWindow);
 		primaryStage.show();
