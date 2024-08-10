@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -76,8 +77,8 @@ public class WindowsFactory {
 	public void initCalendar() {
 		//für die Randleiste der Szene
 		Border border = new Border(new BorderStroke(null, BorderStrokeStyle.DOTTED, null, new BorderWidths(2)));
-		BorderPane rootBorderPane = new BorderPane();
-		rootBorderPane.setBorder(border);
+		AnchorPane rootPane = new AnchorPane();
+		rootPane.setBorder(border);
 		
 		//für das Zentrum der Scene
 		GridPane grid = new GridPane();
@@ -90,9 +91,12 @@ public class WindowsFactory {
 			grid.add(node, i%5, y);
 			if(i%5 > 3) y++;
 		}
-		rootBorderPane.setCenter(grid);
-		
-		sceneCalendar = new Scene(rootBorderPane, WindowsFactory.widthWindow, WindowsFactory.heightWindow);
+		rootPane.getChildren().add(grid);
+		AnchorPane.setLeftAnchor(grid, null);
+		AnchorPane.setRightAnchor(grid, null);
+		AnchorPane.setTopAnchor(grid, 0.0);
+		AnchorPane.setBottomAnchor(grid, 0.0);
+		sceneCalendar = new Scene(rootPane, WindowsFactory.widthWindow, WindowsFactory.heightWindow);
 
 	}
 	public WindowsFactory() {
