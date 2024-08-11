@@ -2,7 +2,10 @@ package standard;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -93,7 +96,9 @@ public class WindowsFactory {
 		}
 		rootPane.getChildren().add(grid);
 		sceneCalendar = new Scene(rootPane, WindowsFactory.widthWindow, WindowsFactory.heightWindow);
-
+		TimeZone timezone = TimeZone.getDefault();
+		GregorianCalendar calendar = new GregorianCalendar(timezone);
+		System.out.println(calendar.get(calendar.HOUR_OF_DAY));
 	}
 	public WindowsFactory() {
 		initEntry();
