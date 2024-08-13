@@ -37,7 +37,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-public class WindowsFactory {
+public class SceneFactory {
 	public static final double heightWindow = 768;
 	public static final double widthWindow = 1024;
 	Group g;
@@ -78,29 +78,26 @@ public class WindowsFactory {
 		sceneEntry = new Scene(pane, 300, 300, Color.BLACK);
 	}
 	public void initCalendar() {
-		//für die Randleiste der Szene
-		Border border = new Border(new BorderStroke(null, BorderStrokeStyle.DOTTED, null, new BorderWidths(2)));
+		TimeZone timezone = TimeZone.getDefault();
+		GregorianCalendar calendar = new GregorianCalendar(timezone);
+		System.out.println(calendar.get(calendar.HOUR_OF_DAY));
+
 		AnchorPane rootPane = new AnchorPane();
-		rootPane.setBorder(border);
-		
-		//für das Zentrum der Scene
 		GridPane grid = new GridPane();
 		List<Tile> tileList = new ArrayList<Tile>(35);
 		Node node;
 		int y = 0;
-		for(int i = 0; i < 35; i++) {
-			tileList.add(new Tile(i));
+		int offset = 5;
+		for(int i = 0; i < 31; i++) {
+			tileList.add(new Tile(i+1));
 			node = tileList.get(i).getNode();
-			grid.add(node, i%5, y);
-			if(i%5 > 3) y++;
+			grid.add(node, (i+offset)%7, y);
+			if((i+offset)%7 > 5) y++;
 		}
 		rootPane.getChildren().add(grid);
-		sceneCalendar = new Scene(rootPane, WindowsFactory.widthWindow, WindowsFactory.heightWindow);
-		TimeZone timezone = TimeZone.getDefault();
-		GregorianCalendar calendar = new GregorianCalendar(timezone);
-		System.out.println(calendar.get(calendar.HOUR_OF_DAY));
+		sceneCalendar = new Scene(rootPane, SceneFactory.widthWindow, SceneFactory.heightWindow);
 	}
-	public WindowsFactory() {
+	public SceneFactory() {
 		initEntry();
 		initCalendar();
 	}

@@ -28,13 +28,13 @@ import javafx.stage.Stage;
 public class Tester extends Application{
 	
 	public void start(Stage primaryStage) throws Exception{
-		WindowsFactory windowsFactory = new WindowsFactory();
+		SceneFactory windowsFactory = new SceneFactory();
 		Scene testScene = windowsFactory.getScene(1);
 		Scene basicScene = windowsFactory.getScene(0);
 		//setStage
 		primaryStage.setScene(basicScene);
-		primaryStage.setMinHeight(WindowsFactory.heightWindow);
-		primaryStage.setMinWidth(WindowsFactory.widthWindow);
+		primaryStage.setMinHeight(SceneFactory.heightWindow);
+		primaryStage.setMinWidth(SceneFactory.widthWindow);
 		primaryStage.show();
 	}//start
 	
