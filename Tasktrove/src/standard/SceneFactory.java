@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -40,12 +41,14 @@ import javafx.stage.Stage;
 public class SceneFactory {
 	public static final double heightWindow = 768;
 	public static final double widthWindow = 1024;
+	public Stage primaryStage;
 	Group g;
-	Scene sceneEntry;
-	Scene sceneCalendar;
 	public Canvas canvas;
 	
-	public void initEntry() {
+	public SceneFactory(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+	public Scene sceneEntry() {
 		VBox pane = new VBox();
 		pane.setPrefSize(widthWindow,heightWindow); //noch ‰ndern, da Windowsgrˆﬂe > Pane	
 		Label label = new Label("Hier die Angaben eintragen:");
@@ -75,37 +78,60 @@ public class SceneFactory {
 		graphics.fillPolygon(polyX, polyY, 4);
 		pane.setCenter(canvas);
 		*/
-		sceneEntry = new Scene(pane, 300, 300, Color.BLACK);
+		return new Scene(pane, 300, 300, Color.BLACK);
 	}
-	public void initCalendar() {
+	public Scene sceneCalendar() {
 		TimeZone timezone = TimeZone.getDefault();
 		GregorianCalendar calendar = new GregorianCalendar(timezone);
-		System.out.println(calendar.get(calendar.HOUR_OF_DAY));
+		
+		//calculating days in month for Calendargrid
+		int year = 2023;
+		int month = 2;
+		int daysInMonth = 0;
+		if(month <1 | month >12) {
+			System.err.println("In SceneFactory ist Int month nicht valide(Wert auﬂerhalb des Bereichs 1-12)!");
+			Platform.exit();
+		}
+		if(month !=2 && ((month-1)%7)%2 == 0) daysInMonth = 31;
+		if(month !=2 && ((month-1)%7)%2 == 1) daysInMonth = 30;
+		if(month == 2 && calendar.isLeapYear(year) == true) daysInMonth = 29;
+		if(month == 2 && calendar.isLeapYear(year) == false) daysInMonth = 28;
+		
+		//Weekday of first day in month for offset to establish order in View of month
+		GregorianCalendar tempCalendar = (GregorianCalendar) calendar.clone();
+		tempCalendar.set(Calendar.DAY_OF_MONTH, 1);
+		tempCalendar.set(Calendar.MONTH, month-1);//month in Calendar(0-11) and in GregorianCalendar(1-12)
+		tempCalendar.set(Calendar.YEAR, year);
+		int offset = 0;
+		if(tempCalendar.get(Calendar.DAY_OF_WEEK) == 1) { // first Weekday in Calendarclass is Sunday with int 1
+			offset = 6;
+		} else {
+			offset = tempCalendar.get(Calendar.DAY_OF_WEEK) - 2; // Monday has int 2, subtract 2 to get Monday in first column of grid 
+		}
 
+		//buildingCalendarScene
 		AnchorPane rootPane = new AnchorPane();
 		GridPane grid = new GridPane();
 		List<Tile> tileList = new ArrayList<Tile>(35);
 		Node node;
 		int y = 0;
-		int offset = 5;
-		for(int i = 0; i < 31; i++) {
+		for(int i = 0; i < daysInMonth; i++) {
 			tileList.add(new Tile(i+1));
 			node = tileList.get(i).getNode();
 			grid.add(node, (i+offset)%7, y);
 			if((i+offset)%7 > 5) y++;
 		}
 		rootPane.getChildren().add(grid);
-		sceneCalendar = new Scene(rootPane, SceneFactory.widthWindow, SceneFactory.heightWindow);
-	}
-	public SceneFactory() {
-		initEntry();
-		initCalendar();
+		Scene scene = new Scene(rootPane, SceneFactory.widthWindow, SceneFactory.heightWindow);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		return scene;
 	}
 	public Scene getScene(int typ) {
 		if(typ == 1) {
-			return sceneEntry;
+			return sceneEntry();
 		}else {
-			return sceneCalendar;
+			return sceneCalendar();
 		}
 		
 	}
