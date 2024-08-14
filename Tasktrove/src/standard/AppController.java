@@ -25,18 +25,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-public class Tester extends Application{
+public class AppController extends Application{
 	
 	public void start(Stage primaryStage) throws Exception{
-		SceneFactory windowsFactory = new SceneFactory(primaryStage);
-		Scene testScene = windowsFactory.getScene(1);
-		Scene basicScene = windowsFactory.getScene(0);
-		//setStage
-		primaryStage.setScene(testScene);
-		primaryStage.setMinHeight(SceneFactory.heightWindow);
-		primaryStage.setMinWidth(SceneFactory.widthWindow);
-		primaryStage.show();
-		windowsFactory.sceneCalendar();
+		AppModel model = new AppModel();
+		AppView view = new AppView(primaryStage, model);
+		view.setSceneCalendar();
+		view.update();
 	}//start
 	
 	public static void main(String[] args) {

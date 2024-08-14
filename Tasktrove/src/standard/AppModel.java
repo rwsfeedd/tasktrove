@@ -38,49 +38,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-public class SceneFactory {
-	public static final double heightWindow = 768;
-	public static final double widthWindow = 1024;
-	public Stage primaryStage;
+public class AppModel {
 	Group g;
 	public Canvas canvas;
 	
-	public SceneFactory(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-	}
-	public Scene sceneEntry() {
-		VBox pane = new VBox();
-		pane.setPrefSize(widthWindow,heightWindow); //noch ändern, da Windowsgröße > Pane	
-		Label label = new Label("Hier die Angaben eintragen:");
-		TextField text = new TextField("Eingaben");
-		text.addEventHandler(KeyEvent.KEY_TYPED,
-				new EventHandler<KeyEvent>() {
-					public void handle(KeyEvent b) {System.out.println("Textänderung");}
-				}
-		);
-		Button button = new Button("bitte funktioniere");
-		button.addEventHandler(ActionEvent.ACTION, 
-				new EventHandler<ActionEvent>() {
-					public void handle(ActionEvent e) {System.out.println("afikhafoiö");};
-				});
-		//text.setEventHandler(eventType, controller);
-		pane.getChildren().addAll(label, text, button);
-		/*
-		canvas = new Canvas(widthWindow,heightWindow);
-		GraphicsContext graphics = canvas.getGraphicsContext2D();
-		graphics.setFill(Color.BLACK);
-		double point0[]= {0,0};
-		double point1[]= {0,1000};
-		double point2[]= {1000,1000};
-		double point3[]= {1000,0};
-		double polyX[] = {point0[0], point1[0], point2[0], point3[0]};
-		double polyY[] = {point0[1], point1[1], point2[1], point3[1]};
-		graphics.fillPolygon(polyX, polyY, 4);
-		pane.setCenter(canvas);
-		*/
-		return new Scene(pane, 300, 300, Color.BLACK);
-	}
-	public Scene sceneCalendar() {
+	public int[] getCalendarInfo() {
 		TimeZone timezone = TimeZone.getDefault();
 		GregorianCalendar calendar = new GregorianCalendar(timezone);
 		
@@ -109,33 +71,7 @@ public class SceneFactory {
 			offset = tempCalendar.get(Calendar.DAY_OF_WEEK) - 2; // Monday has int 2, subtract 2 to get Monday in first column of grid 
 		}
 
-		//buildingCalendarScene
-		AnchorPane rootPane = new AnchorPane();
-		GridPane grid = new GridPane();
-		List<Tile> tileList = new ArrayList<Tile>(35);
-		Node node;
-		int y = 0;
-		for(int i = 0; i < daysInMonth; i++) {
-			tileList.add(new Tile(i+1));
-			node = tileList.get(i).getNode();
-			grid.add(node, (i+offset)%7, y);
-			if((i+offset)%7 > 5) y++;
-		}
-		rootPane.getChildren().add(grid);
-		Scene scene = new Scene(rootPane, SceneFactory.widthWindow, SceneFactory.heightWindow);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		return scene;
+		int[] ret = {offset, daysInMonth};
+		return ret;
 	}
-	public Scene getScene(int typ) {
-		if(typ == 1) {
-			return sceneEntry();
-		}else {
-			return sceneCalendar();
-		}
-		
-	}
-
-	
-	
 }
