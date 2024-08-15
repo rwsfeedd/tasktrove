@@ -39,13 +39,13 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class AppModel {
-	Group g;
-	public Canvas canvas;
-	
+	public final static int CALENDAR_SCENE = 0;
+	public final static int ENTRY_SCENE = 1;
+
+	private int currentScene = 0;
 	public int[] getCalendarInfo() {
 		TimeZone timezone = TimeZone.getDefault();
 		GregorianCalendar calendar = new GregorianCalendar(timezone);
-		
 		//calculating days in month for Calendargrid
 		int year = 2023;
 		int month = 2;
@@ -73,5 +73,11 @@ public class AppModel {
 
 		int[] ret = {offset, daysInMonth};
 		return ret;
+	}
+	public int getCurrentScene() {
+		return currentScene;
+	}
+	public void setCurrentScene(int nextScene) {
+		currentScene = nextScene;
 	}
 }

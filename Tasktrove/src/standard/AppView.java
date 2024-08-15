@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -20,21 +21,26 @@ import javafx.stage.Stage;
 public class AppView{
 	public final double heightWindow = 768;
 	public final double widthWindow = 1024;
-	public Scene currentScene;
 	private Stage primaryStage;
 	private AppModel model;
+	private AppController controller;
 
-	public AppView(Stage primaryStage, AppModel model) {
+	public AppView(Stage primaryStage, AppModel model, AppController controller) {
 		this.primaryStage = primaryStage;
 		this.model = model;
+		this.controller = controller;
 	}
 	public void update() {
 		primaryStage.setHeight(heightWindow); 		
 		primaryStage.setWidth(widthWindow);
-		primaryStage.setScene(currentScene);
+		switch(model.getCurrentScene()) {
+			case AppModel.ENTRY_SCENE: primaryStage.setScene(getSceneEntry());
+					break;
+			default: primaryStage.setScene(getSceneCalendar());
+		}
 		primaryStage.show();
 	}
-	public void setSceneCalendar() {
+	private Scene getSceneCalendar() {
 		//buildingCalendarScene
 		int[] calendarData = model.getCalendarInfo();
 		AnchorPane rootPane = new AnchorPane();
@@ -48,25 +54,28 @@ public class AppView{
 			grid.add(node, (i+calendarData[0])%7, y);
 			if((i+calendarData[0])%7 > 5) y++;
 		}
-		rootPane.getChildren().add(grid);
-		currentScene = new Scene(rootPane);
+		
+		Button buttonNewDate = new Button("neuer Termin");
+		AnchorPane.setRightAnchor(buttonNewDate, 0.0);
+		buttonNewDate.setOnAction(e -> {controller.handle(AppController.NEW_DATE);});
+		
+		rootPane.getChildren().addAll(grid, buttonNewDate);
+		return new Scene(rootPane);
 	}
-	public void setSceneEntry() {
+	private Scene getSceneEntry() {
 		VBox pane = new VBox();
 		//pane.setPrefSize(widthWindow,heightWindow); //noch ändern, da Windowsgröße > Pane	
 		Label label = new Label("Hier die Angaben eintragen:");
 		TextField text = new TextField("Eingaben");
+		/*
 		text.addEventHandler(KeyEvent.KEY_TYPED,
 				new EventHandler<KeyEvent>() {
 					public void handle(KeyEvent b) {System.out.println("Textänderung");}
 				}
 		);
+		*/
+		text.setOnAction(e -> {controller.handle(0);});
 		Button button = new Button("bitte funktioniere");
-		button.addEventHandler(ActionEvent.ACTION, 
-				new EventHandler<ActionEvent>() {
-					public void handle(ActionEvent e) {System.out.println("afikhafoiö");};
-				});
-		//text.setEventHandler(eventType, controller);
 		pane.getChildren().addAll(label, text, button);
 		/*
 		canvas = new Canvas(widthWindow,heightWindow);
@@ -81,7 +90,7 @@ public class AppView{
 		graphics.fillPolygon(polyX, polyY, 4);
 		pane.setCenter(canvas);
 		*/
-		currentScene = new Scene(pane, 300, 300, Color.BLACK);
+		return new Scene(pane);
 	}
 
 }
