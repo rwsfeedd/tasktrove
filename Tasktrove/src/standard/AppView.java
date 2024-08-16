@@ -75,7 +75,10 @@ public class AppView{
 		buttonPreviousMonth.setOnAction(e -> {controller.handle(AppController.BUTTON_PREVIOUS_MONTH);});
 		//Label zur Anzeige des Monats initialisieren
 		Label labelMonth = new Label(model.getStringCurrentMonth());
-		labelMonth.setMinWidth(50);
+		labelMonth.setMinWidth(70);
+		//Label zur Anzeige des Jahres initialisieren
+		Label labelYear = new Label("" + model.getCurrentYear());
+		labelYear.setMinWidth(40);
 		//Button für Wechsel in nächsten Monat initialisieren
 		Canvas graphicNextMonth = new Canvas(15, 15);
 		GraphicsContext gcNextMonth = graphicNextMonth.getGraphicsContext2D();
@@ -86,7 +89,7 @@ public class AppView{
 		Button buttonNextMonth = new Button(null, graphicNextMonth);
 		buttonNextMonth.setOnAction(e -> {controller.handle(AppController.BUTTON_NEXT_MONTH);});
 		//Pane für Monatsauswahl zusammenfügen 
-		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, buttonNextMonth);
+		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, labelYear, buttonNextMonth);
 
 		AnchorPane.setTopAnchor(paneMonth, 0.0);
 		AnchorPane.setRightAnchor(buttonNewDate, 0.0);

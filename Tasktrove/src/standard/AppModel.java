@@ -135,4 +135,7 @@ public class AppModel {
 			intCurrentMonth--;
 		}
 	}
+	public int getCurrentYear() {
+		return currentYear;
+	}
 }
