@@ -45,32 +45,32 @@ public class AppModel {
 	TimeZone timeZone;
 	GregorianCalendar calendar;
 	private int currentScene = 0;
-	private int currentMonth;
+	private int intCurrentMonth;
 
 	public AppModel() {
 		timeZone = TimeZone.getDefault();
 		calendar = new GregorianCalendar(timeZone);
-		currentMonth = calendar.get(GregorianCalendar.MONTH);
-		System.out.println(currentMonth);
+		intCurrentMonth = calendar.get(GregorianCalendar.MONTH);
+		System.out.println(intCurrentMonth);
 	}
 	
 	public int[] getCalendarInfo() {
 		//calculating days in month for Calendargrid
 		int year = 2024;
 		int daysInMonth = 0;
-		if(currentMonth <0 | currentMonth >11) {
+		if(intCurrentMonth <0 | intCurrentMonth >11) {
 			System.err.println("In SceneFactory ist Int month nicht valide(Wert auﬂerhalb des Bereichs 1-12)!");
 			Platform.exit();
 		}
-		if(currentMonth != Calendar.FEBRUARY && ((currentMonth)%7)%2 == 0) daysInMonth = 31;
-		if(currentMonth != Calendar.FEBRUARY && ((currentMonth)%7)%2 == 1) daysInMonth = 30;
-		if(currentMonth == Calendar.FEBRUARY && calendar.isLeapYear(year) == true) daysInMonth = 29;
-		if(currentMonth == Calendar.FEBRUARY && calendar.isLeapYear(year) == false) daysInMonth = 28;
+		if(intCurrentMonth != Calendar.FEBRUARY && ((intCurrentMonth)%7)%2 == 0) daysInMonth = 31;
+		if(intCurrentMonth != Calendar.FEBRUARY && ((intCurrentMonth)%7)%2 == 1) daysInMonth = 30;
+		if(intCurrentMonth == Calendar.FEBRUARY && calendar.isLeapYear(year) == true) daysInMonth = 29;
+		if(intCurrentMonth == Calendar.FEBRUARY && calendar.isLeapYear(year) == false) daysInMonth = 28;
 		
 		//Weekday of first day in month for offset to establish order in View of month
 		GregorianCalendar tempCalendar = (GregorianCalendar) calendar.clone();
 		tempCalendar.set(Calendar.DAY_OF_MONTH, 1);
-		tempCalendar.set(Calendar.MONTH, currentMonth);
+		tempCalendar.set(Calendar.MONTH, intCurrentMonth);
 		tempCalendar.set(Calendar.YEAR, year);
 		int offset = 0;
 		if(tempCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) { // first Weekday in Calendarclass is Sunday with int 1
@@ -88,9 +88,9 @@ public class AppModel {
 	public void setCurrentScene(int nextScene) {
 		currentScene = nextScene;
 	}
-	public String getCurrentMonth() {
+	public String getStringCurrentMonth() {
 		String erg = "";
-		switch(currentMonth) {
+		switch(intCurrentMonth) {
 		case Calendar.JANUARY:	erg = "Januar";
 								break;
 		case Calendar.FEBRUARY:	erg = "Februar";

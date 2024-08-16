@@ -8,6 +8,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -55,13 +57,23 @@ public class AppView{
 			grid.add(node, (i+calendarData[0])%7, y);
 			if((i+calendarData[0])%7 > 5) y++;
 		}
-		
+	
 		Button buttonNewDate = new Button("neuer Termin");
 		buttonNewDate.setOnAction(e -> {controller.handle(AppController.NEW_DATE);});
 
 		HBox paneMonth = new HBox();
-		Button buttonPreviousMonth = new Button();
-		Label labelMonth = new Label(model.getCurrentMonth());
+
+		Canvas buttonGraphic = new Canvas(15, 15);
+		GraphicsContext gc = buttonGraphic.getGraphicsContext2D();
+		gc.setFill(Color.BLACK);
+		double[] x = {0, 10, 10};
+		double[] yCoo = {5,10, 0};
+		gc.fillPolygon(x, yCoo,  3);
+
+		Button buttonPreviousMonth = new Button(null, buttonGraphic);
+		buttonPreviousMonth.setMinWidth(15);
+		buttonPreviousMonth.setMinHeight(15);
+		Label labelMonth = new Label(model.getStringCurrentMonth());
 		Button buttonNextMonth = new Button();
 		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, buttonNextMonth);
 
