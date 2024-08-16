@@ -68,7 +68,7 @@ public class AppView{
 		AnchorPane.setTopAnchor(paneMonth, 0.0);
 		AnchorPane.setRightAnchor(buttonNewDate, 0.0);
 		AnchorPane.setBottomAnchor(grid, 0.0);
-		rootPane.getChildren().addAll(paneMonth, grid, buttonNewDate);
+		rootPane.getChildren().addAll(paneMonth, grid, buttonNewDate); 
 		return new Scene(rootPane);
 	}
 	private Scene getSceneEntry() {
