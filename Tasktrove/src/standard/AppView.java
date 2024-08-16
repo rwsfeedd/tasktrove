@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -56,10 +57,18 @@ public class AppView{
 		}
 		
 		Button buttonNewDate = new Button("neuer Termin");
-		AnchorPane.setRightAnchor(buttonNewDate, 0.0);
 		buttonNewDate.setOnAction(e -> {controller.handle(AppController.NEW_DATE);});
-		
-		rootPane.getChildren().addAll(grid, buttonNewDate);
+
+		HBox paneMonth = new HBox();
+		Button buttonPreviousMonth = new Button();
+		Label labelMonth = new Label();
+		Button buttonNextMonth = new Button();
+		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, buttonNextMonth);
+
+		AnchorPane.setTopAnchor(paneMonth, 0.0);
+		AnchorPane.setRightAnchor(buttonNewDate, 0.0);
+		AnchorPane.setBottomAnchor(grid, 0.0);
+		rootPane.getChildren().addAll(paneMonth, grid, buttonNewDate);
 		return new Scene(rootPane);
 	}
 	private Scene getSceneEntry() {
