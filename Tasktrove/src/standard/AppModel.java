@@ -46,17 +46,18 @@ public class AppModel {
 	GregorianCalendar calendar;
 	private int currentScene = 0;
 	private int intCurrentMonth;
+	private int currentYear;
 
 	public AppModel() {
 		timeZone = TimeZone.getDefault();
 		calendar = new GregorianCalendar(timeZone);
 		intCurrentMonth = calendar.get(GregorianCalendar.MONTH);
+		currentYear = calendar.get(Calendar.YEAR);
 		System.out.println(intCurrentMonth);
 	}
 	
 	public int[] getCalendarInfo() {
 		//calculating days in month for Calendargrid
-		int year = 2024;
 		int daysInMonth = 0;
 		if(intCurrentMonth <0 | intCurrentMonth >11) {
 			System.err.println("In SceneFactory ist Int month nicht valide(Wert auﬂerhalb des Bereichs 1-12)!");
@@ -64,14 +65,14 @@ public class AppModel {
 		}
 		if(intCurrentMonth != Calendar.FEBRUARY && ((intCurrentMonth)%7)%2 == 0) daysInMonth = 31;
 		if(intCurrentMonth != Calendar.FEBRUARY && ((intCurrentMonth)%7)%2 == 1) daysInMonth = 30;
-		if(intCurrentMonth == Calendar.FEBRUARY && calendar.isLeapYear(year) == true) daysInMonth = 29;
-		if(intCurrentMonth == Calendar.FEBRUARY && calendar.isLeapYear(year) == false) daysInMonth = 28;
+		if(intCurrentMonth == Calendar.FEBRUARY && calendar.isLeapYear(currentYear) == true) daysInMonth = 29;
+		if(intCurrentMonth == Calendar.FEBRUARY && calendar.isLeapYear(currentYear) == false) daysInMonth = 28;
 		
 		//Weekday of first day in month for offset to establish order in View of month
 		GregorianCalendar tempCalendar = (GregorianCalendar) calendar.clone();
 		tempCalendar.set(Calendar.DAY_OF_MONTH, 1);
 		tempCalendar.set(Calendar.MONTH, intCurrentMonth);
-		tempCalendar.set(Calendar.YEAR, year);
+		tempCalendar.set(Calendar.YEAR, currentYear);
 		int offset = 0;
 		if(tempCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) { // first Weekday in Calendarclass is Sunday with int 1
 			offset = 6;
@@ -117,5 +118,21 @@ public class AppModel {
 								break;
 		}
 		return erg;
+	}
+	public void setToNextMonth() {
+		if(intCurrentMonth == Calendar.DECEMBER) {
+			intCurrentMonth = Calendar.JANUARY;
+			currentYear++;
+		}else {
+			intCurrentMonth++;
+		}
+	}
+	public void setToPreviousMonth() {
+		if(intCurrentMonth == Calendar.JANUARY) {
+			intCurrentMonth = Calendar.DECEMBER;
+			currentYear--;							//maximalGrenze implementieren
+		}else {
+			intCurrentMonth--;
+		}
 	}
 }

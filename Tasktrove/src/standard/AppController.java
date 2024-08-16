@@ -33,6 +33,8 @@ import javafx.stage.Stage;
 public class AppController extends Application{
 	public final static int NEW_DATE = 0;
 	public final static int BUTTON_SAVE_DATA = 1;
+	public final static int BUTTON_NEXT_MONTH = 2;
+	public final static int BUTTON_PREVIOUS_MONTH = 3;
 	public AppModel model;
 	public AppView view;
 
@@ -45,6 +47,10 @@ public class AppController extends Application{
 		switch(componentID) {
 			case NEW_DATE: 	model.setCurrentScene(AppModel.ENTRY_SCENE);
 							break;
+			case BUTTON_NEXT_MONTH: model.setToNextMonth();
+									break;
+			case BUTTON_PREVIOUS_MONTH: model.setToPreviousMonth();
+									break;
 			default:	System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
 						Platform.exit();
 		}

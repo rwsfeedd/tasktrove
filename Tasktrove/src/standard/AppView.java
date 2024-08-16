@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class AppView{
@@ -61,20 +62,30 @@ public class AppView{
 		Button buttonNewDate = new Button("neuer Termin");
 		buttonNewDate.setOnAction(e -> {controller.handle(AppController.NEW_DATE);});
 
+		//Pane für Monatsauswahl initialisieren
 		HBox paneMonth = new HBox();
-
-		Canvas buttonGraphic = new Canvas(15, 15);
-		GraphicsContext gc = buttonGraphic.getGraphicsContext2D();
-		gc.setFill(Color.BLACK);
-		double[] x = {0, 10, 10};
-		double[] yCoo = {5,10, 0};
-		gc.fillPolygon(x, yCoo,  3);
-
-		Button buttonPreviousMonth = new Button(null, buttonGraphic);
-		buttonPreviousMonth.setMinWidth(15);
-		buttonPreviousMonth.setMinHeight(15);
+		//Button für Wechsel in vorherigen Monat initialisieren
+		Canvas graphicPreviousMonth = new Canvas(15, 15);
+		GraphicsContext gcPreviousMonth = graphicPreviousMonth.getGraphicsContext2D();
+		gcPreviousMonth.setFill(Color.BLACK);
+		double[] xPreviousMonth = {0, 10, 10};
+		double[] yPreviousMonth = {5,10, 0};
+		gcPreviousMonth.fillPolygon(xPreviousMonth, yPreviousMonth,  3);
+		Button buttonPreviousMonth = new Button(null, graphicPreviousMonth);
+		buttonPreviousMonth.setOnAction(e -> {controller.handle(AppController.BUTTON_PREVIOUS_MONTH);});
+		//Label zur Anzeige des Monats initialisieren
 		Label labelMonth = new Label(model.getStringCurrentMonth());
-		Button buttonNextMonth = new Button();
+		labelMonth.setMinWidth(50);
+		//Button für Wechsel in nächsten Monat initialisieren
+		Canvas graphicNextMonth = new Canvas(15, 15);
+		GraphicsContext gcNextMonth = graphicNextMonth.getGraphicsContext2D();
+		gcNextMonth.setFill(Color.BLACK);
+		double[] xNextMonth = {0, 0, 10};
+		double[] yNextMonth = {0,10, 5};
+		gcNextMonth.fillPolygon(xNextMonth, yNextMonth,  3);
+		Button buttonNextMonth = new Button(null, graphicNextMonth);
+		buttonNextMonth.setOnAction(e -> {controller.handle(AppController.BUTTON_NEXT_MONTH);});
+		//Pane für Monatsauswahl zusammenfügen 
 		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, buttonNextMonth);
 
 		AnchorPane.setTopAnchor(paneMonth, 0.0);
