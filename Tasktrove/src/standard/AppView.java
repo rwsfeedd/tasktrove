@@ -65,18 +65,19 @@ public class AppView{
 	private Scene getSceneEntry() {
 		VBox pane = new VBox();
 		//pane.setPrefSize(widthWindow,heightWindow); //noch ändern, da Windowsgröße > Pane	
-		Label label = new Label("Hier die Angaben eintragen:");
-		TextField text = new TextField("Eingaben");
-		/*
-		text.addEventHandler(KeyEvent.KEY_TYPED,
-				new EventHandler<KeyEvent>() {
-					public void handle(KeyEvent b) {System.out.println("Textänderung");}
-				}
-		);
-		*/
-		text.setOnAction(e -> {controller.handle(0);});
-		Button button = new Button("bitte funktioniere");
-		pane.getChildren().addAll(label, text, button);
+		Label labelTitle = new Label("neuer Termin");
+		labelTitle.setMinHeight(25);
+
+		Label labelName = new Label("Name:");
+		TextField textFieldName = new TextField();
+
+		Label labelDescription = new Label("Beschreibung");
+		TextField textFieldDescription = new TextField();
+
+		Button buttonSaveData = new Button("Speichern");
+		//buttonSaveData.setOnAction(e->{controller.handle(Controller.BUTTON_SAVE_DATA);});
+		
+		pane.getChildren().addAll(labelTitle, labelName, textFieldName, labelDescription, textFieldDescription, buttonSaveData);
 		/*
 		canvas = new Canvas(widthWindow,heightWindow);
 		GraphicsContext graphics = canvas.getGraphicsContext2D();

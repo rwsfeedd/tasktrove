@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 
 public class AppController extends Application{
 	public final static int NEW_DATE = 0;
+	public final static int BUTTON_SAVE_DATA = 1;
 	public AppModel model;
 	public AppView view;
 
