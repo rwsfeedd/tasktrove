@@ -47,6 +47,11 @@ public class AppController extends Application{
 		switch(componentID) {
 			case NEW_DATE: 	model.setCurrentScene(AppModel.ENTRY_SCENE);
 							break;
+			case BUTTON_SAVE_DATA:
+				String[] string = view.getSceneData();
+				for(int i = 0; i < 2; i++) {
+					System.out.println(string[i]);
+				}
 			case BUTTON_NEXT_MONTH: model.setToNextMonth();
 									break;
 			case BUTTON_PREVIOUS_MONTH: model.setToPreviousMonth();

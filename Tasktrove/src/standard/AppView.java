@@ -28,11 +28,13 @@ public class AppView{
 	private Stage primaryStage;
 	private AppModel model;
 	private AppController controller;
+	private String[] sceneData;
 
 	public AppView(Stage primaryStage, AppModel model, AppController controller) {
 		this.primaryStage = primaryStage;
 		this.model = model;
 		this.controller = controller;
+		sceneData = new String[2];
 	}
 	public void update() {
 		primaryStage.setHeight(heightWindow); 		
@@ -110,23 +112,16 @@ public class AppView{
 		TextField textFieldDescription = new TextField();
 
 		Button buttonSaveData = new Button("Speichern");
-		//buttonSaveData.setOnAction(e->{controller.handle(Controller.BUTTON_SAVE_DATA);});
+		buttonSaveData.setOnAction(e->{
+			sceneData[0] = textFieldName.getText();
+			sceneData[1] = textFieldDescription.getText();
+			controller.handle(AppController.BUTTON_SAVE_DATA);
+		});
 		
 		pane.getChildren().addAll(labelTitle, labelName, textFieldName, labelDescription, textFieldDescription, buttonSaveData);
-		/*
-		canvas = new Canvas(widthWindow,heightWindow);
-		GraphicsContext graphics = canvas.getGraphicsContext2D();
-		graphics.setFill(Color.BLACK);
-		double point0[]= {0,0};
-		double point1[]= {0,1000};
-		double point2[]= {1000,1000};
-		double point3[]= {1000,0};
-		double polyX[] = {point0[0], point1[0], point2[0], point3[0]};
-		double polyY[] = {point0[1], point1[1], point2[1], point3[1]};
-		graphics.fillPolygon(polyX, polyY, 4);
-		pane.setCenter(canvas);
-		*/
 		return new Scene(pane);
 	}
-
+	public String[] getSceneData() {
+		return sceneData;
+	}
 }

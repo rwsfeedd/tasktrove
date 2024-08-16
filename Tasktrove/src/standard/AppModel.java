@@ -1,6 +1,8 @@
 package standard;
 
 
+import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -47,13 +49,19 @@ public class AppModel {
 	private int currentScene = 0;
 	private int intCurrentMonth;
 	private int currentYear;
+	private File dataFile;
 
 	public AppModel() {
 		timeZone = TimeZone.getDefault();
 		calendar = new GregorianCalendar(timeZone);
 		intCurrentMonth = calendar.get(GregorianCalendar.MONTH);
 		currentYear = calendar.get(Calendar.YEAR);
-		System.out.println(intCurrentMonth);
+		try {
+			dataFile = new File("src\\TesterDatafile");
+			System.out.println(dataFile.canRead());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public int[] getCalendarInfo() {
