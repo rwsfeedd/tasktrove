@@ -61,7 +61,7 @@ public class AppView{
 
 		HBox paneMonth = new HBox();
 		Button buttonPreviousMonth = new Button();
-		Label labelMonth = new Label();
+		Label labelMonth = new Label(model.getCurrentMonth());
 		Button buttonNextMonth = new Button();
 		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, buttonNextMonth);
 

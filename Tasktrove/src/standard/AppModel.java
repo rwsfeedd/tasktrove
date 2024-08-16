@@ -58,22 +58,22 @@ public class AppModel {
 		//calculating days in month for Calendargrid
 		int year = 2024;
 		int daysInMonth = 0;
-		if(currentMonth <1 | currentMonth >12) {
+		if(currentMonth <0 | currentMonth >11) {
 			System.err.println("In SceneFactory ist Int month nicht valide(Wert auﬂerhalb des Bereichs 1-12)!");
 			Platform.exit();
 		}
-		if(currentMonth !=2 && ((currentMonth-1)%7)%2 == 0) daysInMonth = 31;
-		if(currentMonth !=2 && ((currentMonth-1)%7)%2 == 1) daysInMonth = 30;
-		if(currentMonth == 2 && calendar.isLeapYear(year) == true) daysInMonth = 29;
-		if(currentMonth == 2 && calendar.isLeapYear(year) == false) daysInMonth = 28;
+		if(currentMonth != Calendar.FEBRUARY && ((currentMonth)%7)%2 == 0) daysInMonth = 31;
+		if(currentMonth != Calendar.FEBRUARY && ((currentMonth)%7)%2 == 1) daysInMonth = 30;
+		if(currentMonth == Calendar.FEBRUARY && calendar.isLeapYear(year) == true) daysInMonth = 29;
+		if(currentMonth == Calendar.FEBRUARY && calendar.isLeapYear(year) == false) daysInMonth = 28;
 		
 		//Weekday of first day in month for offset to establish order in View of month
 		GregorianCalendar tempCalendar = (GregorianCalendar) calendar.clone();
 		tempCalendar.set(Calendar.DAY_OF_MONTH, 1);
-		tempCalendar.set(Calendar.MONTH, currentMonth-1);//month in Calendar(0-11) and in GregorianCalendar(1-12)
+		tempCalendar.set(Calendar.MONTH, currentMonth);
 		tempCalendar.set(Calendar.YEAR, year);
 		int offset = 0;
-		if(tempCalendar.get(Calendar.DAY_OF_WEEK) == 1) { // first Weekday in Calendarclass is Sunday with int 1
+		if(tempCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) { // first Weekday in Calendarclass is Sunday with int 1
 			offset = 6;
 		} else {
 			offset = tempCalendar.get(Calendar.DAY_OF_WEEK) - 2; // Monday has int 2, subtract 2 to get Monday in first column of grid 
@@ -88,9 +88,34 @@ public class AppModel {
 	public void setCurrentScene(int nextScene) {
 		currentScene = nextScene;
 	}
-	public void getCurrentMonth() {
+	public String getCurrentMonth() {
 		String erg = "";
 		switch(currentMonth) {
+		case Calendar.JANUARY:	erg = "Januar";
+								break;
+		case Calendar.FEBRUARY:	erg = "Februar";
+								break;
+		case Calendar.MARCH:	erg = "M‰rz";
+								break;
+		case Calendar.APRIL:	erg = "April";
+								break;
+		case Calendar.MAY:	erg = "Mai";
+							break;
+		case Calendar.JUNE:	erg = "Juni";
+							break;
+		case Calendar.JULY:	erg = "July";
+							break;
+		case Calendar.AUGUST:	erg = "August";
+								break;
+		case Calendar.SEPTEMBER:	erg = "September";
+									break;
+		case Calendar.OCTOBER:	erg = "Oktober";
+								break;
+		case Calendar.NOVEMBER:	erg = "November";
+								break;
+		case Calendar.DECEMBER:	erg = "Dezember";
+								break;
 		}
+		return erg;
 	}
 }
