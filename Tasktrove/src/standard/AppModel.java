@@ -1,7 +1,15 @@
 package standard;
 
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -112,5 +120,30 @@ public class AppModel {
 	}
 	public int getCurrentYear() {
 		return currentYear;
+	}
+	public void writeIntoFile(String[] dataString) {
+		try {
+			RandomAccessFile raf = new RandomAccessFile(dataFile, "rw");
+			long filePointer; 
+			for(int i = 0; i < dataString.length; i++) {
+				filePointer = raf.getFilePointer();
+				raf.seek(filePointer);
+				raf.writeUTF(dataString[i]);
+				readFromFile();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void readFromFile() {
+		try {
+			RandomAccessFile raf = new RandomAccessFile(dataFile, "rw");
+			raf.seek(0);
+			for(int i = 0; i < 2; i++) {
+				System.out.println(raf.readLine());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

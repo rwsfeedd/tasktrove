@@ -49,9 +49,7 @@ public class AppController extends Application{
 							break;
 			case BUTTON_SAVE_DATA:
 				String[] string = view.getSceneData();
-				for(int i = 0; i < 2; i++) {
-					System.out.println(string[i]);
-				}
+				model.writeIntoFile(string);
 			case BUTTON_NEXT_MONTH: model.setToNextMonth();
 									break;
 			case BUTTON_PREVIOUS_MONTH: model.setToPreviousMonth();
