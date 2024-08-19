@@ -14,6 +14,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import javax.xml.XMLConstants;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
+
 import javafx.application.Platform;
 public class AppModel {
 	public final static int CALENDAR_SCENE = 0;
@@ -24,7 +30,8 @@ public class AppModel {
 	private int currentScene = 0;
 	private int intCurrentMonth;
 	private int currentYear;
-	private File dataFile;
+	private File xmlDataFile;
+	private String dtdDataFile;
 
 	public AppModel() {
 		timeZone = TimeZone.getDefault();
@@ -32,8 +39,9 @@ public class AppModel {
 		intCurrentMonth = calendar.get(GregorianCalendar.MONTH);
 		currentYear = calendar.get(Calendar.YEAR);
 		try {
-			dataFile = new File("src\\TesterDatafile");
-			System.out.println(dataFile.canRead());
+			xmlDataFile = new File("src\\TesterDatafile.xml");
+			dtdDataFile = "src\\TesterDatafile.dtd";
+			System.out.println(xmlDataFile.canRead());
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -123,6 +131,7 @@ public class AppModel {
 	}
 	public void writeIntoFile(String[] dataString) {
 		try {
+			/*
 			RandomAccessFile raf = new RandomAccessFile(dataFile, "rw");
 			long filePointer; 
 			for(int i = 0; i < dataString.length; i++) {
@@ -131,17 +140,43 @@ public class AppModel {
 				raf.writeUTF(dataString[i]);
 				readFromFile();
 			}
+			raf.close();
+			*/
+			FileOutputStream fos = new FileOutputStream(xmlDataFile);
+			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
+			XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");
+			xmlStreamWriter.writeStartDocument("utf-8", "1.0");
+			xmlStreamWriter.writeDTD("<!DOCTYPE termin SYSTEM \""+dtdDataFile+"\">");
+			xmlStreamWriter.writeStartElement("Termine");
+			xmlStreamWriter.writeStartElement("Termin0");
+			xmlStreamWriter.writeCData("hier koennte ihr Text stehen");
+			xmlStreamWriter.writeEndElement();
+			xmlStreamWriter.writeEndElement();
+			xmlStreamWriter.writeEndDocument();
+			xmlStreamWriter.close();
+			readFromFile();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	public void readFromFile() {
 		try {
+			/*
 			RandomAccessFile raf = new RandomAccessFile(dataFile, "rw");
 			raf.seek(0);
 			for(int i = 0; i < 2; i++) {
 				System.out.println(raf.readLine());
 			}
+			raf.close();
+			*/
+			FileInputStream fis = new FileInputStream(xmlDataFile);
+			XMLInputFactory inputFactory = XMLInputFactory.newFactory();
+			XMLStreamReader reader = inputFactory.createXMLStreamReader(fis);
+			int index = 0;
+			reader.next();
+			reader.next();
+			System.out.println(reader.getElementText());
+			reader.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
