@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE termin [
+<!DOCTYPE termin
+[
 	<!ELEMENT termin (name, datum, uhrzeit)>
 	<!ELEMENT name (#PCDATA)>
 	<!ELEMENT datum (datumVon, datumBis)>

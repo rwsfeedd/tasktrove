@@ -1,1 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE termin SYSTEM "src\TesterDatafile.dtd"><Termine><Termin0><![CDATA[hier koennte ihr Text stehen]]></Termin0></Termine>
+<?xml version="1.0" encoding="utf-8"?>
+<terminListe></terminListe><termin>
+	<name>wichtige Informationen</name>
+	<datum>
+		<datumVon></datumVon>
+		<datumBis></datumBis>
+	</datum>
+	<uhrzeit>
+		<uhrzeitVon></uhrzeitVon>
+		<uhrzeitBis></uhrzeitBis>
+	</uhrzeit>
+</termin>

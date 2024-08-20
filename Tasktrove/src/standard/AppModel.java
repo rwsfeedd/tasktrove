@@ -15,8 +15,10 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javax.xml.XMLConstants;
+import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -118,6 +120,7 @@ public class AppModel {
 			intCurrentMonth++;
 		}
 	}
+	
 	public void setToPreviousMonth() {
 		if(intCurrentMonth == Calendar.JANUARY) {
 			intCurrentMonth = Calendar.DECEMBER;
@@ -126,53 +129,31 @@ public class AppModel {
 			intCurrentMonth--;
 		}
 	}
+	
 	public int getCurrentYear() {
 		return currentYear;
 	}
+	
 	public void writeIntoFile(String[] dataString) {
 		try {
-			/*
-			RandomAccessFile raf = new RandomAccessFile(dataFile, "rw");
-			long filePointer; 
-			for(int i = 0; i < dataString.length; i++) {
-				filePointer = raf.getFilePointer();
-				raf.seek(filePointer);
-				raf.writeUTF(dataString[i]);
-				readFromFile();
-			}
-			raf.close();
-			*/
 			FileOutputStream fos = new FileOutputStream(xmlDataFile);
-			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
-			XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");
-			xmlStreamWriter.writeStartDocument("utf-8", "1.0");
-			xmlStreamWriter.writeDTD("<!DOCTYPE termin SYSTEM \""+dtdDataFile+"\">");
-			xmlStreamWriter.writeStartElement("Termine");
-			xmlStreamWriter.writeStartElement("Termin0");
-			xmlStreamWriter.writeCData("hier koennte ihr Text stehen");
-			xmlStreamWriter.writeEndElement();
-			xmlStreamWriter.writeEndElement();
-			xmlStreamWriter.writeEndDocument();
-			xmlStreamWriter.close();
-			readFromFile();
-		} catch (Exception e) {
+			FileInputStream fis = new FileInputStream(xmlDataFile);
+			AppXMLWriter writer = new AppXMLWriter(fos, fis);
+			writer.createNewXMLFile();
+			writer.writeDate();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	public void readFromFile() {
 		try {
-			/*
-			RandomAccessFile raf = new RandomAccessFile(dataFile, "rw");
-			raf.seek(0);
-			for(int i = 0; i < 2; i++) {
-				System.out.println(raf.readLine());
-			}
-			raf.close();
-			*/
 			FileInputStream fis = new FileInputStream(xmlDataFile);
 			XMLInputFactory inputFactory = XMLInputFactory.newFactory();
 			XMLStreamReader reader = inputFactory.createXMLStreamReader(fis);
 			int index = 0;
+			//reader.next();
+			reader.next();
 			reader.next();
 			reader.next();
 			System.out.println(reader.getElementText());
