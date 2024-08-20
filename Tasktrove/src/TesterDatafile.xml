@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<terminListe></terminListe><termin>
-	<name>wichtige Informationen</name>
-	<datum>
-		<datumVon></datumVon>
-		<datumBis></datumBis>
-	</datum>
-	<uhrzeit>
-		<uhrzeitVon></uhrzeitVon>
-		<uhrzeitBis></uhrzeitBis>
-	</uhrzeit>
-</termin>
+<terminListe>
+	<termin>
+		<name></name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name></name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name></name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+</terminListe>

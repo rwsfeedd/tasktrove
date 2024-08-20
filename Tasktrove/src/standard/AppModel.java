@@ -136,12 +136,10 @@ public class AppModel {
 	
 	public void writeIntoFile(String[] dataString) {
 		try {
-			FileOutputStream fos = new FileOutputStream(xmlDataFile);
-			FileInputStream fis = new FileInputStream(xmlDataFile);
-			AppXMLWriter writer = new AppXMLWriter(fos, fis);
-			writer.createNewXMLFile();
-			writer.writeDate();
-		} catch (FileNotFoundException e) {
+			AppXMLProcessor writer = new AppXMLProcessor(xmlDataFile);
+			CalendarDate calendarDate = new CalendarDate("ersterTermin", 1, 1, Calendar.JANUARY, Calendar.JANUARY, 2024, 2024, 15, 16, 20, 40);
+			writer.writeIntoXMLFile(calendarDate);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

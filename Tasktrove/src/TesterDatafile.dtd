@@ -1,5 +1,6 @@
-<!DOCTYPE termin
+<!DOCTYPE terminListe
 [
+	<!ELEMENT terminListe (termin)>
 	<!ELEMENT termin (name, datum, uhrzeit)>
 	<!ELEMENT name (#PCDATA)>
 	<!ELEMENT datum (datumVon, datumBis)>
