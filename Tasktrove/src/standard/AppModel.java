@@ -134,11 +134,11 @@ public class AppModel {
 		return currentYear;
 	}
 	
-	public void writeIntoFile(String[] dataString) {
+	public void writeIntoFile(CalendarDate calendarDate) {
 		try {
 			AppXMLProcessor writer = new AppXMLProcessor(xmlDataFile);
-			CalendarDate calendarDate = new CalendarDate("ersterTermin", 1, 1, Calendar.JANUARY, Calendar.JANUARY, 2024, 2024, 15, 16, 20, 40);
-			writer.writeIntoXMLFile(calendarDate);
+			CalendarDate calendarDateTest = new CalendarDate("ersterTermin", 1, 1, Calendar.JANUARY, Calendar.JANUARY, 2024, 2024, 15, 16, 20, 40);
+			writer.writeIntoXMLFile(calendarDateTest);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

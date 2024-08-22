@@ -49,7 +49,7 @@ public class AppController extends Application{
 							break;
 			case BUTTON_SAVE_DATA:
 				String[] string = view.getSceneData();
-				model.writeIntoFile(string);
+				model.writeIntoFile(new CalendarDate());
 			case BUTTON_NEXT_MONTH: model.setToNextMonth();
 									break;
 			case BUTTON_PREVIOUS_MONTH: model.setToPreviousMonth();

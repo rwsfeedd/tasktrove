@@ -47,4 +47,60 @@
 		<uhrzeitVon>15:20</uhrzeitVon>
 		<uhrzeitBis>16:40</uhrzeitBis>
 	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>ersterTermin</name>
+		<datumVon>2024-0-1</datumVon>
+		<datumBis>2024-0-1</datumBis>
+		<uhrzeitVon>15:20</uhrzeitVon>
+		<uhrzeitBis>16:40</uhrzeitBis>
+	</termin>
 </terminListe>

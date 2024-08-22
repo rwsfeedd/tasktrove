@@ -1,6 +1,19 @@
 package standard;
 
 public class CalendarDate {
+	public final static int VALID = 0;
+	public final static int INVALID_NAME = 1; 
+	public final static int INVALID_START_DAY = 2;
+	public final static int INVALID_END_DAY = 3;
+	public final static int INVALID_START_MONTH = 4;
+	public final static int INVALID_END_MONTH = 5;
+	public final static int INVALID_START_YEAR = 6;
+	public final static int INVALID_END_YEAR = 7;
+	public final static int INVALID_START_HOUR = 8;
+	public final static int INVALID_END_HOUR = 9;
+	public final static int INVALID_START_MINUTE = 10;
+	public final static int INVALID_END_MINUTE = 11;
+	
 	private String name;
 	private int startDay;
 	private int endDay;
@@ -29,7 +42,17 @@ public class CalendarDate {
 	 */
 	
 	public CalendarDate() {
-		
+		this.name = null;
+		this.startDay = -1;
+		this.endDay = -1;
+		this.startMonth = -1;
+		this.endMonth = -1;
+		this.startYear = -1;
+		this.endYear = -1;
+		this.startHour = -1;
+		this.endHour = -1;
+		this.startMinute = -1;
+		this.endMinute = -1;
 	}
 	
 	public CalendarDate(String name, int startDay, int endDay, int startMonth, int endMonth, int startYear, int endYear, int startHour, int endHour, int startMinute, int endMinute){
@@ -44,6 +67,21 @@ public class CalendarDate {
 		this.endHour = endHour;
 		this.startMinute = startMinute;
 		this.endMinute = endMinute;
+	}
+	
+	public int validate() {
+		if(name.equals(null) || name.equals("")) return INVALID_NAME;
+		if(startDay < 0) return INVALID_START_DAY;
+		if(endDay < 0) return INVALID_END_DAY;
+		if(startMonth < 0) return INVALID_START_MONTH;
+		if(endMonth < 0) return INVALID_END_MONTH;
+		if(startYear < 0) return INVALID_START_YEAR;
+		if(endYear < 0) return INVALID_END_YEAR;
+		if(startHour < 0) return INVALID_START_HOUR;
+		if(endHour < 0) return INVALID_END_HOUR;
+		if(startMinute < 0) return INVALID_START_MINUTE;
+		if(endMinute < 0) return INVALID_END_MINUTE;
+		return VALID;
 	}
 
 	public void setName(String name) {
