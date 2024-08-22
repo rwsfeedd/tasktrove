@@ -3,6 +3,7 @@ package standard;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -14,6 +15,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -30,14 +34,12 @@ public class AppView{
 	private Stage primaryStage;
 	private AppModel model;
 	private AppController controller;
-	private String[] sceneData;
 	private CalendarDate calendarDate;
 
 	public AppView(Stage primaryStage, AppModel model, AppController controller) {
 		this.primaryStage = primaryStage;
 		this.model = model;
 		this.controller = controller;
-		sceneData = new String[2];
 	}
 
 	public void update() {
@@ -104,6 +106,7 @@ public class AppView{
 		rootPane.getChildren().addAll(paneMonth, grid, buttonNewDate); 
 		return new Scene(rootPane);
 	}
+
 	private Scene getSceneEntry() {
 		VBox pane = new VBox();
 		//pane.setPrefSize(widthWindow,heightWindow); //noch ändern, da Windowsgröße > Pane	
@@ -112,33 +115,36 @@ public class AppView{
 
 		Label labelName = new Label("Name:");
 		TextField textFieldName = new TextField();
+		pane.getChildren().addAll(labelName, textFieldName);
 
 		Label labelStartDate = new Label("Startdatum");
 		DatePicker datePickerStart = new DatePicker();
+		pane.getChildren().addAll(labelStartDate, datePickerStart);
 
 		Label labelEndDate = new Label("Enddatum");
 		DatePicker datePickerEnd = new DatePicker();
+		pane.getChildren().addAll(labelEndDate, datePickerEnd);
 
-		TextField textStartDate = new TextField();
-		Label labelDescription0 = new Label("Enddatum");
-		TextField textEndDate = new TextField();
-		Label labelDescription1 = new Label("StartUhrzeit");
-		TextField textStartTime = new TextField();
-		TextField textEndTime = new TextField();
+		Label labelStartTime = new Label("StartZeit");
+		TextField fieldStartTime = new TextField();
+		pane.getChildren().addAll(labelStartTime, fieldStartTime);
+
+		Label labelEndTime = new Label("EndZeit");
+		TextField fieldEndTime = new TextField();
+		pane.getChildren().addAll(labelEndTime, fieldEndTime);
+
 		Button buttonSaveData = new Button("Speichern");
 		buttonSaveData.setOnAction(e->{
-			LocalDate localDate = datePickerStart.getValue();
-			calendarDate = new CalendarDate();
-			calendarDate.setName(textFieldName.getText());
-			System.out.println(localDate.getDayOfMonth());
-			System.out.println(calendarDate.validate());
+			calendarDate = new CalendarDate(textFieldName.getText(), datePickerStart.getValue(), 
+					datePickerEnd.getValue(), fieldStartTime.getText(), fieldEndTime.getText());
 			controller.handle(AppController.BUTTON_SAVE_DATA);
-		});
+			});
+		pane.getChildren().add(buttonSaveData);
 		
-		pane.getChildren().addAll(labelTitle, labelName, textFieldName, datePickerStart, buttonSaveData);
 		return new Scene(pane);
 	}
-	public String[] getSceneData() {
-		return sceneData;
+
+	public CalendarDate getCalendarDate() {
+		return calendarDate;
 	}
 }

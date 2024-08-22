@@ -1,29 +1,31 @@
 package standard;
 
+import java.time.LocalDate;
+
 public class CalendarDate {
 	public final static int VALID = 0;
 	public final static int INVALID_NAME = 1; 
-	public final static int INVALID_START_DAY = 2;
-	public final static int INVALID_END_DAY = 3;
+	public final static int INVALID_START_YEAR = 2;
 	public final static int INVALID_START_MONTH = 4;
-	public final static int INVALID_END_MONTH = 5;
-	public final static int INVALID_START_YEAR = 6;
-	public final static int INVALID_END_YEAR = 7;
-	public final static int INVALID_START_HOUR = 8;
-	public final static int INVALID_END_HOUR = 9;
-	public final static int INVALID_START_MINUTE = 10;
-	public final static int INVALID_END_MINUTE = 11;
+	public final static int INVALID_START_DAY = 8;
+	public final static int INVALID_END_YEAR = 16;
+	public final static int INVALID_END_MONTH = 32;
+	public final static int INVALID_END_DAY = 64;
+	public final static int INVALID_START_HOUR = 128;
+	public final static int INVALID_START_MINUTE = 256;
+	public final static int INVALID_END_HOUR = 512;
+	public final static int INVALID_END_MINUTE = 1024;
 	
 	private String name;
-	private int startDay;
-	private int endDay;
-	private int startMonth;
-	private int endMonth;
 	private int startYear;
+	private int startMonth;
+	private int startDay;
 	private int endYear;
+	private int endMonth;
+	private int endDay;
 	private int startHour;
-	private int endHour;
 	private int startMinute;
+	private int endHour;
 	private int endMinute;
 	
 	/**
@@ -55,7 +57,68 @@ public class CalendarDate {
 		this.endMinute = -1;
 	}
 	
-	public CalendarDate(String name, int startDay, int endDay, int startMonth, int endMonth, int startYear, int endYear, int startHour, int endHour, int startMinute, int endMinute){
+	public CalendarDate(String name, LocalDate startDate, LocalDate endDate
+			, String startTime, String endTime) {
+		this.name = name;
+		if(startDate == null) {
+			this.startDay = -1;
+			this.startMonth = -1;
+			this.startYear = -1;
+		} else {
+			this.startDay = startDate.getDayOfMonth();
+			this.startMonth = startDate.getMonthValue();
+			this.startYear = startDate.getYear();
+		}
+		if(endDate == null) {
+			this.endDay = -1;
+			this.endMonth = -1;
+			this.endYear = -1;
+		} else {
+			this.endDay = endDate.getDayOfMonth();
+			this.endMonth = endDate.getMonthValue();
+			this.endYear = endDate.getYear();
+		}
+		if(startTime.equals(null) || startTime.equals("")) {
+			this.startHour = -1;
+			this.startMinute = -1;
+		}else {
+			String[] start = startTime.split(":");
+			if(start.length != 2) {
+				this.startHour = -1;
+				this.startMinute = -1;
+			} else {
+				try {
+					this.startHour = Integer.valueOf(start[0]);
+					this.startMinute = Integer.valueOf(start[1]);
+				}catch(NumberFormatException nfex) {
+					this.startHour = -1;
+					this.startMinute = -1;
+				}
+			}
+		}//if-else StartTime
+		if(endTime.equals(null) || endTime.equals("")) {
+			this.endHour = -1;
+			this.endMinute = -1;
+		}else {
+			String[] end = endTime.split(":");
+			if(end.length != 2) {
+				this.endHour = -1;
+				this.endMinute = -1;
+			} else {
+				try {
+					this.endHour = Integer.valueOf(end[0]);
+					this.endMinute = Integer.valueOf(end[1]);
+				}catch(NumberFormatException nfex) {
+					this.endHour = -1;
+					this.endMinute = -1;
+				}
+			}
+		}//if-else EndTime
+	}//constructor
+	
+	public CalendarDate(String name, int startDay, int endDay, int startMonth
+			, int endMonth, int startYear, int endYear, int startHour
+			, int endHour, int startMinute, int endMinute){
 		this.name = name;
 		this.startDay = startDay;
 		this.endDay = endDay;
@@ -70,18 +133,19 @@ public class CalendarDate {
 	}
 	
 	public int validate() {
-		if(name.equals(null) || name.equals("")) return INVALID_NAME;
-		if(startDay < 0) return INVALID_START_DAY;
-		if(endDay < 0) return INVALID_END_DAY;
-		if(startMonth < 0) return INVALID_START_MONTH;
-		if(endMonth < 0) return INVALID_END_MONTH;
-		if(startYear < 0) return INVALID_START_YEAR;
-		if(endYear < 0) return INVALID_END_YEAR;
-		if(startHour < 0) return INVALID_START_HOUR;
-		if(endHour < 0) return INVALID_END_HOUR;
-		if(startMinute < 0) return INVALID_START_MINUTE;
-		if(endMinute < 0) return INVALID_END_MINUTE;
-		return VALID;
+		int erg = 0;
+		if(name.equals(null) || name.equals("")) erg += INVALID_NAME;
+		if(startYear < 0 || endYear > 10000) erg += INVALID_START_YEAR;
+		if(startMonth < 0 || startMonth > 31) erg += INVALID_START_MONTH;
+		if(startDay < 0 || endDay > 31) erg += INVALID_START_DAY;
+		if(endYear < 0 || endYear > 10000) erg += INVALID_END_YEAR;
+		if(endMonth < 0 || endMonth > 31) erg += INVALID_END_MONTH;
+		if(endDay < 0 || endDay > 31) erg += INVALID_END_DAY;
+		if(startHour < 0 || startHour > 23) erg += INVALID_START_HOUR;
+		if(startMinute < 0 || startMinute > 59) erg += INVALID_START_MINUTE;
+		if(endHour < 0 || endHour > 23) erg += INVALID_END_HOUR;
+		if(endMinute < 0 || endMinute > 59) erg += INVALID_END_MINUTE;
+		return erg;
 	}
 
 	public void setName(String name) {

@@ -48,8 +48,14 @@ public class AppController extends Application{
 			case NEW_DATE: 	model.setCurrentScene(AppModel.ENTRY_SCENE);
 							break;
 			case BUTTON_SAVE_DATA:
-				String[] string = view.getSceneData();
-				model.writeIntoFile(new CalendarDate());
+				CalendarDate calendarDate = view.getCalendarDate();
+				if((calendarDate.validate() == CalendarDate.VALID)) model.writeIntoFile(calendarDate); 
+				if((calendarDate.validate() & CalendarDate.INVALID_NAME) == CalendarDate.INVALID_NAME) System.out.println("funktioniert");
+
+				
+				
+				
+				
 			case BUTTON_NEXT_MONTH: model.setToNextMonth();
 									break;
 			case BUTTON_PREVIOUS_MONTH: model.setToPreviousMonth();

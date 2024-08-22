@@ -29,7 +29,7 @@ public class AppModel {
 
 	TimeZone timeZone;
 	GregorianCalendar calendar;
-	private int currentScene = 0;
+	private int currentScene = CALENDAR_SCENE;
 	private int intCurrentMonth;
 	private int currentYear;
 	private File xmlDataFile;
@@ -136,9 +136,8 @@ public class AppModel {
 	
 	public void writeIntoFile(CalendarDate calendarDate) {
 		try {
-			AppXMLProcessor writer = new AppXMLProcessor(xmlDataFile);
-			CalendarDate calendarDateTest = new CalendarDate("ersterTermin", 1, 1, Calendar.JANUARY, Calendar.JANUARY, 2024, 2024, 15, 16, 20, 40);
-			writer.writeIntoXMLFile(calendarDateTest);
+			AppXMLProcessor processor = new AppXMLProcessor(xmlDataFile);
+			processor.writeIntoXMLFile(calendarDate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
