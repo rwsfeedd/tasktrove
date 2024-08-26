@@ -3,13 +3,9 @@ package standard;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.StringTokenizer;
 
-import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -75,8 +71,55 @@ public class AppXMLProcessor {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
+		list = sortCalendarDateList(list);
 		return list;
 		
+	}
+	int l = 0;
+	public LinkedList<CalendarDate> sortCalendarDateList(LinkedList<CalendarDate> liste) {
+		//abbruchbedingung des iterativen Verfahrens
+		int id = l;
+		l++;
+		if(liste.size() <= 1) return liste;
+
+		LinkedList<CalendarDate> leftList = new LinkedList<CalendarDate>();
+		LinkedList<CalendarDate> rightList = new LinkedList<CalendarDate>();
+
+		//zuerst Liste in 2 Listen unterteilen
+		for(int i = 0; i < liste.size(); i++) {
+			if(i<(int)liste.size()/2) {
+				leftList.add(liste.get(i));
+			} else {
+				rightList.add(liste.get(i));
+			}
+		}
+
+		//sort für linke Liste
+		leftList = sortCalendarDateList(leftList);
+		//sort für rechte Liste
+		rightList = sortCalendarDateList(rightList);
+		//return der neuen gemergten Liste
+		LinkedList<CalendarDate> newList = new LinkedList<CalendarDate>();
+		while(leftList.size()>0 && rightList.size()>0) {
+			if(leftList.getLast().getStartDay() <= rightList.getLast().getStartDay()) {
+				newList.add(leftList.removeLast());
+			}else {
+				newList.add(rightList.removeLast());
+			}
+		}
+		//letzte Elemente aussortieren
+		while(leftList.size()>0) {
+			newList.add(leftList.removeLast());
+		}
+		while(rightList.size()>0) {
+			newList.add(rightList.removeLast());
+		}
+		if(id <= 1) {
+			for(int i = 0; i < newList.size(); i++) {
+				System.out.println(newList.get(i).getStartDay());
+			}
+		}
+		return newList;
 	}
 	
 	public void writeIntoXMLFile(CalendarDate calendarDate) {

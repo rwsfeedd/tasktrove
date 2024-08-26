@@ -119,6 +119,8 @@ public class AppModel {
 		}
 		return erg;
 	}
+	
+	//hier xmlfilechange integrieren
 	public void setToNextMonth() {
 		if(intCurrentMonth == Calendar.DECEMBER) {
 			intCurrentMonth = Calendar.JANUARY;
@@ -148,5 +150,9 @@ public class AppModel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public LinkedList<CalendarDate> getCurrentDates() {
+		return currentDates;
 	}
 }

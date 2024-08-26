@@ -41,14 +41,14 @@ public class AppView{
 		this.primaryStage = primaryStage;
 		this.model = model;
 		this.controller = controller;
+		primaryStage.setHeight(heightWindow); 		
+		primaryStage.setWidth(widthWindow);
 	}
 
 	public void update() {
-		primaryStage.setHeight(heightWindow); 		
-		primaryStage.setWidth(widthWindow);
 		switch(model.getCurrentScene()) {
 			case AppModel.ENTRY_SCENE: primaryStage.setScene(getSceneEntry());
-					break;
+				break;
 			default: primaryStage.setScene(getSceneCalendar());
 		}
 		primaryStage.show();
@@ -61,12 +61,10 @@ public class AppView{
 		GridPane grid = new GridPane();
 		List<Tile> tileList = new ArrayList<Tile>(35);
 		Node node;
+		LinkedList<CalendarDate> currentDates = model.getCurrentDates();
 		int y = 0;
 		for(int i = 0; i < calendarData[1]; i++) {
-			CalendarDate date = CalendarDate.getTestObject();
-			LinkedList<CalendarDate> liste = new LinkedList<CalendarDate>();
-			liste.add(date);
-			tileList.add(new Tile(i+1, liste));
+			tileList.add(new Tile(i+1, currentDates));
 			node = tileList.get(i).getNode();
 			grid.add(node, (i+calendarData[0])%7, y);
 			if((i+calendarData[0])%7 > 5) y++;
