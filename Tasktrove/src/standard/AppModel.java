@@ -12,6 +12,8 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.xml.XMLConstants;
@@ -30,6 +32,7 @@ public class AppModel {
 	TimeZone timeZone;
 	GregorianCalendar calendar;
 	private int currentScene = CALENDAR_SCENE;
+	private LinkedList<CalendarDate> currentDates;
 	private int intCurrentMonth;
 	private int currentYear;
 	private File xmlDataFile;
@@ -47,6 +50,8 @@ public class AppModel {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
+		AppXMLProcessor processor = new AppXMLProcessor(xmlDataFile);
+		currentDates = processor.readFromXMLFile();
 	}
 	
 	public int[] getCalendarInfo() {
@@ -79,9 +84,11 @@ public class AppModel {
 	public int getCurrentScene() {
 		return currentScene;
 	}
+	
 	public void setCurrentScene(int nextScene) {
 		currentScene = nextScene;
 	}
+
 	public String getStringCurrentMonth() {
 		String erg = "";
 		switch(intCurrentMonth) {
@@ -139,23 +146,6 @@ public class AppModel {
 			AppXMLProcessor processor = new AppXMLProcessor(xmlDataFile);
 			processor.writeIntoXMLFile(calendarDate);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void readFromFile() {
-		try {
-			FileInputStream fis = new FileInputStream(xmlDataFile);
-			XMLInputFactory inputFactory = XMLInputFactory.newFactory();
-			XMLStreamReader reader = inputFactory.createXMLStreamReader(fis);
-			int index = 0;
-			//reader.next();
-			reader.next();
-			reader.next();
-			reader.next();
-			System.out.println(reader.getElementText());
-			reader.close();
-		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}

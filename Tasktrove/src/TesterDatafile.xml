@@ -255,4 +255,20 @@
 		<uhrzeitVon>4:20</uhrzeitVon>
 		<uhrzeitBis>16:30</uhrzeitBis>
 	</termin>
+
+	<termin>
+		<name>gvreg</name>
+		<datumVon>2024-8-7</datumVon>
+		<datumBis>2024-8-23</datumBis>
+		<uhrzeitVon>13:40</uhrzeitVon>
+		<uhrzeitBis>20:9</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>rfgqeeq</name>
+		<datumVon>2024-8-14</datumVon>
+		<datumBis>2024-8-16</datumBis>
+		<uhrzeitVon>13:40</uhrzeitVon>
+		<uhrzeitBis>19:30</uhrzeitBis>
+	</termin>
 </terminListe>

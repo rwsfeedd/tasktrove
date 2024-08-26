@@ -1,6 +1,7 @@
 package standard;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 
 public class CalendarDate {
 	public final static int VALID = 0;
@@ -136,16 +137,33 @@ public class CalendarDate {
 		int erg = 0;
 		if(name.equals(null) || name.equals("")) erg += INVALID_NAME;
 		if(startYear < 0 || endYear > 10000) erg += INVALID_START_YEAR;
-		if(startMonth < 0 || startMonth > 31) erg += INVALID_START_MONTH;
+		if(startMonth < Calendar.JANUARY || startMonth > Calendar.DECEMBER) erg += INVALID_START_MONTH;
 		if(startDay < 0 || endDay > 31) erg += INVALID_START_DAY;
 		if(endYear < 0 || endYear > 10000) erg += INVALID_END_YEAR;
-		if(endMonth < 0 || endMonth > 31) erg += INVALID_END_MONTH;
+		if(endMonth < Calendar.JANUARY || endMonth > Calendar.DECEMBER) erg += INVALID_END_MONTH;
 		if(endDay < 0 || endDay > 31) erg += INVALID_END_DAY;
 		if(startHour < 0 || startHour > 23) erg += INVALID_START_HOUR;
 		if(startMinute < 0 || startMinute > 59) erg += INVALID_START_MINUTE;
 		if(endHour < 0 || endHour > 23) erg += INVALID_END_HOUR;
 		if(endMinute < 0 || endMinute > 59) erg += INVALID_END_MINUTE;
 		return erg;
+	}
+	
+	public static CalendarDate getTestObject(){
+		CalendarDate date = new CalendarDate();
+		date.name = "TestObjekt";
+		date.startDay = 1;
+		date.endDay = 2;
+		date.startMonth = Calendar.JANUARY;
+		date.endMonth = Calendar.FEBRUARY;
+		date.startYear = 2024;
+		date.endYear = 2024;
+		date.startHour = 3;
+		date.endHour = 7;
+		date.startMinute = 10;
+		date.endMinute = 48;
+		return date;
+
 	}
 
 	public void setName(String name) {

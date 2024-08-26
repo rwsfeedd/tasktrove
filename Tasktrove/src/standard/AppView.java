@@ -2,6 +2,7 @@ package standard;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -62,7 +63,10 @@ public class AppView{
 		Node node;
 		int y = 0;
 		for(int i = 0; i < calendarData[1]; i++) {
-			tileList.add(new Tile(i+1));
+			CalendarDate date = CalendarDate.getTestObject();
+			LinkedList<CalendarDate> liste = new LinkedList<CalendarDate>();
+			liste.add(date);
+			tileList.add(new Tile(i+1, liste));
 			node = tileList.get(i).getNode();
 			grid.add(node, (i+calendarData[0])%7, y);
 			if((i+calendarData[0])%7 > 5) y++;

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.xml.stream.Location;
@@ -30,47 +31,57 @@ public class AppXMLProcessor {
 		this.xmlDataFile = xmlDataFile;
 	}
 	
-	public void writeIntoXMLFile(CalendarDate calendarDate) {
-		LinkedList<CalendarDate> list = new LinkedList();
+	public LinkedList<CalendarDate> readFromXMLFile() {
+		LinkedList<CalendarDate> list = new LinkedList<CalendarDate>();
 		try {
 			FileInputStream fis = new FileInputStream(xmlDataFile);
 			XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
 			XMLStreamReader reader = xmlInputFactory.createXMLStreamReader(fis, "utf-8");
-			if(xmlDataFile.length()>0) {
-				while(reader.hasNext()){
-					reader.next();
-					if(reader.getEventType() == XMLStreamConstants.START_ELEMENT) {
-						if(reader.getLocalName().equals(TERMIN_LISTE)) {
-							continue;
-						}
-						if(reader.getLocalName().equals(TERMIN)) list.add(new CalendarDate());
-						if(reader.getLocalName().equals(NAME)) list.getLast().setName(reader.getElementText());
-						if(reader.getLocalName().equals(DATUM_VON)) {
-							StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), "-");
-							list.getLast().setStartYear(Integer.valueOf(tokenizer.nextToken()));
-							list.getLast().setStartMonth(Integer.valueOf(tokenizer.nextToken()));
-							list.getLast().setStartDay(Integer.valueOf(tokenizer.nextToken()));
-						}
-						if(reader.getLocalName().equals(DATUM_BIS)) {
-							StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), "-");
-							list.getLast().setEndYear(Integer.valueOf(tokenizer.nextToken()));
-							list.getLast().setEndMonth(Integer.valueOf(tokenizer.nextToken()));
-							list.getLast().setEndDay(Integer.valueOf(tokenizer.nextToken()));
-						}
-						if(reader.getLocalName().equals(UHRZEIT_VON)) {
-							StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
-							list.getLast().setStartHour(Integer.valueOf(tokenizer.nextToken()));
-							list.getLast().setStartMinute(Integer.valueOf(tokenizer.nextToken()));
-						}
-						if(reader.getLocalName().equals(UHRZEIT_BIS)) {
-							StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
-							list.getLast().setEndHour(Integer.valueOf(tokenizer.nextToken()));
-							list.getLast().setEndMinute(Integer.valueOf(tokenizer.nextToken()));
-						}
+
+			if(xmlDataFile.length()<0) return null;
+			while(reader.hasNext()){
+				reader.next();
+				if(reader.getEventType() == XMLStreamConstants.START_ELEMENT) {
+					if(reader.getLocalName().equals(TERMIN_LISTE)) {
+						continue;
+					}
+					if(reader.getLocalName().equals(TERMIN)) list.add(new CalendarDate());
+					if(reader.getLocalName().equals(NAME)) list.getLast().setName(reader.getElementText());
+					if(reader.getLocalName().equals(DATUM_VON)) {
+						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), "-");
+						list.getLast().setStartYear(Integer.valueOf(tokenizer.nextToken()));
+						list.getLast().setStartMonth(Integer.valueOf(tokenizer.nextToken()));
+						list.getLast().setStartDay(Integer.valueOf(tokenizer.nextToken()));
+					}
+					if(reader.getLocalName().equals(DATUM_BIS)) {
+						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), "-");
+						list.getLast().setEndYear(Integer.valueOf(tokenizer.nextToken()));
+						list.getLast().setEndMonth(Integer.valueOf(tokenizer.nextToken()));
+						list.getLast().setEndDay(Integer.valueOf(tokenizer.nextToken()));
+					}
+					if(reader.getLocalName().equals(UHRZEIT_VON)) {
+						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
+						list.getLast().setStartHour(Integer.valueOf(tokenizer.nextToken()));
+						list.getLast().setStartMinute(Integer.valueOf(tokenizer.nextToken()));
+					}
+					if(reader.getLocalName().equals(UHRZEIT_BIS)) {
+						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
+						list.getLast().setEndHour(Integer.valueOf(tokenizer.nextToken()));
+						list.getLast().setEndMinute(Integer.valueOf(tokenizer.nextToken()));
 					}
 				}
 			}
 			reader.close();
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return list;
+		
+	}
+	
+	public void writeIntoXMLFile(CalendarDate calendarDate) {
+		try{
+			LinkedList<CalendarDate> list = readFromXMLFile();
 			FileOutputStream fos = new FileOutputStream(xmlDataFile);
 			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
 			XMLStreamWriter writer = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");

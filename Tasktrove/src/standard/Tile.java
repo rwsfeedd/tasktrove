@@ -1,5 +1,7 @@
 package standard;
 
+import java.util.LinkedList;
+
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,16 +13,14 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class Tile {
 	
-	private Pane pane;
-	Image imageBlack = new Image("file:images/blackBackround.png");
-	ImageView imageViewBlack = new ImageView(imageBlack);
-	Image imageWhite = new Image("file:images/whiteBackround.png");
-	ImageView imageViewWhite = new ImageView(imageWhite);
+	private AnchorPane pane;
 	
-	public Tile(int number) {
+	public Tile(int number, LinkedList<CalendarDate> dates) {
 		this.pane = new AnchorPane();
 		pane.setBorder(new Border(new BorderStroke(null, BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
 		pane.setMinSize(100, 100);
@@ -28,8 +28,17 @@ public class Tile {
 		pane.getChildren().add(label);
 		AnchorPane.setBottomAnchor(label, 0.0);
 		AnchorPane.setRightAnchor(label, 0.0);
+
+		VBox panelDates = new VBox();
+		pane.getChildren().add(panelDates);
+		AnchorPane.setTopAnchor(panelDates, 0.0);
+		Label arrayLabel[] = new Label[dates.size()];
+		for(int i = 0; i < dates.size(); i++) {
+			arrayLabel[i] = new Label(dates.get(i).getName());
+			panelDates.getChildren().add(arrayLabel[i]);
+		}
 	}
-		
+	
 	public Node getNode() {
 		return pane;
 	}
