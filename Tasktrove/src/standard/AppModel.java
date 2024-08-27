@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -35,23 +36,18 @@ public class AppModel {
 	private LinkedList<CalendarDate> currentDates;
 	private int intCurrentMonth;
 	private int currentYear;
+	private File baseDir;
 	private File xmlDataFile;
-	private String dtdDataFile;
+	private File configFile;
+	private AppController controller;
 
-	public AppModel() {
+	public AppModel(AppController controller, File baseDir) {
+		this.controller = controller;
 		timeZone = TimeZone.getDefault();
 		calendar = new GregorianCalendar(timeZone);
 		intCurrentMonth = calendar.get(GregorianCalendar.MONTH);
 		currentYear = calendar.get(Calendar.YEAR);
-		try {
-			xmlDataFile = new File("src\\TesterDatafile.xml");
-			dtdDataFile = "src\\TesterDatafile.dtd";
-			System.out.println(xmlDataFile.canRead());
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		AppXMLProcessor processor = new AppXMLProcessor(xmlDataFile);
-		currentDates = processor.readFromXMLFile();
+		this.baseDir = baseDir;
 	}
 	
 	public int[] getCalendarInfo() {
@@ -142,10 +138,31 @@ public class AppModel {
 	public int getCurrentYear() {
 		return currentYear;
 	}
-	
+	/**
+	 * Writes specified CalendarDate into the right xml File.
+	 * Creates new Directory for FileStorage if needed. 
+	 * If that fails, method calls the Controller to handle everything
+	 * Creates new xmlFile for CalendarDate Storage if needed. 
+	 * @param calendarDate
+	 */
 	public void writeIntoFile(CalendarDate calendarDate) {
+		if(!baseDir.exists()) {
+			baseDir.mkdir();
+		}
+		if(!baseDir.canRead() || !baseDir.canWrite()) {
+			controller.handle(AppController.NO_BASE_DIRECTORY);
+		}
 		try {
-			AppXMLProcessor processor = new AppXMLProcessor(xmlDataFile);
+			xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + intCurrentMonth + ".xml");
+			if(xmlDataFile.createNewFile() == false) {
+				System.err.println("DataFile existiert bereits!");
+			};
+		}catch (Exception ex){
+			ex.printStackTrace();
+			Platform.exit();
+		}
+		try {
+			AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
 			processor.writeIntoXMLFile(calendarDate);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,6 +170,22 @@ public class AppModel {
 	}
 	
 	public LinkedList<CalendarDate> getCurrentDates() {
-		return currentDates;
+		if(baseDir == null) {
+			return new LinkedList<CalendarDate>();
+		}
+		File xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + intCurrentMonth + ".xml");
+
+		try {
+			xmlDataFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+		return processor.readFromXMLFile();
+	}
+	
+	public void setBaseDir(File baseDir) {
+		this.baseDir = baseDir;
 	}
 }

@@ -30,13 +30,13 @@ public class Tile {
 		AnchorPane.setRightAnchor(label, 0.0);
 
 		VBox panelDates = new VBox();
-		pane.getChildren().add(panelDates);
 		AnchorPane.setTopAnchor(panelDates, 0.0);
 		Label arrayLabel[] = new Label[dates.size()];
 		for(int i = 0; i < dates.size(); i++) {
 			arrayLabel[i] = new Label(dates.get(i).getName());
 			panelDates.getChildren().add(arrayLabel[i]);
 		}
+		pane.getChildren().add(panelDates);
 	}
 	
 	public Node getNode() {

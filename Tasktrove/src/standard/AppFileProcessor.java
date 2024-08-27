@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.xml.stream.XMLInputFactory;
@@ -12,7 +13,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-public class AppXMLProcessor {
+public class AppFileProcessor {
 	private final String TERMIN_LISTE = "terminListe";
 	private final String TERMIN = "termin";
 	private final String NAME = "name";
@@ -23,7 +24,7 @@ public class AppXMLProcessor {
 
 	private File xmlDataFile;
 	
-	public AppXMLProcessor(File xmlDataFile) {
+	public AppFileProcessor(File xmlDataFile) {
 		this.xmlDataFile = xmlDataFile;
 	}
 	
@@ -34,7 +35,7 @@ public class AppXMLProcessor {
 			XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
 			XMLStreamReader reader = xmlInputFactory.createXMLStreamReader(fis, "utf-8");
 
-			if(xmlDataFile.length()<0) return null;
+			if(xmlDataFile.length()<=0) return null;
 			while(reader.hasNext()){
 				reader.next();
 				if(reader.getEventType() == XMLStreamConstants.START_ELEMENT) {
@@ -71,57 +72,11 @@ public class AppXMLProcessor {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		list = sortCalendarDateList(list);
+		for(int i = 0; i < list.size();i++)System.out.println(list.get(i).getStartYear() +"-"+ list.get(i).getStartMonth()+"-"+ list.get(i).getStartDay());
 		return list;
 		
 	}
-	int l = 0;
-	public LinkedList<CalendarDate> sortCalendarDateList(LinkedList<CalendarDate> liste) {
-		//abbruchbedingung des iterativen Verfahrens
-		int id = l;
-		l++;
-		if(liste.size() <= 1) return liste;
 
-		LinkedList<CalendarDate> leftList = new LinkedList<CalendarDate>();
-		LinkedList<CalendarDate> rightList = new LinkedList<CalendarDate>();
-
-		//zuerst Liste in 2 Listen unterteilen
-		for(int i = 0; i < liste.size(); i++) {
-			if(i<(int)liste.size()/2) {
-				leftList.add(liste.get(i));
-			} else {
-				rightList.add(liste.get(i));
-			}
-		}
-
-		//sort für linke Liste
-		leftList = sortCalendarDateList(leftList);
-		//sort für rechte Liste
-		rightList = sortCalendarDateList(rightList);
-		//return der neuen gemergten Liste
-		LinkedList<CalendarDate> newList = new LinkedList<CalendarDate>();
-		while(leftList.size()>0 && rightList.size()>0) {
-			if(leftList.getLast().getStartDay() <= rightList.getLast().getStartDay()) {
-				newList.add(leftList.removeLast());
-			}else {
-				newList.add(rightList.removeLast());
-			}
-		}
-		//letzte Elemente aussortieren
-		while(leftList.size()>0) {
-			newList.add(leftList.removeLast());
-		}
-		while(rightList.size()>0) {
-			newList.add(rightList.removeLast());
-		}
-		if(id <= 1) {
-			for(int i = 0; i < newList.size(); i++) {
-				System.out.println(newList.get(i).getStartDay());
-			}
-		}
-		return newList;
-	}
-	
 	public void writeIntoXMLFile(CalendarDate calendarDate) {
 		try{
 			LinkedList<CalendarDate> list = readFromXMLFile();
@@ -131,10 +86,15 @@ public class AppXMLProcessor {
 			writer.writeStartDocument("utf-8", "1.0");
 			writer.writeCharacters("\n");
 			writer.writeStartElement(TERMIN_LISTE);
-			for(int i = 0; i < list.size(); i++) {
-				writeDate(list.get(i), writer);
+			
+			if(list != null && !list.isEmpty()) {
+				for(int i = 0; i < list.size(); i++) {
+					writeDate(list.get(i), writer);
+				}
 			}
-			writeDate(calendarDate, writer);
+			if(calendarDate != null) {
+				writeDate(calendarDate, writer);
+			}
 			writer.writeEndDocument();
 			writer.flush();
 			writer.close();

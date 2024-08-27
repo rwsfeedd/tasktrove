@@ -1,5 +1,6 @@
 package standard;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,7 +28,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class AppView{
 	public final double heightWindow = 768;
@@ -63,9 +66,15 @@ public class AppView{
 		Node node;
 		LinkedList<CalendarDate> currentDates = model.getCurrentDates();
 		int y = 0;
+		LinkedList<CalendarDate> sectionCurrentDates;
 		for(int i = 0; i < calendarData[1]; i++) {
-			tileList.add(new Tile(i+1, currentDates));
+			sectionCurrentDates = new LinkedList<CalendarDate>();
+			for(int j = 0; j < currentDates.size(); j++) {
+				if(currentDates.get(j).getStartDay() == i+1) sectionCurrentDates.add(currentDates.get(j));
+			}
+			tileList.add(new Tile(i+1, sectionCurrentDates));
 			node = tileList.get(i).getNode();
+			sectionCurrentDates.clear();
 			grid.add(node, (i+calendarData[0])%7, y);
 			if((i+calendarData[0])%7 > 5) y++;
 		}
@@ -144,6 +153,11 @@ public class AppView{
 		pane.getChildren().add(buttonSaveData);
 		
 		return new Scene(pane);
+	}
+	
+	public File getBaseDirectory() {
+		DirectoryChooser chooser = new DirectoryChooser();
+		return chooser.showDialog(primaryStage);
 	}
 
 	public CalendarDate getCalendarDate() {

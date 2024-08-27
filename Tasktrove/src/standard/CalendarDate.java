@@ -149,6 +149,25 @@ public class CalendarDate {
 		return erg;
 	}
 	
+	public int compareTo(CalendarDate calendarDate) {
+		if(this.getStartYear() < calendarDate.getStartYear()) return -1;
+		if(this.getStartYear() > calendarDate.getStartYear()) return 1;
+		
+		if(this.getStartMonth() < calendarDate.getStartMonth()) return -1;
+		if(this.getStartMonth() > calendarDate.getStartMonth()) return 1;
+		
+		if(this.getStartDay() < calendarDate.getStartDay()) return -1;
+		if(this.getStartDay() > calendarDate.getStartDay()) return 1;
+		
+		if(this.getStartHour() < calendarDate.getStartHour()) return -1;
+		if(this.getStartHour() > calendarDate.getStartHour()) return 1;
+		
+		if(this.getStartMinute() < calendarDate.getStartMinute()) return -1;
+		if(this.getStartMinute() > calendarDate.getStartMinute()) return 1;
+		
+		return 0;
+	}
+	
 	public static CalendarDate getTestObject(){
 		CalendarDate date = new CalendarDate();
 		date.name = "TestObjekt";
