@@ -67,21 +67,29 @@ public class AppView{
 		Node node;
 		LinkedList<CalendarDate> currentDates = model.getCurrentDates();
 		
-		
+		//initialize Tiles for CalendarView
+		//Tile shows a Date if currentDay is between startDate and endDate
 		int y = 0;
 		LinkedList<CalendarDate> sectionCurrentDates;
 		for(int i = 0; i < calendarData[1]; i++) {
 			sectionCurrentDates = new LinkedList<CalendarDate>();
-			int iterations;
 			if(!(currentDates == null)) {
 				for(int j = 0; j < currentDates.size(); j++) {
 					if(currentDates.get(j).getStartDate().getYear() == model.getCurrentYear() 
 							&& currentDates.get(j).getStartDate().getMonthValue() == model.getCurrentMonth().getValue()
-							&& currentDates.get(j).getStartDate().getDayOfMonth() == i+1) 
+							&& currentDates.get(j).getStartDate().getDayOfMonth() == i+1
+							) { 
 						sectionCurrentDates.add(currentDates.get(j));
+						continue;
+					}
+
+					LocalDate currentLocalDate = LocalDate.of(model.getCurrentYear(), model.getCurrentMonth(), i+1);
+					if(currentLocalDate.compareTo(currentDates.get(j).getStartDate()) > -1 
+							&& currentLocalDate.compareTo(currentDates.get(j).getEndDate()) < 1) {
+						sectionCurrentDates.add(currentDates.get(j));
+					}
 				}
 			} 				
-			
 			tileList.add(new Tile(i+1, sectionCurrentDates));
 			node = tileList.get(i).getNode();
 			sectionCurrentDates.clear();
