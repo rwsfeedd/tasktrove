@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<terminListe>
+	<termin>
+		<name>Jahresübergreifender</name>
+		<datumVon>2024-12-28</datumVon>
+		<datumBis>2025-1-4</datumBis>
+		<uhrzeitVon>12:22</uhrzeitVon>
+		<uhrzeitBis>19:33</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>Jahresübergreifender</name>
+		<datumVon>2024-12-28</datumVon>
+		<datumBis>2025-1-4</datumBis>
+		<uhrzeitVon>12:22</uhrzeitVon>
+		<uhrzeitBis>19:33</uhrzeitBis>
+	</termin>
+</terminListe>

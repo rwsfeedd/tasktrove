@@ -178,6 +178,7 @@ public class AppModel {
 				e.printStackTrace();
 			}
 			currentDate = currentDate.plusMonths(1);
+			currentDate = currentDate.withDayOfMonth(1);
 		} 
 		
 	}
