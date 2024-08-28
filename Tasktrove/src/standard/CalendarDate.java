@@ -13,6 +13,7 @@ public class CalendarDate {
 	public final static int INVALID_START_MINUTE = 64;
 	public final static int INVALID_END_HOUR = 128;
 	public final static int INVALID_END_MINUTE = 256;
+	public final static int INVALID_DATE_LENGTH = 512;
 	
 	private String name;
 	private LocalDate startDate;
@@ -100,9 +101,10 @@ public class CalendarDate {
 	
 	public int validate() {
 		int erg = 0;
-		if(name.equals(null) || name.equals("")) erg += INVALID_NAME;
+		if(name.equals(null) || name.equals("") || name.length() > 10) erg += INVALID_NAME;
 		if(startDate == null) erg += INVALID_START_DATE;
 		if(endDate == null) erg += INVALID_END_DATE;
+		if(startDate.isAfter(endDate)) erg += INVALID_DATE_LENGTH;
 		if(startHour < 0 || startHour > 23) erg += INVALID_START_HOUR;
 		if(startMinute < 0 || startMinute > 59) erg += INVALID_START_MINUTE;
 		if(endHour < 0 || endHour > 23) erg += INVALID_END_HOUR;
