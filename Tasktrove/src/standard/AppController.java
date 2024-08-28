@@ -75,14 +75,14 @@ public class AppController extends Application{
 			case BUTTON_SAVE_DATA:
 				CalendarDate calendarDate = view.getCalendarDate();
 				if((calendarDate.validate() == CalendarDate.VALID)) model.writeIntoFile(calendarDate); 
-				if((calendarDate.validate() & CalendarDate.INVALID_NAME) == CalendarDate.INVALID_NAME) System.out.println("Fehlender Name!");
-				if((calendarDate.validate() & CalendarDate.INVALID_START_DATE) == CalendarDate.INVALID_START_DATE) System.out.println("Fehlendes Startjahr!");
-				if((calendarDate.validate() & CalendarDate.INVALID_END_DATE) == CalendarDate.INVALID_END_DATE) System.out.println("Fehlender Endjahr!");
-				if((calendarDate.validate() & CalendarDate.INVALID_DATE_LENGTH) == CalendarDate.INVALID_DATE_LENGTH) System.out.println("Fehlender Endjahr!");
-				if((calendarDate.validate() & CalendarDate.INVALID_START_HOUR) == CalendarDate.INVALID_START_HOUR) System.out.println("Fehlender startstunde!");
-				if((calendarDate.validate() & CalendarDate.INVALID_START_MINUTE) == CalendarDate.INVALID_START_MINUTE) System.out.println("Fehlender Startminute!");
-				if((calendarDate.validate() & CalendarDate.INVALID_END_HOUR) == CalendarDate.INVALID_END_HOUR) System.out.println("Fehlender endstunde!");
-				if((calendarDate.validate() & CalendarDate.INVALID_END_MINUTE) == CalendarDate.INVALID_END_MINUTE) System.out.println("Fehlender endminute!");
+				if((calendarDate.validate() & CalendarDate.INVALID_NAME) == CalendarDate.INVALID_NAME) System.out.println("kein valider Name!");
+				if((calendarDate.validate() & CalendarDate.INVALID_START_DATE) == CalendarDate.INVALID_START_DATE) System.out.println("kein valides Startjahr!");
+				if((calendarDate.validate() & CalendarDate.INVALID_END_DATE) == CalendarDate.INVALID_END_DATE) System.out.println("kein valides Endjahr!");
+				if((calendarDate.validate() & CalendarDate.INVALID_DATE_LENGTH) == CalendarDate.INVALID_DATE_LENGTH) System.out.println("kein valides Endjahr!");
+				if((calendarDate.validate() & CalendarDate.INVALID_START_HOUR) == CalendarDate.INVALID_START_HOUR) System.out.println("keine valide startstunde!");
+				if((calendarDate.validate() & CalendarDate.INVALID_START_MINUTE) == CalendarDate.INVALID_START_MINUTE) System.out.println("keine valide Startminute!");
+				if((calendarDate.validate() & CalendarDate.INVALID_END_HOUR) == CalendarDate.INVALID_END_HOUR) System.out.println("keine valide endstunde!");
+				if((calendarDate.validate() & CalendarDate.INVALID_END_MINUTE) == CalendarDate.INVALID_END_MINUTE) System.out.println("keine valide endminute!");
 				break;
 
 			case BUTTON_NEXT_MONTH: 
