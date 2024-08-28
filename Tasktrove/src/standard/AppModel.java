@@ -154,9 +154,9 @@ public class AppModel {
 		}
 		try {
 			xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + intCurrentMonth + ".xml");
-			if(xmlDataFile.createNewFile() == false) {
-				System.err.println("DataFile existiert bereits!");
-			};
+			if(!xmlDataFile.exists()) {
+				xmlDataFile.createNewFile();
+			}
 		}catch (Exception ex){
 			ex.printStackTrace();
 			Platform.exit();
