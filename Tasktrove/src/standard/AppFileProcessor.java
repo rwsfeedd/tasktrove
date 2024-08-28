@@ -3,6 +3,8 @@ package standard;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -45,16 +47,16 @@ public class AppFileProcessor {
 					if(reader.getLocalName().equals(TERMIN)) list.add(new CalendarDate());
 					if(reader.getLocalName().equals(NAME)) list.getLast().setName(reader.getElementText());
 					if(reader.getLocalName().equals(DATUM_VON)) {
-						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), "-");
-						list.getLast().setStartYear(Integer.valueOf(tokenizer.nextToken()));
-						list.getLast().setStartMonth(Integer.valueOf(tokenizer.nextToken()));
-						list.getLast().setStartDay(Integer.valueOf(tokenizer.nextToken()));
+						String[] stringStartDate = reader.getElementText().split("-");
+						list.getLast().setStartDate(LocalDate.of(Integer.valueOf(stringStartDate[0]), 
+								Month.of(Integer.valueOf(stringStartDate[1])) ,
+								Integer.valueOf(stringStartDate[2])));
 					}
 					if(reader.getLocalName().equals(DATUM_BIS)) {
-						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), "-");
-						list.getLast().setEndYear(Integer.valueOf(tokenizer.nextToken()));
-						list.getLast().setEndMonth(Integer.valueOf(tokenizer.nextToken()));
-						list.getLast().setEndDay(Integer.valueOf(tokenizer.nextToken()));
+						String[] stringEndDate = reader.getElementText().split("-");
+						list.getLast().setEndDate(LocalDate.of(Integer.valueOf(stringEndDate[0]), 
+								Month.of(Integer.valueOf(stringEndDate[1])) ,
+								Integer.valueOf(stringEndDate[2])));
 					}
 					if(reader.getLocalName().equals(UHRZEIT_VON)) {
 						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
@@ -72,7 +74,6 @@ public class AppFileProcessor {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		for(int i = 0; i < list.size();i++)System.out.println(list.get(i).getStartYear() +"-"+ list.get(i).getStartMonth()+"-"+ list.get(i).getStartDay());
 		return list;
 		
 	}
@@ -114,12 +115,14 @@ public class AppFileProcessor {
 
 			writer.writeCharacters("\n\t\t");
 			writer.writeStartElement(DATUM_VON);
-			writer.writeCharacters(calendarDate.getStartYear()+"-"+calendarDate.getStartMonth()+"-"+calendarDate.getStartDay());
+			writer.writeCharacters(calendarDate.getStartDate().getYear()+"-"+calendarDate.getStartDate().getMonthValue()
+					+"-"+calendarDate.getStartDate().getDayOfMonth());
 			writer.writeEndElement();
 
 			writer.writeCharacters("\n\t\t");
 			writer.writeStartElement(DATUM_BIS);
-			writer.writeCharacters(calendarDate.getEndYear()+"-"+calendarDate.getEndMonth()+"-"+calendarDate.getEndDay());
+			writer.writeCharacters(calendarDate.getEndDate().getYear()+"-"+calendarDate.getEndDate().getMonthValue()
+					+"-"+calendarDate.getEndDate().getDayOfMonth());
 			writer.writeEndElement();
 
 			writer.writeCharacters("\n\t\t");

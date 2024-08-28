@@ -148,14 +148,20 @@ public class AppModel {
 	 * @param calendarDate
 	 */
 	public void writeIntoFile(CalendarDate calendarDate) {
+		if(calendarDate == null) {
+			System.err.println("calendarDate null bei Methode writeIntoFile() in Klasse AppModel");
+			return;
+		}
 		if(!baseDir.exists()) {
 			baseDir.mkdir();
 		}
 		if(!baseDir.canRead() || !baseDir.canWrite()) {
 			controller.handle(AppController.NO_BASE_DIRECTORY);
 		}
+		int yearPeriod = calendarDate.getEndDate().getYear() - calendarDate.getStartDate().getYear();
+		int monthPeriod = calendarDate.getEndDate().getMonthValue(); 
 		try {
-			xmlDataFile = new File(baseDir, "Dates_" + calendarDate.getStartYear() + "_" + calendarDate.getStartMonth() + ".xml");
+			xmlDataFile = new File(baseDir, "Dates_" + calendarDate.getStartDate().getYear() + "_" + calendarDate.getStartDate().getMonthValue() + ".xml");
 			if(!xmlDataFile.exists()) {
 				xmlDataFile.createNewFile();
 			}
@@ -185,6 +191,10 @@ public class AppModel {
 
 		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
 		return processor.readFromXMLFile();
+	}
+	
+	public Month getCurrentMonth() {
+		return currentMonth;
 	}
 	
 

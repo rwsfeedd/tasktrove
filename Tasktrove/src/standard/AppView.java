@@ -74,7 +74,10 @@ public class AppView{
 			int iterations;
 			if(!(currentDates == null)) {
 				for(int j = 0; j < currentDates.size(); j++) {
-					if(currentDates.get(j).getStartDay() == i+1) sectionCurrentDates.add(currentDates.get(j));
+					if(currentDates.get(j).getStartDate().getYear() == model.getCurrentYear() 
+							&& currentDates.get(j).getStartDate().getMonthValue() == model.getCurrentMonth().getValue()
+							&& currentDates.get(j).getStartDate().getDayOfMonth() == i+1) 
+						sectionCurrentDates.add(currentDates.get(j));
 				}
 			} 				
 			

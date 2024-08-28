@@ -7,24 +7,16 @@ import java.util.Calendar;
 public class CalendarDate {
 	public final static int VALID = 0;
 	public final static int INVALID_NAME = 1; 
-	public final static int INVALID_START_YEAR = 2;
-	public final static int INVALID_START_MONTH = 4;
-	public final static int INVALID_START_DAY = 8;
-	public final static int INVALID_END_YEAR = 16;
-	public final static int INVALID_END_MONTH = 32;
-	public final static int INVALID_END_DAY = 64;
-	public final static int INVALID_START_HOUR = 128;
-	public final static int INVALID_START_MINUTE = 256;
-	public final static int INVALID_END_HOUR = 512;
-	public final static int INVALID_END_MINUTE = 1024;
+	public final static int INVALID_START_DATE = 2;
+	public final static int INVALID_END_DATE = 16;
+	public final static int INVALID_START_HOUR = 32;
+	public final static int INVALID_START_MINUTE = 64;
+	public final static int INVALID_END_HOUR = 128;
+	public final static int INVALID_END_MINUTE = 256;
 	
 	private String name;
-	private int startYear;
-	private int startMonth;
-	private int startDay;
-	private int endYear;
-	private int endMonth;
-	private int endDay;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private int startHour;
 	private int startMinute;
 	private int endHour;
@@ -47,12 +39,8 @@ public class CalendarDate {
 	
 	public CalendarDate() {
 		this.name = null;
-		this.startDay = -1;
-		this.endDay = -1;
-		this.startMonth = -1;
-		this.endMonth = -1;
-		this.startYear = -1;
-		this.endYear = -1;
+		this.startDate = null;
+		this.endDate = null;
 		this.startHour = -1;
 		this.endHour = -1;
 		this.startMinute = -1;
@@ -63,22 +51,14 @@ public class CalendarDate {
 			, String startTime, String endTime) {
 		this.name = name;
 		if(startDate == null) {
-			this.startDay = -1;
-			this.startMonth = -1;
-			this.startYear = -1;
+			this.startDate = null;
 		} else {
-			this.startDay = startDate.getDayOfMonth();
-			this.startMonth = startDate.getMonthValue();
-			this.startYear = startDate.getYear();
+			this.startDate = startDate;
 		}
 		if(endDate == null) {
-			this.endDay = -1;
-			this.endMonth = -1;
-			this.endYear = -1;
+			this.endDate = null;
 		} else {
-			this.endDay = endDate.getDayOfMonth();
-			this.endMonth = endDate.getMonthValue();
-			this.endYear = endDate.getYear();
+			this.endDate = endDate;
 		}
 		if(startTime.equals(null) || startTime.equals("")) {
 			this.startHour = -1;
@@ -118,31 +98,11 @@ public class CalendarDate {
 		}//if-else EndTime
 	}//constructor
 	
-	public CalendarDate(String name, int startDay, int endDay, int startMonth
-			, int endMonth, int startYear, int endYear, int startHour
-			, int endHour, int startMinute, int endMinute){
-		this.name = name;
-		this.startDay = startDay;
-		this.endDay = endDay;
-		this.startMonth = startMonth;
-		this.endMonth = endMonth;
-		this.startYear = startYear;
-		this.endYear = endYear;
-		this.startHour = startHour;
-		this.endHour = endHour;
-		this.startMinute = startMinute;
-		this.endMinute = endMinute;
-	}
-	
 	public int validate() {
 		int erg = 0;
 		if(name.equals(null) || name.equals("")) erg += INVALID_NAME;
-		if(startYear < 0 || endYear > 10000) erg += INVALID_START_YEAR;
-		if(startMonth <  Month.JANUARY.getValue() || endMonth > Month.DECEMBER.getValue()) erg += INVALID_START_MONTH;
-		if(startDay < 0 || endDay > 31) erg += INVALID_START_DAY;
-		if(endYear < 0 || endYear > 10000) erg += INVALID_END_YEAR;
-		if(endMonth < Month.JANUARY.getValue() || endMonth > Month.DECEMBER.getValue()) erg += INVALID_END_MONTH;
-		if(endDay < 0 || endDay > 31) erg += INVALID_END_DAY;
+		if(startDate == null) erg += INVALID_START_DATE;
+		if(endDate == null) erg += INVALID_END_DATE;
 		if(startHour < 0 || startHour > 23) erg += INVALID_START_HOUR;
 		if(startMinute < 0 || startMinute > 59) erg += INVALID_START_MINUTE;
 		if(endHour < 0 || endHour > 23) erg += INVALID_END_HOUR;
@@ -151,14 +111,11 @@ public class CalendarDate {
 	}
 	
 	public int compareTo(CalendarDate calendarDate) {
-		if(this.getStartYear() < calendarDate.getStartYear()) return -1;
-		if(this.getStartYear() > calendarDate.getStartYear()) return 1;
+		if(this.getStartDate().compareTo(calendarDate.getStartDate()) < 0)  return -1;
+		if(this.getStartDate().compareTo(calendarDate.getStartDate()) > 0)  return 1;
 		
-		if(this.getStartMonth() < calendarDate.getStartMonth()) return -1;
-		if(this.getStartMonth() > calendarDate.getStartMonth()) return 1;
-		
-		if(this.getStartDay() < calendarDate.getStartDay()) return -1;
-		if(this.getStartDay() > calendarDate.getStartDay()) return 1;
+		if(this.getEndDate().compareTo(calendarDate.getEndDate()) < 0)  return -1;
+		if(this.getEndDate().compareTo(calendarDate.getEndDate()) > 0)  return 1;
 		
 		if(this.getStartHour() < calendarDate.getStartHour()) return -1;
 		if(this.getStartHour() > calendarDate.getStartHour()) return 1;
@@ -168,24 +125,7 @@ public class CalendarDate {
 		
 		return 0;
 	}
-	
-	public static CalendarDate getTestObject(){
-		CalendarDate date = new CalendarDate();
-		date.name = "TestObjekt";
-		date.startDay = 1;
-		date.endDay = 2;
-		date.startMonth = Calendar.JANUARY;
-		date.endMonth = Calendar.FEBRUARY;
-		date.startYear = 2024;
-		date.endYear = 2024;
-		date.startHour = 3;
-		date.endHour = 7;
-		date.startMinute = 10;
-		date.endMinute = 48;
-		return date;
 
-	}
-	
 	public static Month parseMonthCalendarToEnum(int month) {
 		switch(month) {
 			case Calendar.JANUARY: return Month.JANUARY;
@@ -208,30 +148,13 @@ public class CalendarDate {
 		this.name = name;
 	}
 
-	public void setStartDay(int startDay) {
-		this.startDay = startDay;
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
 	}
-
-	public void setEndDay(int endDay) {
-		this.endDay = endDay;
+	
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
-
-	public void setStartMonth(int startMonth) {
-		this.startMonth = startMonth;
-	}
-
-	public void setEndMonth(int endMonth) {
-		this.endMonth = endMonth;
-	}
-
-	public void setStartYear(int startYear) {
-		this.startYear = startYear;
-	}
-
-	public void setEndYear(int endYear) {
-		this.endYear = endYear;
-	}
-
 	public void setStartHour(int startHour) {
 		this.startHour = startHour;
 	}
@@ -252,28 +175,12 @@ public class CalendarDate {
 		return name;
 	}
 
-	public int getStartDay() {
-		return startDay;
+	public LocalDate getStartDate() {
+		return startDate;
 	}
 
-	public int getEndDay() {
-		return endDay;
-	}
-
-	public int getStartMonth() {
-		return startMonth;
-	}
-
-	public int getEndMonth() {
-		return endMonth;
-	}
-
-	public int getStartYear() {
-		return startYear;
-	}
-
-	public int getEndYear() {
-		return endYear;
+	public LocalDate getEndDate() {
+		return endDate;
 	}
 
 	public int getStartHour() {

@@ -74,18 +74,13 @@ public class AppController extends Application{
 				CalendarDate calendarDate = view.getCalendarDate();
 				if((calendarDate.validate() == CalendarDate.VALID)) model.writeIntoFile(calendarDate); 
 				if((calendarDate.validate() & CalendarDate.INVALID_NAME) == CalendarDate.INVALID_NAME) System.out.println("Fehlender Name!");
-				if((calendarDate.validate() & CalendarDate.INVALID_START_YEAR) == CalendarDate.INVALID_START_YEAR) System.out.println("Fehlendes Startjahr!");
-				if((calendarDate.validate() & CalendarDate.INVALID_START_MONTH) == CalendarDate.INVALID_START_MONTH) System.out.println("Fehlender StartMonat!");
-				if((calendarDate.validate() & CalendarDate.INVALID_START_DAY) == CalendarDate.INVALID_START_DAY) System.out.println("Fehlender StartTag");
-				if((calendarDate.validate() & CalendarDate.INVALID_END_YEAR) == CalendarDate.INVALID_END_YEAR) System.out.println("Fehlender Endjahr!");
-				if((calendarDate.validate() & CalendarDate.INVALID_END_MONTH) == CalendarDate.INVALID_END_MONTH) System.out.println("Fehlender EndMonat!");
-				if((calendarDate.validate() & CalendarDate.INVALID_END_DAY) == CalendarDate.INVALID_END_DAY) System.out.println("Fehlender EndTag!");
+				if((calendarDate.validate() & CalendarDate.INVALID_START_DATE) == CalendarDate.INVALID_START_DATE) System.out.println("Fehlendes Startjahr!");
+				if((calendarDate.validate() & CalendarDate.INVALID_END_DATE) == CalendarDate.INVALID_END_DATE) System.out.println("Fehlender Endjahr!");
 				if((calendarDate.validate() & CalendarDate.INVALID_START_HOUR) == CalendarDate.INVALID_START_HOUR) System.out.println("Fehlender startstunde!");
 				if((calendarDate.validate() & CalendarDate.INVALID_START_MINUTE) == CalendarDate.INVALID_START_MINUTE) System.out.println("Fehlender Startminute!");
 				if((calendarDate.validate() & CalendarDate.INVALID_END_HOUR) == CalendarDate.INVALID_END_HOUR) System.out.println("Fehlender endstunde!");
 				if((calendarDate.validate() & CalendarDate.INVALID_END_MINUTE) == CalendarDate.INVALID_END_MINUTE) System.out.println("Fehlender endminute!");
 
-				
 			case BUTTON_NEXT_MONTH: 
 				model.setToNextMonth();
 				view.update();
