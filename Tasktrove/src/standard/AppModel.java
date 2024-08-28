@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -34,7 +35,7 @@ public class AppModel {
 	GregorianCalendar calendar;
 	private int currentScene = CALENDAR_SCENE;
 	private LinkedList<CalendarDate> currentDates;
-	private int intCurrentMonth;
+	private Month currentMonth;
 	private int currentYear;
 	private File baseDir;
 	private File xmlDataFile;
@@ -45,7 +46,7 @@ public class AppModel {
 		this.controller = controller;
 		timeZone = TimeZone.getDefault();
 		calendar = new GregorianCalendar(timeZone);
-		intCurrentMonth = calendar.get(GregorianCalendar.MONTH);
+		currentMonth = CalendarDate.parseMonthCalendarToEnum(calendar.get(GregorianCalendar.MONTH));
 		currentYear = calendar.get(Calendar.YEAR);
 		this.baseDir = baseDir;
 	}
@@ -53,19 +54,19 @@ public class AppModel {
 	public int[] getCalendarInfo() {
 		//calculating days in month for Calendargrid
 		int daysInMonth = 0;
-		if(intCurrentMonth <0 | intCurrentMonth >11) {
+		if(currentMonth.getValue() <1 | currentMonth.getValue() >12) {
 			System.err.println("In SceneFactory ist Int month nicht valide(Wert auﬂerhalb des Bereichs 1-12)!");
 			Platform.exit();
 		}
-		if(intCurrentMonth != Calendar.FEBRUARY && ((intCurrentMonth)%7)%2 == 0) daysInMonth = 31;
-		if(intCurrentMonth != Calendar.FEBRUARY && ((intCurrentMonth)%7)%2 == 1) daysInMonth = 30;
-		if(intCurrentMonth == Calendar.FEBRUARY && calendar.isLeapYear(currentYear) == true) daysInMonth = 29;
-		if(intCurrentMonth == Calendar.FEBRUARY && calendar.isLeapYear(currentYear) == false) daysInMonth = 28;
+		if(currentMonth != Month.FEBRUARY && ((currentMonth.getValue()-1)%7)%2 == 0) daysInMonth = 31;
+		if(currentMonth != Month.FEBRUARY && ((currentMonth.getValue()-1)%7)%2 == 1) daysInMonth = 30;
+		if(currentMonth == Month.FEBRUARY && calendar.isLeapYear(currentYear) == true) daysInMonth = 29;
+		if(currentMonth == Month.FEBRUARY && calendar.isLeapYear(currentYear) == false) daysInMonth = 28;
 		
 		//Weekday of first day in month for offset to establish order in View of month
 		GregorianCalendar tempCalendar = (GregorianCalendar) calendar.clone();
 		tempCalendar.set(Calendar.DAY_OF_MONTH, 1);
-		tempCalendar.set(Calendar.MONTH, intCurrentMonth);
+		tempCalendar.set(Calendar.MONTH, (currentMonth.getValue()-1)); // -1 because GregorianCalendar.Month = [0,11] and Month.getValue = [1,12]
 		tempCalendar.set(Calendar.YEAR, currentYear);
 		int offset = 0;
 		if(tempCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) { // first Weekday in Calendarclass is Sunday with int 1
@@ -87,51 +88,52 @@ public class AppModel {
 
 	public String getStringCurrentMonth() {
 		String erg = "";
-		switch(intCurrentMonth) {
-		case Calendar.JANUARY:	erg = "Januar";
+		switch(currentMonth) {
+		case JANUARY:	erg = "Januar";
 								break;
-		case Calendar.FEBRUARY:	erg = "Februar";
+		case FEBRUARY:	erg = "Februar";
 								break;
-		case Calendar.MARCH:	erg = "M‰rz";
+		case MARCH:	erg = "M‰rz";
 								break;
-		case Calendar.APRIL:	erg = "April";
+		case APRIL:	erg = "April";
 								break;
-		case Calendar.MAY:	erg = "Mai";
+		case MAY:	erg = "Mai";
 							break;
-		case Calendar.JUNE:	erg = "Juni";
+		case JUNE:	erg = "Juni";
 							break;
-		case Calendar.JULY:	erg = "July";
+		case JULY:	erg = "July";
 							break;
-		case Calendar.AUGUST:	erg = "August";
+		case AUGUST:	erg = "August";
 								break;
-		case Calendar.SEPTEMBER:	erg = "September";
+		case SEPTEMBER:	erg = "September";
 									break;
-		case Calendar.OCTOBER:	erg = "Oktober";
+		case OCTOBER:	erg = "Oktober";
 								break;
-		case Calendar.NOVEMBER:	erg = "November";
+		case NOVEMBER:	erg = "November";
 								break;
-		case Calendar.DECEMBER:	erg = "Dezember";
+		case DECEMBER:	erg = "Dezember";
 								break;
 		}
 		return erg;
 	}
 	
+	
 	//hier xmlfilechange integrieren
 	public void setToNextMonth() {
-		if(intCurrentMonth == Calendar.DECEMBER) {
-			intCurrentMonth = Calendar.JANUARY;
+		if(currentMonth == Month.DECEMBER) {
+			currentMonth = Month.JANUARY;
 			currentYear++;
 		}else {
-			intCurrentMonth++;
+			currentMonth = currentMonth.plus(1);
 		}
 	}
 	
 	public void setToPreviousMonth() {
-		if(intCurrentMonth == Calendar.JANUARY) {
-			intCurrentMonth = Calendar.DECEMBER;
+		if(currentMonth == Month.JANUARY) {
+			currentMonth = Month.DECEMBER;
 			currentYear--;							//maximalGrenze implementieren
 		}else {
-			intCurrentMonth--;
+			currentMonth = currentMonth.minus(1);
 		}
 	}
 	
@@ -173,7 +175,7 @@ public class AppModel {
 		if(baseDir == null) {
 			return new LinkedList<CalendarDate>();
 		}
-		File xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + intCurrentMonth + ".xml");
+		File xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + currentMonth.getValue() + ".xml");
 
 		try {
 			xmlDataFile.createNewFile();
@@ -184,6 +186,8 @@ public class AppModel {
 		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
 		return processor.readFromXMLFile();
 	}
+	
+
 	
 	public void setBaseDir(File baseDir) {
 		this.baseDir = baseDir;

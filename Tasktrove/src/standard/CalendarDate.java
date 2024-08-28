@@ -1,6 +1,7 @@
 package standard;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Calendar;
 
 public class CalendarDate {
@@ -137,10 +138,10 @@ public class CalendarDate {
 		int erg = 0;
 		if(name.equals(null) || name.equals("")) erg += INVALID_NAME;
 		if(startYear < 0 || endYear > 10000) erg += INVALID_START_YEAR;
-		if(startMonth < Calendar.JANUARY || startMonth > Calendar.DECEMBER) erg += INVALID_START_MONTH;
+		if(startMonth <  Month.JANUARY.getValue() || endMonth > Month.DECEMBER.getValue()) erg += INVALID_START_MONTH;
 		if(startDay < 0 || endDay > 31) erg += INVALID_START_DAY;
 		if(endYear < 0 || endYear > 10000) erg += INVALID_END_YEAR;
-		if(endMonth < Calendar.JANUARY || endMonth > Calendar.DECEMBER) erg += INVALID_END_MONTH;
+		if(endMonth < Month.JANUARY.getValue() || endMonth > Month.DECEMBER.getValue()) erg += INVALID_END_MONTH;
 		if(endDay < 0 || endDay > 31) erg += INVALID_END_DAY;
 		if(startHour < 0 || startHour > 23) erg += INVALID_START_HOUR;
 		if(startMinute < 0 || startMinute > 59) erg += INVALID_START_MINUTE;
@@ -183,6 +184,24 @@ public class CalendarDate {
 		date.endMinute = 48;
 		return date;
 
+	}
+	
+	public static Month parseMonthCalendarToEnum(int month) {
+		switch(month) {
+			case Calendar.JANUARY: return Month.JANUARY;
+			case Calendar.FEBRUARY: return Month.FEBRUARY;
+			case Calendar.MARCH: return Month.MARCH;
+			case Calendar.APRIL: return Month.APRIL;
+			case Calendar.MAY: return Month.MAY;
+			case Calendar.JUNE: return Month.JUNE;
+			case Calendar.JULY: return Month.JULY;
+			case Calendar.AUGUST: return Month.AUGUST;
+			case Calendar.SEPTEMBER: return Month.SEPTEMBER;
+			case Calendar.OCTOBER: return Month.OCTOBER;
+			case Calendar.NOVEMBER: return Month.NOVEMBER;
+			case Calendar.DECEMBER: return Month.DECEMBER; 
+			default: return null;
+		}
 	}
 
 	public void setName(String name) {
