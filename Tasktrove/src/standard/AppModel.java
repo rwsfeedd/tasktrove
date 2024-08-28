@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -158,23 +159,27 @@ public class AppModel {
 		if(!baseDir.canRead() || !baseDir.canWrite()) {
 			controller.handle(AppController.NO_BASE_DIRECTORY);
 		}
-		int yearPeriod = calendarDate.getEndDate().getYear() - calendarDate.getStartDate().getYear();
-		int monthPeriod = calendarDate.getEndDate().getMonthValue(); 
-		try {
-			xmlDataFile = new File(baseDir, "Dates_" + calendarDate.getStartDate().getYear() + "_" + calendarDate.getStartDate().getMonthValue() + ".xml");
-			if(!xmlDataFile.exists()) {
-				xmlDataFile.createNewFile();
+		
+		LocalDate currentDate = calendarDate.getStartDate();
+		while(currentDate.isBefore(calendarDate.getEndDate()) || currentDate.isEqual(calendarDate.getEndDate())) {
+			try {
+				xmlDataFile = new File(baseDir, "Dates_" + currentDate.getYear() + "_" + currentDate.getMonthValue() + ".xml");
+				if(!xmlDataFile.exists()) {
+					xmlDataFile.createNewFile();
+				}
+			}catch (Exception ex){
+				ex.printStackTrace();
+				Platform.exit();
 			}
-		}catch (Exception ex){
-			ex.printStackTrace();
-			Platform.exit();
-		}
-		try {
-			AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
-			processor.writeIntoXMLFile(calendarDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			try {
+				AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+				processor.writeIntoXMLFile(calendarDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			currentDate = currentDate.plusMonths(1);
+		} 
+		
 	}
 	
 	public LinkedList<CalendarDate> getCurrentDates() {
