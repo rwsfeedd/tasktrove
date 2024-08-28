@@ -99,6 +99,9 @@ public class CalendarDate {
 		}//if-else EndTime
 	}//constructor
 	
+	/*
+	 * @return returns int. Every Invalid Argument of this.CalendarDate is saved in one Bit
+	 */
 	public int validate() {
 		int erg = 0;
 		if(name.equals(null) || name.equals("") || name.length() > 10) erg += INVALID_NAME;
