@@ -49,6 +49,7 @@ public class AppView{
 	}
 
 	public void update() {
+
 		switch(model.getCurrentScene()) {
 			case AppModel.ENTRY_SCENE: primaryStage.setScene(getSceneEntry());
 				break;
@@ -153,13 +154,19 @@ public class AppView{
 		TextField fieldEndTime = new TextField();
 		pane.getChildren().addAll(labelEndTime, fieldEndTime);
 
+		HBox buttonPanel = new HBox();
 		Button buttonSaveData = new Button("Speichern");
 		buttonSaveData.setOnAction(e->{
 			calendarDate = new CalendarDate(textFieldName.getText(), datePickerStart.getValue(), 
 					datePickerEnd.getValue(), fieldStartTime.getText(), fieldEndTime.getText());
 			controller.handle(AppController.BUTTON_SAVE_DATA);
 			});
-		pane.getChildren().add(buttonSaveData);
+		buttonPanel.getChildren().add(buttonSaveData);
+		Button buttonCancel = new Button("Abbrechen");
+		buttonCancel.setOnAction(e->{controller.handle(AppController.BUTTON_CANCEL);});
+		buttonPanel.getChildren().add(buttonCancel);
+		
+		pane.getChildren().add(buttonPanel);
 		
 		return new Scene(pane);
 	}

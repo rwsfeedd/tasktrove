@@ -100,11 +100,11 @@ public class CalendarDate {
 	}//constructor
 	
 	/*
-	 * @return returns int. Every Invalid Argument of this.CalendarDate is saved in one Bit
+	 * @return 	returns int Every Invalid Argument of this.CalendarDate is saved in one Bit
 	 */
 	public int validate() {
 		int erg = 0;
-		if(name.equals(null) || name.equals("") || name.length() > 10) erg += INVALID_NAME;
+		if(name.equals(null) || name.equals("") || name.length() > 20) erg += INVALID_NAME;
 		if(startDate == null) erg += INVALID_START_DATE;
 		if(endDate == null) erg += INVALID_END_DATE;
 		if(startDate.isAfter(endDate)) erg += INVALID_DATE_LENGTH;

@@ -37,6 +37,8 @@ public class AppController extends Application{
 	public final static int BUTTON_NEXT_MONTH = 2;
 	public final static int BUTTON_PREVIOUS_MONTH = 3;
 	public final static int NO_BASE_DIRECTORY = 4;
+	public final static int BUTTON_CANCEL = 5;
+
 	public AppModel model;
 	public AppView view;
 
@@ -76,10 +78,12 @@ public class AppController extends Application{
 				if((calendarDate.validate() & CalendarDate.INVALID_NAME) == CalendarDate.INVALID_NAME) System.out.println("Fehlender Name!");
 				if((calendarDate.validate() & CalendarDate.INVALID_START_DATE) == CalendarDate.INVALID_START_DATE) System.out.println("Fehlendes Startjahr!");
 				if((calendarDate.validate() & CalendarDate.INVALID_END_DATE) == CalendarDate.INVALID_END_DATE) System.out.println("Fehlender Endjahr!");
+				if((calendarDate.validate() & CalendarDate.INVALID_DATE_LENGTH) == CalendarDate.INVALID_DATE_LENGTH) System.out.println("Fehlender Endjahr!");
 				if((calendarDate.validate() & CalendarDate.INVALID_START_HOUR) == CalendarDate.INVALID_START_HOUR) System.out.println("Fehlender startstunde!");
 				if((calendarDate.validate() & CalendarDate.INVALID_START_MINUTE) == CalendarDate.INVALID_START_MINUTE) System.out.println("Fehlender Startminute!");
 				if((calendarDate.validate() & CalendarDate.INVALID_END_HOUR) == CalendarDate.INVALID_END_HOUR) System.out.println("Fehlender endstunde!");
 				if((calendarDate.validate() & CalendarDate.INVALID_END_MINUTE) == CalendarDate.INVALID_END_MINUTE) System.out.println("Fehlender endminute!");
+				break;
 
 			case BUTTON_NEXT_MONTH: 
 				model.setToNextMonth();
@@ -97,6 +101,10 @@ public class AppController extends Application{
 					ex.printStackTrace();
 					Platform.exit();
 				}
+				break;
+			case BUTTON_CANCEL: 
+				model.setCurrentScene(AppModel.CALENDAR_SCENE);
+				view.update();
 				break;
 			default:	
 				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
