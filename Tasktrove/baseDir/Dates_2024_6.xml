@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<terminListe>
+	<termin>
+		<name>juni termin</name>
+		<datumVon>2024-8-21</datumVon>
+		<datumBis>2024-8-31</datumBis>
+		<uhrzeitVon>13:5</uhrzeitVon>
+		<uhrzeitBis>12:4</uhrzeitBis>
+	</termin>
+</terminListe>

@@ -42,19 +42,19 @@ public class AppController extends Application{
 
 	public void start(Stage primaryStage) throws Exception{
 		File baseDir = new File("baseDir");
-		boolean noDirError = false;
+		boolean dirError = false;
 		if(!baseDir.exists()) { // lese/schreibrechte?
 			try {
 				baseDir.mkdir();
 			}catch (SecurityException sEx){
 				sEx.printStackTrace();
-				noDirError = true;
+				dirError = true;
 			}
 		}
 		model = new AppModel(this, baseDir);
 		view = new AppView(primaryStage, model, this);
 		view.update();
-		if(noDirError) {
+		if(dirError) {
 			File newBaseDir = view.getBaseDirectory();
 			if(newBaseDir != null && newBaseDir.exists() && newBaseDir.isDirectory()) {
 				baseDir = newBaseDir;

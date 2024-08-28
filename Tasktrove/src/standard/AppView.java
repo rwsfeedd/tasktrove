@@ -62,16 +62,22 @@ public class AppView{
 		int[] calendarData = model.getCalendarInfo();
 		AnchorPane rootPane = new AnchorPane();
 		GridPane grid = new GridPane();
-		List<Tile> tileList = new ArrayList<Tile>(35);
+		List<Tile> tileList = new ArrayList<Tile>(35); // reduzieren
 		Node node;
 		LinkedList<CalendarDate> currentDates = model.getCurrentDates();
+		
+		
 		int y = 0;
 		LinkedList<CalendarDate> sectionCurrentDates;
 		for(int i = 0; i < calendarData[1]; i++) {
 			sectionCurrentDates = new LinkedList<CalendarDate>();
-			for(int j = 0; j < currentDates.size(); j++) {
-				if(currentDates.get(j).getStartDay() == i+1) sectionCurrentDates.add(currentDates.get(j));
-			}
+			int iterations;
+			if(!(currentDates == null)) {
+				for(int j = 0; j < currentDates.size(); j++) {
+					if(currentDates.get(j).getStartDay() == i+1) sectionCurrentDates.add(currentDates.get(j));
+				}
+			} 				
+			
 			tileList.add(new Tile(i+1, sectionCurrentDates));
 			node = tileList.get(i).getNode();
 			sectionCurrentDates.clear();

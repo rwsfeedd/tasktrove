@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <terminListe>
 	<termin>
-		<name>rgfgergreg</name>
-		<datumVon>2024-8-7</datumVon>
-		<datumBis>2024-8-16</datumBis>
-		<uhrzeitVon>11:11</uhrzeitVon>
-		<uhrzeitBis>12:22</uhrzeitBis>
-	</termin>
-
-	<termin>
-		<name>rgegrere</name>
-		<datumVon>2024-8-6</datumVon>
-		<datumBis>2024-8-16</datumBis>
-		<uhrzeitVon>13:30</uhrzeitVon>
-		<uhrzeitBis>14:20</uhrzeitBis>
-	</termin>
-
-	<termin>
-		<name>bgreagbeab</name>
-		<datumVon>2024-8-16</datumVon>
+		<name>Erster guter Termin?</name>
+		<datumVon>2024-8-31</datumVon>
 		<datumBis>2024-8-31</datumBis>
-		<uhrzeitVon>13:4</uhrzeitVon>
-		<uhrzeitBis>16:33</uhrzeitBis>
+		<uhrzeitVon>12:22</uhrzeitVon>
+		<uhrzeitBis>14:55</uhrzeitBis>
 	</termin>
 
 	<termin>
-		<name>vjhjhgjhgi</name>
-		<datumVon>2024-8-23</datumVon>
-		<datumBis>2024-8-23</datumBis>
-		<uhrzeitVon>14:20</uhrzeitVon>
-		<uhrzeitBis>18:33</uhrzeitBis>
+		<name>richtiger Julitermin</name>
+		<datumVon>2024-7-9</datumVon>
+		<datumBis>2024-8-21</datumBis>
+		<uhrzeitVon>13:6</uhrzeitVon>
+		<uhrzeitBis>15:55</uhrzeitBis>
 	</termin>
 </terminListe>

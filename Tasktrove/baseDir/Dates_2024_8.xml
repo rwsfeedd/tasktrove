@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<terminListe>
+	<termin>
+		<name>JuliTermin</name>
+		<datumVon>2024-8-7</datumVon>
+		<datumBis>2024-8-24</datumBis>
+		<uhrzeitVon>12:3</uhrzeitVon>
+		<uhrzeitBis>13:4</uhrzeitBis>
+	</termin>
+
+	<termin>
+		<name>AugustTermin</name>
+		<datumVon>2024-8-7</datumVon>
+		<datumBis>2024-9-6</datumBis>
+		<uhrzeitVon>13:43</uhrzeitVon>
+		<uhrzeitBis>15:56</uhrzeitBis>
+	</termin>
+</terminListe>

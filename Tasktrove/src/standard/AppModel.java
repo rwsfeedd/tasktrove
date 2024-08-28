@@ -153,7 +153,7 @@ public class AppModel {
 			controller.handle(AppController.NO_BASE_DIRECTORY);
 		}
 		try {
-			xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + intCurrentMonth + ".xml");
+			xmlDataFile = new File(baseDir, "Dates_" + calendarDate.getStartYear() + "_" + calendarDate.getStartMonth() + ".xml");
 			if(!xmlDataFile.exists()) {
 				xmlDataFile.createNewFile();
 			}
