@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -29,15 +30,21 @@ public class Tile {
 		AnchorPane.setBottomAnchor(label, 0.0);
 		AnchorPane.setRightAnchor(label, 0.0);
 
+		//initialising all Dates in a Tile
 		if(!(dates == null)) {
-			VBox panelDates = new VBox();
-			AnchorPane.setTopAnchor(panelDates, 0.0);
+			ScrollPane outerPanelDates = new ScrollPane();
+			VBox innerPanelDates = new VBox();
+			outerPanelDates.setFitToHeight(true);
+			outerPanelDates.setFitToWidth(true);
+			AnchorPane.setTopAnchor(outerPanelDates, 0.0);
 			Label arrayLabel[] = new Label[dates.size()];
 			for(int i = 0; i < dates.size(); i++) {
 				arrayLabel[i] = new Label(dates.get(i).getName());
-				panelDates.getChildren().add(arrayLabel[i]);
+				innerPanelDates.getChildren().add(arrayLabel[i]);
 			}
-			pane.getChildren().add(panelDates);
+			innerPanelDates.setFillWidth(true);
+			outerPanelDates.setContent(innerPanelDates);
+			pane.getChildren().add(outerPanelDates);
 		}
 	}
 	

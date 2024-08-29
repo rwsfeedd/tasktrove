@@ -85,8 +85,6 @@ public class AppController extends Application{
 				model.setCurrentScene(AppModel.CurrentScene.CALENDAR_SCENE);
 				view.update();
 				break;
-			
-
 			case BUTTON_NEXT_MONTH: 
 				model.setToNextMonth();
 				view.update();
