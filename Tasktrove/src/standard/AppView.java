@@ -35,6 +35,7 @@ import javafx.stage.Window;
 import standard.AppController.CalendarScene;
 import standard.AppController.DateDeleteScene;
 import standard.AppController.DateEntryScene;
+import standard.AppModel.CurrentScene;
 
 public class AppView{
 	public final double heightWindow = 768;
@@ -56,12 +57,20 @@ public class AppView{
 	public void update() {
 
 		switch(model.getCurrentScene()) {
-			case AppModel.CurrentScene.ENTRY_SCENE: primaryStage.setScene(getSceneEntry());
+			case AppModel.CurrentScene.ENTRY_SCENE: 
+				primaryStage.setScene(getSceneEntry());
 				break;
-			case AppModel.CurrentScene.DELETE_SCENE: primaryStage.setScene(getSceneDelete());
+			case AppModel.CurrentScene.DELETE_SCENE: 
+				primaryStage.setScene(getSceneDelete());
 				break;
-			default: primaryStage.setScene(getSceneCalendar());
+			case AppModel.CurrentScene.CALENDAR_SCENE:
+				primaryStage.setScene(getSceneCalendar());
+				break;
+			default: 
+				primaryStage.setScene(getSceneCalendar());
+				break;
 		}
+		//System.out.println(model.getCurrentScene().toString());
 		primaryStage.show();
 	}
 

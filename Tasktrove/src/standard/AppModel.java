@@ -38,7 +38,7 @@ public class AppModel {
 
 	TimeZone timeZone;
 	GregorianCalendar calendar;
-	private CurrentScene currentScene = CurrentScene.CALENDAR_SCENE;
+	private CurrentScene currentScene;
 	private LinkedList<CalendarDate> currentDates;
 	private Month currentMonth;
 	private int currentYear;
@@ -48,6 +48,7 @@ public class AppModel {
 	private AppController controller;
 
 	public AppModel(AppController controller, File baseDir) {
+		currentScene = CurrentScene.CALENDAR_SCENE;
 		this.controller = controller;
 		timeZone = TimeZone.getDefault();
 		calendar = new GregorianCalendar(timeZone);

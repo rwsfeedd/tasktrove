@@ -82,7 +82,7 @@ public class AppController extends Application{
 	public void handle(CalendarScene componentID) {
 		switch(componentID) {
 			case NEW_DATE: 	
-				model.setCurrentScene(AppModel.CurrentScene.CALENDAR_SCENE);
+				model.setCurrentScene(AppModel.CurrentScene.ENTRY_SCENE);
 				view.update();
 				break;
 			case BUTTON_NEXT_MONTH: 
