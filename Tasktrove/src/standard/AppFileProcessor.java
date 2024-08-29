@@ -105,13 +105,7 @@ public class AppFileProcessor {
 	}
 	
 	public void rewriteXMLFile(LinkedList<CalendarDate> listDates) {
-		if(listDates == null || listDates.size() < 1) {
-			System.err.println("Gescheideter rewrite zu XMLFile: " + xmlDataFile.getName());
-			System.out.flush();
-			return;
-		}
-		try{
-			//System.out.println(listDates.get(0).getName());
+		try {
 			FileOutputStream fos = new FileOutputStream(xmlDataFile);
 			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
 			XMLStreamWriter writer = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");
@@ -119,12 +113,16 @@ public class AppFileProcessor {
 			writer.writeCharacters("\n");
 			writer.writeStartElement(TERMIN_LISTE);
 			
-			for(int i = 0; i < listDates.size(); i++) {
-				writeDate(listDates.get(i), writer);
-			}//for
+
+			if(!(listDates == null) && !(listDates.size() < 1)) {
+				for(int i = 0; i < listDates.size(); i++) {
+					writeDate(listDates.get(i), writer);
+				}//for
+			}
 			writer.writeEndDocument();
 			writer.flush();
 			writer.close();
+		
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
