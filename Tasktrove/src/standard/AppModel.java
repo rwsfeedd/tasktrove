@@ -175,7 +175,7 @@ public class AppModel {
 			}
 			try {
 				AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
-				processor.writeIntoXMLFile(calendarDate);
+				processor.appendToXMLFile(calendarDate);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -183,8 +183,58 @@ public class AppModel {
 			currentDate = currentDate.withDayOfMonth(1);
 		} 
 		
-	}
+	} 
 	
+	public void deleteInFile(LinkedList<CalendarDate> removableDates) {
+		if(removableDates == null) {
+			System.err.println("calendarDate null bei Methode deleteInFile() in Klasse AppModel");
+			return;
+		}
+		if(!baseDir.exists()) {
+			baseDir.mkdir();
+		}
+		if(!baseDir.canRead() || !baseDir.canWrite()) {
+			controller.handle(CalendarScene.NO_BASE_DIR);
+		}
+		for(int i = 0; i < removableDates.size(); i++) {
+			LocalDate currentDate = removableDates.get(i).getStartDate();
+			while(currentDate.isBefore(removableDates.get(i).getEndDate()) || currentDate.isEqual(removableDates.get(i).getEndDate())) {
+				try {
+					xmlDataFile = new File(baseDir, "Dates_" + currentDate.getYear() + "_" + currentDate.getMonthValue() + ".xml");
+					if(!xmlDataFile.exists()) {
+						currentDate = currentDate.plusMonths(1);
+						currentDate = currentDate.withDayOfMonth(1);
+						continue;
+					}
+				}catch (Exception ex){
+					ex.printStackTrace();
+					Platform.exit();
+				}
+
+				try {
+					AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+					LinkedList<CalendarDate> listOriginal = processor.readFromXMLFile();
+					LinkedList<CalendarDate> listRet = new LinkedList<CalendarDate>();
+					if(listRet != null) {
+						while(!(listOriginal.isEmpty()) && !(listOriginal == null)) {
+							if(listOriginal.getLast().compareTo(removableDates.getLast()) == 0) {
+								listOriginal.removeLast();
+							} else {
+								listRet.add(listOriginal.removeLast());
+							}
+						}
+					}
+					
+					processor.rewriteXMLFile(listRet);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				currentDate = currentDate.plusMonths(1);
+				currentDate = currentDate.withDayOfMonth(1);
+			}//while
+		}//for
+}//deleteInFile()
+
 	public LinkedList<CalendarDate> getCurrentDates() {
 		if(baseDir == null) {
 			return new LinkedList<CalendarDate>();
@@ -205,7 +255,7 @@ public class AppModel {
 		return currentMonth;
 	}
 	
-
+	
 	
 	public void setBaseDir(File baseDir) {
 		this.baseDir = baseDir;

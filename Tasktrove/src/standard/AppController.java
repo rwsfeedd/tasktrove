@@ -2,6 +2,7 @@ package standard;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javafx.application.Application;
@@ -145,7 +146,8 @@ public class AppController extends Application{
 				view.update();
 				break;
 		case BUTTON_DELETE:
-			
+			model.deleteInFile(view.getListDates()); 
+			view.update();
 			break;
 		default:	
 				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");

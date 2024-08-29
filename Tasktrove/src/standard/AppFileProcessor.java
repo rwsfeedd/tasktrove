@@ -74,11 +74,11 @@ public class AppFileProcessor {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		return list;
+		return new LinkedList<CalendarDate>(list);
 		
 	}
 
-	public void writeIntoXMLFile(CalendarDate calendarDate) {
+	public void appendToXMLFile(CalendarDate calendarDate) {
 		try{
 			LinkedList<CalendarDate> list = readFromXMLFile();
 			FileOutputStream fos = new FileOutputStream(xmlDataFile);
@@ -103,6 +103,33 @@ public class AppFileProcessor {
 			e.printStackTrace();
 		}
 	}
+	
+	public void rewriteXMLFile(LinkedList<CalendarDate> listDates) {
+		if(listDates == null || listDates.size() < 1) {
+			System.err.println("Gescheideter rewrite zu XMLFile: " + xmlDataFile.getName());
+			System.out.flush();
+			return;
+		}
+		try{
+			//System.out.println(listDates.get(0).getName());
+			FileOutputStream fos = new FileOutputStream(xmlDataFile);
+			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
+			XMLStreamWriter writer = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");
+			writer.writeStartDocument("utf-8", "1.0");
+			writer.writeCharacters("\n");
+			writer.writeStartElement(TERMIN_LISTE);
+			
+			for(int i = 0; i < listDates.size(); i++) {
+				writeDate(listDates.get(i), writer);
+			}//for
+			writer.writeEndDocument();
+			writer.flush();
+			writer.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void writeDate(CalendarDate calendarDate, XMLStreamWriter writer) {
 		try {
 			writer.writeCharacters("\n\t");

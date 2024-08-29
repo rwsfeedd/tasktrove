@@ -43,6 +43,7 @@ public class AppView{
 	private AppModel model;
 	private AppController controller;
 	private CalendarDate calendarDate;
+	private LinkedList<CalendarDate> listDates;
 
 	public AppView(Stage primaryStage, AppModel model, AppController controller) {
 		this.primaryStage = primaryStage;
@@ -65,25 +66,40 @@ public class AppView{
 	}
 
 	private Scene getSceneDelete() {
-		LinkedList<CalendarDate> currentDates = model.getCurrentDates();
+		listDates = model.getCurrentDates();
 		AnchorPane rootPane = new AnchorPane();
 
 		VBox paneSelection = new VBox();
-		if(!(currentDates == null)) {
-			CheckBox[] nodeSelection = new CheckBox[currentDates.size()];
-			for(int i = 0; i < currentDates.size(); i++) {
-				nodeSelection[i] = new CheckBox(currentDates.get(i).getName() + ": von " + currentDates.get(i).getStartDate().toString() 
-						+ " bis " + currentDates.get(i).getEndDate().toString());
-				paneSelection.getChildren().add(nodeSelection[i]);
+		LinkedList<CheckBox> nodeSelection = new LinkedList<CheckBox>();
+		if(!(listDates == null)) {
+			for(int i = 0; i < listDates.size(); i++) {
+				nodeSelection.add(new CheckBox(listDates.get(i).getName() + ": von " + listDates.get(i).getStartDate().toString() 
+						+ " bis " + listDates.get(i).getEndDate().toString()));
+				paneSelection.getChildren().add(nodeSelection.getLast());
 			}
 			rootPane.getChildren().add(paneSelection);
 		}
+
 		VBox panelButtons = new VBox();
 		Button buttonCancel = new Button("Abbrechen");
 		buttonCancel.setOnAction(e->{controller.handle(DateDeleteScene.BUTTON_CANCEL);});
 		panelButtons.getChildren().add(buttonCancel);
+
 		Button buttonDelete = new Button("Löschen");
-		buttonDelete.setOnAction(e->{controller.handle(DateDeleteScene.BUTTON_DELETE);});
+		buttonDelete.setOnAction(e->{
+			LinkedList<CalendarDate> datesToDelete = new LinkedList<CalendarDate>();
+			if(nodeSelection != null) {
+				for(int l = 0; l < nodeSelection.size(); l++) {
+					if(nodeSelection.get(l).isSelected() == true) {
+						datesToDelete.add(listDates.get(l));
+					}
+				}
+			}
+			
+			listDates = datesToDelete;
+			//System.out.println(listDates.get(0).getName());
+			controller.handle(DateDeleteScene.BUTTON_DELETE);});
+
 		panelButtons.getChildren().add(buttonDelete);
 		rootPane.getChildren().add(panelButtons);
 
@@ -137,7 +153,8 @@ public class AppView{
 		panelButtons.getChildren().add(buttonNewDate);
 
 		Button buttonDeleteDate = new Button("Termin löschen");
-		buttonDeleteDate.setOnAction(e->{controller.handle(CalendarScene.BUTTON_DELETE_DATE);});
+		buttonDeleteDate.setOnAction(e->{
+			controller.handle(CalendarScene.BUTTON_DELETE_DATE);});
 		panelButtons.getChildren().add(buttonDeleteDate);
 
 		//Pane für Monatsauswahl initialisieren
@@ -226,5 +243,9 @@ public class AppView{
 
 	public CalendarDate getCalendarDate() {
 		return calendarDate;
+	}
+	
+	public LinkedList<CalendarDate> getListDates() {
+		return listDates;
 	}
 }
