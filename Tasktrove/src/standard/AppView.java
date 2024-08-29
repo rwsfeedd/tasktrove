@@ -63,7 +63,7 @@ public class AppView{
 				primaryStage.setScene(getSceneEntry());
 				break;
 			case AppModel.CurrentScene.DELETE_SCENE: 
-				primaryStage.setScene(getSceneDelete());
+				primaryStage.setScene(getSceneDeleteDate());
 				break;
 			case AppModel.CurrentScene.CALENDAR_SCENE:
 				primaryStage.setScene(getSceneCalendar());
@@ -78,7 +78,7 @@ public class AppView{
 		primaryStage.show();
 	}
 
-	private Scene getSceneDelete() {
+	private Scene getSceneDeleteDate() {
 		listDates = model.getCurrentDates();
 		ScrollPane rootPane = new ScrollPane();
 		LinkedList<CheckBox> nodeSelection = new LinkedList<CheckBox>();
