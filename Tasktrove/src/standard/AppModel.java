@@ -28,6 +28,7 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import javafx.application.Platform;
+import standard.AppController.CalendarScene;
 public class AppModel {
 	public final static int CALENDAR_SCENE = 0;
 	public final static int ENTRY_SCENE = 1;
@@ -158,7 +159,7 @@ public class AppModel {
 			baseDir.mkdir();
 		}
 		if(!baseDir.canRead() || !baseDir.canWrite()) {
-			controller.handle(AppController.NO_BASE_DIRECTORY);
+			controller.handle(CalendarScene.NO_BASE_DIR);
 		}
 		
 		LocalDate currentDate = calendarDate.getStartDate();

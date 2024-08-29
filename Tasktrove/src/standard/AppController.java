@@ -32,14 +32,23 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class AppController extends Application{
-	public final static int NEW_DATE = 0;
-	public final static int BUTTON_SAVE_DATA = 1;
-	public final static int BUTTON_NEXT_MONTH = 2;
-	public final static int BUTTON_PREVIOUS_MONTH = 3;
-	public final static int NO_BASE_DIRECTORY = 4;
-	public final static int BUTTON_CANCEL = 5;
-	public final static int BUTTON_DELETE_DATE = 6;
-	public final static int BUTTON_DELETE = 7;
+	public static enum CalendarScene {
+		NEW_DATE,
+		BUTTON_NEXT_MONTH,
+		BUTTON_PREVIOUS_MONTH,
+		BUTTON_DELETE_DATE,
+		NO_BASE_DIR
+	}
+
+	public static enum DateEntryScene {
+		BUTTON_SAVE_DATA,
+		BUTTON_CANCEL
+	}
+	
+	public static enum DateDeleteScene {
+		BUTTON_CANCEL,
+		BUTTON_DELETE
+	}
 
 	public AppModel model;
 	public AppView view;
@@ -68,13 +77,46 @@ public class AppController extends Application{
 			}
 		}
 	}//start
-	public void handle(int componentID) {
+
+	public void handle(CalendarScene componentID) {
 		switch(componentID) {
 			case NEW_DATE: 	
 				model.setCurrentScene(AppModel.ENTRY_SCENE);
 				view.update();
 				break;
-			case BUTTON_SAVE_DATA:
+			
+
+			case BUTTON_NEXT_MONTH: 
+				model.setToNextMonth();
+				view.update();
+				break;
+			case BUTTON_PREVIOUS_MONTH: 
+				model.setToPreviousMonth();
+				view.update();
+				break;
+			case NO_BASE_DIR: 
+				try {
+					File baseDir = view.getBaseDirectory();
+					model.setBaseDir(baseDir);
+				}catch(Exception ex) {
+					ex.printStackTrace();
+					Platform.exit();
+				}
+				break;
+			case BUTTON_DELETE_DATE: 
+				model.setCurrentScene(AppModel.DELETE_SCENE);
+				view.update();
+				break;
+				
+			default:	
+				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
+				Platform.exit();
+		}
+	}
+	
+	public void handle(DateEntryScene componentID) {
+		switch(componentID) {
+		case BUTTON_SAVE_DATA:
 				CalendarDate calendarDate = view.getCalendarDate();
 				if((calendarDate.validate() == CalendarDate.VALID)) model.writeIntoFile(calendarDate); 
 				if((calendarDate.validate() & CalendarDate.INVALID_NAME) == CalendarDate.INVALID_NAME) System.out.println("kein valider Name!");
@@ -86,39 +128,31 @@ public class AppController extends Application{
 				if((calendarDate.validate() & CalendarDate.INVALID_END_HOUR) == CalendarDate.INVALID_END_HOUR) System.out.println("keine valide endstunde!");
 				if((calendarDate.validate() & CalendarDate.INVALID_END_MINUTE) == CalendarDate.INVALID_END_MINUTE) System.out.println("keine valide endminute!");
 				break;
-
-			case BUTTON_NEXT_MONTH: 
-				model.setToNextMonth();
-				view.update();
-				break;
-			case BUTTON_PREVIOUS_MONTH: 
-				model.setToPreviousMonth();
-				view.update();
-				break;
-			case NO_BASE_DIRECTORY: 
-				try {
-					File baseDir = view.getBaseDirectory();
-					model.setBaseDir(baseDir);
-				}catch(Exception ex) {
-					ex.printStackTrace();
-					Platform.exit();
-				}
-				break;
-			case BUTTON_CANCEL: 
+		case BUTTON_CANCEL: 
 				model.setCurrentScene(AppModel.CALENDAR_SCENE);
 				view.update();
 				break;
-			case BUTTON_DELETE_DATE: 
-				model.setCurrentScene(AppModel.DELETE_SCENE);
-				view.update();
-				break;
-			case BUTTON_DELETE:
-				
-			default:	
+		default:	
 				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
 				Platform.exit();
 		}
 	}
+	
+	public void handle(DateDeleteScene componentID) {
+		switch(componentID) {
+		case BUTTON_CANCEL: 
+				model.setCurrentScene(AppModel.CALENDAR_SCENE);
+				view.update();
+				break;
+		case BUTTON_DELETE:
+			
+			break;
+		default:	
+				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
+				Platform.exit();
+		}
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}//main

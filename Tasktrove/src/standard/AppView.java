@@ -32,6 +32,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import standard.AppController.CalendarScene;
+import standard.AppController.DateDeleteScene;
+import standard.AppController.DateEntryScene;
 
 public class AppView{
 	public final double heightWindow = 768;
@@ -76,14 +79,11 @@ public class AppView{
 			rootPane.getChildren().add(paneSelection);
 		}
 		VBox panelButtons = new VBox();
-		Button buttonNewDate = new Button("neuer Termin");
-		buttonNewDate.setOnAction(e -> {controller.handle(AppController.NEW_DATE);});
-		panelButtons.getChildren().add(buttonNewDate);
 		Button buttonCancel = new Button("Abbrechen");
-		buttonCancel.setOnAction(e->{controller.handle(AppController.BUTTON_CANCEL);});
+		buttonCancel.setOnAction(e->{controller.handle(DateDeleteScene.BUTTON_CANCEL);});
 		panelButtons.getChildren().add(buttonCancel);
 		Button buttonDelete = new Button("Löschen");
-		buttonDelete.setOnAction(e->{controller.handle(AppController.BUTTON_DELETE);});
+		buttonDelete.setOnAction(e->{controller.handle(DateDeleteScene.BUTTON_DELETE);});
 		panelButtons.getChildren().add(buttonDelete);
 		rootPane.getChildren().add(panelButtons);
 
@@ -133,11 +133,11 @@ public class AppView{
 	
 		VBox panelButtons = new VBox();
 		Button buttonNewDate = new Button("neuer Termin");
-		buttonNewDate.setOnAction(e -> {controller.handle(AppController.NEW_DATE);});
+		buttonNewDate.setOnAction(e -> {controller.handle(CalendarScene.NEW_DATE);});
 		panelButtons.getChildren().add(buttonNewDate);
 
 		Button buttonDeleteDate = new Button("Termin löschen");
-		buttonDeleteDate.setOnAction(e->{controller.handle(AppController.BUTTON_DELETE_DATE);});
+		buttonDeleteDate.setOnAction(e->{controller.handle(CalendarScene.BUTTON_DELETE_DATE);});
 		panelButtons.getChildren().add(buttonDeleteDate);
 
 		//Pane für Monatsauswahl initialisieren
@@ -150,7 +150,7 @@ public class AppView{
 		double[] yPreviousMonth = {5,10, 0};
 		gcPreviousMonth.fillPolygon(xPreviousMonth, yPreviousMonth,  3);
 		Button buttonPreviousMonth = new Button(null, graphicPreviousMonth);
-		buttonPreviousMonth.setOnAction(e -> {controller.handle(AppController.BUTTON_PREVIOUS_MONTH);});
+		buttonPreviousMonth.setOnAction(e -> {controller.handle(CalendarScene.BUTTON_PREVIOUS_MONTH);});
 		//Label zur Anzeige des Monats initialisieren
 		Label labelMonth = new Label(model.getStringCurrentMonth());
 		labelMonth.setMinWidth(70);
@@ -165,7 +165,7 @@ public class AppView{
 		double[] yNextMonth = {0,10, 5};
 		gcNextMonth.fillPolygon(xNextMonth, yNextMonth,  3);
 		Button buttonNextMonth = new Button(null, graphicNextMonth);
-		buttonNextMonth.setOnAction(e -> {controller.handle(AppController.BUTTON_NEXT_MONTH);});
+		buttonNextMonth.setOnAction(e -> {controller.handle(CalendarScene.BUTTON_NEXT_MONTH);});
 		//Pane für Monatsauswahl zusammenfügen 
 		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, labelYear, buttonNextMonth);
 
@@ -207,11 +207,11 @@ public class AppView{
 		buttonSaveData.setOnAction(e->{
 			calendarDate = new CalendarDate(textFieldName.getText(), datePickerStart.getValue(), 
 					datePickerEnd.getValue(), fieldStartTime.getText(), fieldEndTime.getText());
-			controller.handle(AppController.BUTTON_SAVE_DATA);
+			controller.handle(DateEntryScene.BUTTON_SAVE_DATA);
 			});
 		buttonPanel.getChildren().add(buttonSaveData);
 		Button buttonCancel = new Button("Abbrechen");
-		buttonCancel.setOnAction(e->{controller.handle(AppController.BUTTON_CANCEL);});
+		buttonCancel.setOnAction(e->{controller.handle(DateEntryScene.BUTTON_CANCEL);});
 		buttonPanel.getChildren().add(buttonCancel);
 		
 		pane.getChildren().add(buttonPanel);
