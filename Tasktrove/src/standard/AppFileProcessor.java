@@ -30,6 +30,65 @@ public class AppFileProcessor {
 		this.xmlDataFile = xmlDataFile;
 	}
 	
+	public LinkedList<AppTask> readTasks() {
+		LinkedList<AppTask> list = new LinkedList<AppTask>();
+		try {
+			FileInputStream fis = new FileInputStream(xmlDataFile);
+			XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
+			XMLStreamReader reader = xmlInputFactory.createXMLStreamReader(fis, "utf-8");
+
+			if(xmlDataFile.length()<=0) return null;
+			while(reader.hasNext()){
+				reader.next();
+				if(reader.getEventType() == XMLStreamConstants.START_ELEMENT) {
+					if(reader.getLocalName().equals(TERMIN_LISTE)) {
+						continue;
+					}
+					if(reader.getLocalName().equals(TERMIN)) list.add(new CalendarDate());
+					if(reader.getLocalName().equals(NAME)) list.getLast().setName(reader.getElementText());
+					if(reader.getLocalName().equals(DATUM_VON)) {
+						String[] stringStartDate = reader.getElementText().split("-");
+						list.getLast().setStartDate(LocalDate.of(Integer.valueOf(stringStartDate[0]), 
+								Month.of(Integer.valueOf(stringStartDate[1])) ,
+								Integer.valueOf(stringStartDate[2])));
+					}
+					if(reader.getLocalName().equals(DATUM_BIS)) {
+						String[] stringEndDate = reader.getElementText().split("-");
+						list.getLast().setEndDate(LocalDate.of(Integer.valueOf(stringEndDate[0]), 
+								Month.of(Integer.valueOf(stringEndDate[1])) ,
+								Integer.valueOf(stringEndDate[2])));
+					}
+					if(reader.getLocalName().equals(UHRZEIT_VON)) {
+						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
+						list.getLast().setStartHour(Integer.valueOf(tokenizer.nextToken()));
+						list.getLast().setStartMinute(Integer.valueOf(tokenizer.nextToken()));
+					}
+					if(reader.getLocalName().equals(UHRZEIT_BIS)) {
+						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
+						list.getLast().setEndHour(Integer.valueOf(tokenizer.nextToken()));
+						list.getLast().setEndMinute(Integer.valueOf(tokenizer.nextToken()));
+					}
+				}
+			}
+			reader.close();
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	
+	public void appendTask(AppTask task) {
+		
+	}
+	
+	public void writeTasks(LinkedList<AppTask> listTasks) {
+		
+	}
+	
+	public void deleteTask(AppTask task) {
+		
+	}
+
 	public LinkedList<CalendarDate> readFromXMLFile() {
 		LinkedList<CalendarDate> list = new LinkedList<CalendarDate>();
 		try {
