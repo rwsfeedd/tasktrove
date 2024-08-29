@@ -30,13 +30,15 @@ import javax.xml.stream.XMLStreamWriter;
 import javafx.application.Platform;
 import standard.AppController.CalendarScene;
 public class AppModel {
-	public final static int CALENDAR_SCENE = 0;
-	public final static int ENTRY_SCENE = 1;
-	public final static int DELETE_SCENE = 2;
+	public static enum CurrentScene {
+		CALENDAR_SCENE,
+		ENTRY_SCENE,
+		DELETE_SCENE
+	}
 
 	TimeZone timeZone;
 	GregorianCalendar calendar;
-	private int currentScene = CALENDAR_SCENE;
+	private CurrentScene currentScene = CurrentScene.CALENDAR_SCENE;
 	private LinkedList<CalendarDate> currentDates;
 	private Month currentMonth;
 	private int currentYear;
@@ -81,12 +83,12 @@ public class AppModel {
 		int[] ret = {offset, daysInMonth};
 		return ret;
 	}
-	public int getCurrentScene() {
+	public CurrentScene getCurrentScene() {
 		return currentScene;
 	}
 	
-	public void setCurrentScene(int nextScene) {
-		currentScene = nextScene;
+	public void setCurrentScene(CurrentScene currentScene) {
+		this.currentScene = currentScene;
 	}
 
 	public String getStringCurrentMonth() {

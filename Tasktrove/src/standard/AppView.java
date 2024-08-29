@@ -56,9 +56,9 @@ public class AppView{
 	public void update() {
 
 		switch(model.getCurrentScene()) {
-			case AppModel.ENTRY_SCENE: primaryStage.setScene(getSceneEntry());
+			case AppModel.CurrentScene.ENTRY_SCENE: primaryStage.setScene(getSceneEntry());
 				break;
-			case AppModel.DELETE_SCENE: primaryStage.setScene(getSceneDelete());
+			case AppModel.CurrentScene.DELETE_SCENE: primaryStage.setScene(getSceneDelete());
 				break;
 			default: primaryStage.setScene(getSceneCalendar());
 		}

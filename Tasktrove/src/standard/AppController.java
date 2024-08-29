@@ -82,7 +82,7 @@ public class AppController extends Application{
 	public void handle(CalendarScene componentID) {
 		switch(componentID) {
 			case NEW_DATE: 	
-				model.setCurrentScene(AppModel.ENTRY_SCENE);
+				model.setCurrentScene(AppModel.CurrentScene.CALENDAR_SCENE);
 				view.update();
 				break;
 			
@@ -105,7 +105,7 @@ public class AppController extends Application{
 				}
 				break;
 			case BUTTON_DELETE_DATE: 
-				model.setCurrentScene(AppModel.DELETE_SCENE);
+				model.setCurrentScene(AppModel.CurrentScene.DELETE_SCENE);
 				view.update();
 				break;
 				
@@ -130,7 +130,7 @@ public class AppController extends Application{
 				if((calendarDate.validate() & CalendarDate.INVALID_END_MINUTE) == CalendarDate.INVALID_END_MINUTE) System.out.println("keine valide endminute!");
 				break;
 		case BUTTON_CANCEL: 
-				model.setCurrentScene(AppModel.CALENDAR_SCENE);
+				model.setCurrentScene(AppModel.CurrentScene.CALENDAR_SCENE);
 				view.update();
 				break;
 		default:	
@@ -142,7 +142,7 @@ public class AppController extends Application{
 	public void handle(DateDeleteScene componentID) {
 		switch(componentID) {
 		case BUTTON_CANCEL: 
-				model.setCurrentScene(AppModel.CALENDAR_SCENE);
+				model.setCurrentScene(AppModel.CurrentScene.CALENDAR_SCENE);
 				view.update();
 				break;
 		case BUTTON_DELETE:
