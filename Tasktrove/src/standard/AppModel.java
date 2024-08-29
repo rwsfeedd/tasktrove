@@ -33,7 +33,8 @@ public class AppModel {
 	public static enum CurrentScene {
 		CALENDAR_SCENE,
 		ENTRY_SCENE,
-		DELETE_SCENE
+		DELETE_SCENE,
+		TASK_SCENE
 	}
 
 	TimeZone timeZone;

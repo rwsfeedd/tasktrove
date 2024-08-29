@@ -38,7 +38,8 @@ public class AppController extends Application{
 		BUTTON_NEXT_MONTH,
 		BUTTON_PREVIOUS_MONTH,
 		BUTTON_DELETE_DATE,
-		NO_BASE_DIR
+		NO_BASE_DIR,
+		BUTTON_TASKS
 	}
 
 	public static enum DateEntryScene {
@@ -106,7 +107,10 @@ public class AppController extends Application{
 				model.setCurrentScene(AppModel.CurrentScene.DELETE_SCENE);
 				view.update();
 				break;
-				
+			case BUTTON_TASKS:
+				model.setCurrentScene(AppModel.CurrentScene.TASK_SCENE);
+				view.update();
+				break;
 			default:	
 				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
 				Platform.exit();

@@ -18,12 +18,20 @@ import javax.xml.stream.XMLStreamWriter;
 public class AppFileProcessor {
 	private final String TERMIN_LISTE = "terminListe";
 	private final String TERMIN = "termin";
-	private final String NAME = "name";
+	private final String TERMIN_NAME = "name";
 	private final String DATUM_VON = "datumVon";
 	private final String DATUM_BIS = "datumBis";
 	private final String UHRZEIT_VON = "uhrzeitVon";
 	private final String UHRZEIT_BIS = "uhrzeitBis";
 
+	private final String AUFGABEN_LISTE = "aufgabenListe";
+	private final String AUFGABE = "aufgabe";
+	private final String AUFGABEN_NAME = "name";
+	private final String AUFGABEN_SCHWIERIGKEIT = "schwierigkeit";
+	private final String AUFGABEN_TYP = "typ";
+	private final String AUFGABE_ERLEDIGT = "erledigt";
+	
+	
 	private File xmlDataFile;
 	
 	public AppFileProcessor(File xmlDataFile) {
@@ -41,33 +49,14 @@ public class AppFileProcessor {
 			while(reader.hasNext()){
 				reader.next();
 				if(reader.getEventType() == XMLStreamConstants.START_ELEMENT) {
-					if(reader.getLocalName().equals(TERMIN_LISTE)) {
+					if(reader.getLocalName().equals(AUFGABEN_LISTE)) {
 						continue;
 					}
-					if(reader.getLocalName().equals(TERMIN)) list.add(new CalendarDate());
-					if(reader.getLocalName().equals(NAME)) list.getLast().setName(reader.getElementText());
-					if(reader.getLocalName().equals(DATUM_VON)) {
-						String[] stringStartDate = reader.getElementText().split("-");
-						list.getLast().setStartDate(LocalDate.of(Integer.valueOf(stringStartDate[0]), 
-								Month.of(Integer.valueOf(stringStartDate[1])) ,
-								Integer.valueOf(stringStartDate[2])));
-					}
-					if(reader.getLocalName().equals(DATUM_BIS)) {
-						String[] stringEndDate = reader.getElementText().split("-");
-						list.getLast().setEndDate(LocalDate.of(Integer.valueOf(stringEndDate[0]), 
-								Month.of(Integer.valueOf(stringEndDate[1])) ,
-								Integer.valueOf(stringEndDate[2])));
-					}
-					if(reader.getLocalName().equals(UHRZEIT_VON)) {
-						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
-						list.getLast().setStartHour(Integer.valueOf(tokenizer.nextToken()));
-						list.getLast().setStartMinute(Integer.valueOf(tokenizer.nextToken()));
-					}
-					if(reader.getLocalName().equals(UHRZEIT_BIS)) {
-						StringTokenizer tokenizer = new StringTokenizer(reader.getElementText(), ":");
-						list.getLast().setEndHour(Integer.valueOf(tokenizer.nextToken()));
-						list.getLast().setEndMinute(Integer.valueOf(tokenizer.nextToken()));
-					}
+					if(reader.getLocalName().equals(AUFGABE)) list.add(new AppTask());
+					if(reader.getLocalName().equals(AUFGABEN_NAME)) list.getLast().setName(reader.getElementText());
+					if(reader.getLocalName().equals(AUFGABEN_SCHWIERIGKEIT)) list.getLast().setDifficulty(AppTask.Difficulty.valueOf(reader.getElementText()));
+					if(reader.getLocalName().equals(AUFGABEN_TYP)) list.getLast().setTyp(AppTask.Type.valueOf(reader.getElementText()));
+					if(reader.getLocalName().equals(AUFGABE_ERLEDIGT)) list.getLast().setDone(Boolean.parseBoolean(reader.getElementText()));
 				}
 			}
 			reader.close();
@@ -77,15 +66,89 @@ public class AppFileProcessor {
 		return list;
 	}
 	
-	public void appendTask(AppTask task) {
-		
+	public void appendTaskIntoXML(AppTask task) {
+		try{
+			LinkedList<AppTask> list = readTasks();
+			FileOutputStream fos = new FileOutputStream(xmlDataFile);
+			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
+			XMLStreamWriter writer = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");
+			writer.writeStartDocument("utf-8", "1.0");
+			writer.writeCharacters("\n");
+			writer.writeStartElement(AUFGABEN_LISTE);
+			
+			if(list != null && !list.isEmpty()) {
+				for(int i = 0; i < list.size(); i++) {
+					writeTask(list.get(i), writer);
+				}
+			}
+			if(task != null) {
+				writeTask(task, writer);
+			}
+			writer.writeEndDocument();
+			writer.flush();
+			writer.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void writeTasks(LinkedList<AppTask> listTasks) {
+	public void rewriteTasksIntoXML(LinkedList<AppTask> listTasks) {
+		try {
+			FileOutputStream fos = new FileOutputStream(xmlDataFile);
+			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
+			XMLStreamWriter writer = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");
+			writer.writeStartDocument("utf-8", "1.0");
+			writer.writeCharacters("\n");
+			writer.writeStartElement(AUFGABEN_LISTE);
+			
+			if(!(listTasks == null) && !(listTasks.size() < 1)) {
+				for(int i = 0; i < listTasks.size(); i++) {
+					writeTask(listTasks.get(i), writer);
+				}//for
+			}
+			writer.writeEndDocument();
+			writer.flush();
+			writer.close();
 		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void deleteTask(AppTask task) {
+	public void writeTask(AppTask task, XMLStreamWriter writer) {
+		try {
+			writer.writeCharacters("\n\t");
+			writer.writeStartElement(AUFGABE);
+
+			writer.writeCharacters("\n\t\t");
+			writer.writeStartElement(AUFGABEN_NAME);
+			writer.writeCharacters(task.getName());
+			writer.writeEndElement();
+
+			writer.writeCharacters("\n\t\t");
+			writer.writeStartElement(AUFGABEN_SCHWIERIGKEIT);
+			writer.writeCharacters(task.getDifficulty().toString());
+			writer.writeEndElement();
+
+			writer.writeCharacters("\n\t\t");
+			writer.writeStartElement(AUFGABEN_TYP);
+			writer.writeCharacters(task.getTyp().toString());
+			writer.writeEndElement();
+
+			writer.writeCharacters("\n\t\t");
+			writer.writeStartElement(AUFGABE_ERLEDIGT);
+			writer.writeCharacters(Boolean.toString(task.isDone()));
+			writer.writeEndElement();
+
+			writer.writeCharacters("\n\t");
+			writer.writeEndElement();
+			writer.writeCharacters("\n");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteTaskInXML(AppTask task) {
 		
 	}
 
@@ -104,7 +167,7 @@ public class AppFileProcessor {
 						continue;
 					}
 					if(reader.getLocalName().equals(TERMIN)) list.add(new CalendarDate());
-					if(reader.getLocalName().equals(NAME)) list.getLast().setName(reader.getElementText());
+					if(reader.getLocalName().equals(TERMIN_NAME)) list.getLast().setName(reader.getElementText());
 					if(reader.getLocalName().equals(DATUM_VON)) {
 						String[] stringStartDate = reader.getElementText().split("-");
 						list.getLast().setStartDate(LocalDate.of(Integer.valueOf(stringStartDate[0]), 
@@ -193,7 +256,7 @@ public class AppFileProcessor {
 			writer.writeStartElement(TERMIN);
 
 			writer.writeCharacters("\n\t\t");
-			writer.writeStartElement(NAME);
+			writer.writeStartElement(TERMIN_NAME);
 			writer.writeCharacters(calendarDate.getName());
 			writer.writeEndElement();
 

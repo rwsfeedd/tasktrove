@@ -68,6 +68,9 @@ public class AppView{
 			case AppModel.CurrentScene.CALENDAR_SCENE:
 				primaryStage.setScene(getSceneCalendar());
 				break;
+			case AppModel.CurrentScene.TASK_SCENE:
+				primaryStage.setScene(getSceneTasks());
+				break;
 			default: 
 				primaryStage.setScene(getSceneCalendar());
 				break;
@@ -78,6 +81,43 @@ public class AppView{
 		primaryStage.show();
 	}
 
+	private Scene getSceneTasks() {
+		ScrollPane rootPane = new ScrollPane();
+		VBox innerPane = new VBox();
+		rootPane.setContent(innerPane);
+		
+		HBox buttonBar = new HBox();
+		innerPane.getChildren().add(buttonBar);
+		Button deleteButton = new Button("löschen");
+		deleteButton.setOnAction(e->{
+			
+			//noch implementieren
+			
+		});
+		buttonBar.getChildren().add(deleteButton);
+		Button createButton = new Button("erstellen");
+		createButton.setOnAction(e-> {
+			
+			//noch implementieren
+			
+		});
+		buttonBar.getChildren().add(createButton);
+		
+		VBox activeTasksPane = new VBox();
+		innerPane.getChildren().add(activeTasksPane);
+		Label activeTasksLabel = new Label("aktive Aufgaben");
+		activeTasksPane.getChildren().add(activeTasksLabel);
+
+		//alle Aufgaben einfügen als CheckBoxes
+
+		Label doneTasksLabel = new Label("fertige Aufgaben");
+		activeTasksPane.getChildren().add(doneTasksLabel);
+		
+		//alle Aufgaben einfügen als CheckBoxes
+
+		return new Scene(rootPane);
+	}
+	
 	private Scene getSceneDeleteDate() {
 		listDates = model.getCurrentDates();
 		ScrollPane rootPane = new ScrollPane();
@@ -161,6 +201,10 @@ public class AppView{
 		buttonDeleteDate.setOnAction(e->{
 			controller.handle(CalendarScene.BUTTON_DELETE_DATE);});
 		paneTop.getChildren().add(buttonDeleteDate);
+		//Button für Aufgaben initialisieren
+		Button taskButton = new Button("Aufgaben");
+		taskButton.setOnAction(e->{controller.handle(CalendarScene.BUTTON_TASKS);});
+		paneTop.getChildren().add(taskButton);
 		rootPane.getChildren().add(paneTop);
 
 		GridPane grid = new GridPane();
