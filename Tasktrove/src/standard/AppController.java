@@ -51,6 +51,11 @@ public class AppController extends Application{
 		BUTTON_CANCEL,
 		BUTTON_DELETE
 	}
+	
+	public static enum TaskScene {
+		BUTTON_DELETE,
+		BUTTON_CREATE
+	}
 
 	public AppModel model;
 	public AppView view;
@@ -154,6 +159,15 @@ public class AppController extends Application{
 		default:	
 				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
 				Platform.exit();
+		}
+	}
+	
+	public void handle(TaskScene componentID) {
+		switch(componentID) {
+		case BUTTON_CREATE:
+			break;
+		case BUTTON_DELETE:
+			break;
 		}
 	}
 	

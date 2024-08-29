@@ -89,18 +89,10 @@ public class AppView{
 		HBox buttonBar = new HBox();
 		innerPane.getChildren().add(buttonBar);
 		Button deleteButton = new Button("löschen");
-		deleteButton.setOnAction(e->{
-			
-			//noch implementieren
-			
-		});
+		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
 		buttonBar.getChildren().add(deleteButton);
 		Button createButton = new Button("erstellen");
-		createButton.setOnAction(e-> {
-			
-			//noch implementieren
-			
-		});
+		createButton.setOnAction(e-> { controller.handle(AppController.TaskScene.BUTTON_CREATE);}); // Task erstellScreen
 		buttonBar.getChildren().add(createButton);
 		
 		VBox activeTasksPane = new VBox();
