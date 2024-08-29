@@ -119,13 +119,53 @@ public class AppView{
 	}
 	private Scene getSceneCalendar() {
 		//buildingCalendarScene
+		VBox rootPane = new VBox();
 		int[] calendarData = model.getCalendarInfo();
-		AnchorPane rootPane = new AnchorPane();
+			
+		HBox paneTop = new HBox();
+		//Button für Wechsel in vorherigen Monat initialisieren
+		Canvas graphicPreviousMonth = new Canvas(15, 15);
+		GraphicsContext gcPreviousMonth = graphicPreviousMonth.getGraphicsContext2D();
+		gcPreviousMonth.setFill(Color.BLACK);
+		double[] xPreviousMonth = {0, 10, 10};
+		double[] yPreviousMonth = {5,10, 0};
+		gcPreviousMonth.fillPolygon(xPreviousMonth, yPreviousMonth,  3);
+		Button buttonPreviousMonth = new Button(null, graphicPreviousMonth);
+		buttonPreviousMonth.setOnAction(e -> {controller.handle(CalendarScene.BUTTON_PREVIOUS_MONTH);});
+		paneTop.getChildren().add(buttonPreviousMonth);
+		//Label zur Anzeige des Monats initialisieren
+		Label labelMonth = new Label(model.getStringCurrentMonth());
+		labelMonth.setMinWidth(70);
+		paneTop.getChildren().add(labelMonth);
+		//Label zur Anzeige des Jahres initialisieren
+		Label labelYear = new Label("" + model.getCurrentYear());
+		labelYear.setMinWidth(40);
+		paneTop.getChildren().add(labelYear);
+		//Button für Wechsel in nächsten Monat initialisieren
+		Canvas graphicNextMonth = new Canvas(15, 15);
+		GraphicsContext gcNextMonth = graphicNextMonth.getGraphicsContext2D();
+		gcNextMonth.setFill(Color.BLACK);
+		double[] xNextMonth = {0, 0, 10};
+		double[] yNextMonth = {0,10, 5};
+		gcNextMonth.fillPolygon(xNextMonth, yNextMonth,  3);
+		Button buttonNextMonth = new Button(null, graphicNextMonth);
+		buttonNextMonth.setOnAction(e -> {controller.handle(CalendarScene.BUTTON_NEXT_MONTH);});
+		paneTop.getChildren().add(buttonNextMonth);
+		//Button für neuen Termin initialisieren 
+		Button buttonNewDate = new Button("neuer Termin");
+		buttonNewDate.setOnAction(e -> {controller.handle(CalendarScene.NEW_DATE);});
+		paneTop.getChildren().add(buttonNewDate);
+		//Button für löschen von Terminen initialisieren 
+		Button buttonDeleteDate = new Button("Termin löschen");
+		buttonDeleteDate.setOnAction(e->{
+			controller.handle(CalendarScene.BUTTON_DELETE_DATE);});
+		paneTop.getChildren().add(buttonDeleteDate);
+		rootPane.getChildren().add(paneTop);
+
 		GridPane grid = new GridPane();
 		List<Tile> tileList = new ArrayList<Tile>(35); // reduzieren
 		Node node;
 		LinkedList<CalendarDate> currentDates = model.getCurrentDates();
-		
 		//initialize Tiles for CalendarView
 		//Tile shows a Date if currentDay is between startDate and endDate
 		int y = 0;
@@ -155,50 +195,7 @@ public class AppView{
 			grid.add(node, (i+calendarData[0])%7, y);
 			if((i+calendarData[0])%7 > 5) y++;
 		}
-	
-		VBox panelButtons = new VBox();
-		Button buttonNewDate = new Button("neuer Termin");
-		buttonNewDate.setOnAction(e -> {controller.handle(CalendarScene.NEW_DATE);});
-		panelButtons.getChildren().add(buttonNewDate);
-
-		Button buttonDeleteDate = new Button("Termin löschen");
-		buttonDeleteDate.setOnAction(e->{
-			controller.handle(CalendarScene.BUTTON_DELETE_DATE);});
-		panelButtons.getChildren().add(buttonDeleteDate);
-
-		//Pane für Monatsauswahl initialisieren
-		HBox paneMonth = new HBox();
-		//Button für Wechsel in vorherigen Monat initialisieren
-		Canvas graphicPreviousMonth = new Canvas(15, 15);
-		GraphicsContext gcPreviousMonth = graphicPreviousMonth.getGraphicsContext2D();
-		gcPreviousMonth.setFill(Color.BLACK);
-		double[] xPreviousMonth = {0, 10, 10};
-		double[] yPreviousMonth = {5,10, 0};
-		gcPreviousMonth.fillPolygon(xPreviousMonth, yPreviousMonth,  3);
-		Button buttonPreviousMonth = new Button(null, graphicPreviousMonth);
-		buttonPreviousMonth.setOnAction(e -> {controller.handle(CalendarScene.BUTTON_PREVIOUS_MONTH);});
-		//Label zur Anzeige des Monats initialisieren
-		Label labelMonth = new Label(model.getStringCurrentMonth());
-		labelMonth.setMinWidth(70);
-		//Label zur Anzeige des Jahres initialisieren
-		Label labelYear = new Label("" + model.getCurrentYear());
-		labelYear.setMinWidth(40);
-		//Button für Wechsel in nächsten Monat initialisieren
-		Canvas graphicNextMonth = new Canvas(15, 15);
-		GraphicsContext gcNextMonth = graphicNextMonth.getGraphicsContext2D();
-		gcNextMonth.setFill(Color.BLACK);
-		double[] xNextMonth = {0, 0, 10};
-		double[] yNextMonth = {0,10, 5};
-		gcNextMonth.fillPolygon(xNextMonth, yNextMonth,  3);
-		Button buttonNextMonth = new Button(null, graphicNextMonth);
-		buttonNextMonth.setOnAction(e -> {controller.handle(CalendarScene.BUTTON_NEXT_MONTH);});
-		//Pane für Monatsauswahl zusammenfügen 
-		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, labelYear, buttonNextMonth);
-
-		AnchorPane.setTopAnchor(paneMonth, 0.0);
-		AnchorPane.setRightAnchor(panelButtons, 0.0);
-		AnchorPane.setBottomAnchor(grid, 0.0);
-		rootPane.getChildren().addAll(paneMonth, grid, panelButtons); 
+		rootPane.getChildren().add(grid);
 		return new Scene(rootPane);
 	}
 
