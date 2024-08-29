@@ -38,8 +38,8 @@ import standard.AppController.DateEntryScene;
 import standard.AppModel.CurrentScene;
 
 public class AppView{
-	public final double heightWindow = 768;
-	public final double widthWindow = 1024;
+	public final double heightWindow = 700;
+	public final double widthWindow = 700;
 	private Stage primaryStage;
 	private AppModel model;
 	private AppController controller;
@@ -50,8 +50,8 @@ public class AppView{
 		this.primaryStage = primaryStage;
 		this.model = model;
 		this.controller = controller;
-		primaryStage.setHeight(heightWindow); 		
-		primaryStage.setWidth(widthWindow);
+		primaryStage.setMinHeight(heightWindow); 		
+		primaryStage.setMinWidth(widthWindow);
 	}
 
 	public void update() {
