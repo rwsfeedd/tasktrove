@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -52,6 +53,7 @@ public class AppView{
 		this.controller = controller;
 		primaryStage.setMinHeight(heightWindow); 		
 		primaryStage.setMinWidth(widthWindow);
+
 	}
 
 	public void update() {
@@ -71,25 +73,18 @@ public class AppView{
 				break;
 		}
 		//System.out.println(model.getCurrentScene().toString());
+		primaryStage.setHeight(heightWindow); 		
+		primaryStage.setWidth(widthWindow);
 		primaryStage.show();
 	}
 
 	private Scene getSceneDelete() {
 		listDates = model.getCurrentDates();
-		AnchorPane rootPane = new AnchorPane();
-
-		VBox paneSelection = new VBox();
+		ScrollPane rootPane = new ScrollPane();
 		LinkedList<CheckBox> nodeSelection = new LinkedList<CheckBox>();
-		if(!(listDates == null)) {
-			for(int i = 0; i < listDates.size(); i++) {
-				nodeSelection.add(new CheckBox(listDates.get(i).getName() + ": von " + listDates.get(i).getStartDate().toString() 
-						+ " bis " + listDates.get(i).getEndDate().toString()));
-				paneSelection.getChildren().add(nodeSelection.getLast());
-			}
-			rootPane.getChildren().add(paneSelection);
-		}
 
-		VBox panelButtons = new VBox();
+		VBox innerPane = new VBox();
+		HBox panelButtons = new HBox();
 		Button buttonCancel = new Button("Abbrechen");
 		buttonCancel.setOnAction(e->{controller.handle(DateDeleteScene.BUTTON_CANCEL);});
 		panelButtons.getChildren().add(buttonCancel);
@@ -108,13 +103,19 @@ public class AppView{
 			listDates = datesToDelete;
 			//System.out.println(listDates.get(0).getName());
 			controller.handle(DateDeleteScene.BUTTON_DELETE);});
-
 		panelButtons.getChildren().add(buttonDelete);
-		rootPane.getChildren().add(panelButtons);
+		innerPane.getChildren().add(panelButtons);
 
-		AnchorPane.setRightAnchor(panelButtons, 0.0);
-		AnchorPane.setLeftAnchor(paneSelection, 0.0);
-		
+		VBox paneSelection = new VBox();
+		if(!(listDates == null)) {
+			for(int i = 0; i < listDates.size(); i++) {
+				nodeSelection.add(new CheckBox(listDates.get(i).getName() + ": von " + listDates.get(i).getStartDate().toString() 
+						+ " bis " + listDates.get(i).getEndDate().toString()));
+				paneSelection.getChildren().add(nodeSelection.getLast());
+			}
+			innerPane.getChildren().add(paneSelection);
+		}
+		rootPane.setContent(innerPane);
 		return new Scene(rootPane);
 	}
 	private Scene getSceneCalendar() {
