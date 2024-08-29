@@ -38,6 +38,8 @@ public class AppController extends Application{
 	public final static int BUTTON_PREVIOUS_MONTH = 3;
 	public final static int NO_BASE_DIRECTORY = 4;
 	public final static int BUTTON_CANCEL = 5;
+	public final static int BUTTON_DELETE_DATE = 6;
+	public final static int BUTTON_DELETE = 7;
 
 	public AppModel model;
 	public AppView view;
@@ -106,6 +108,12 @@ public class AppController extends Application{
 				model.setCurrentScene(AppModel.CALENDAR_SCENE);
 				view.update();
 				break;
+			case BUTTON_DELETE_DATE: 
+				model.setCurrentScene(AppModel.DELETE_SCENE);
+				view.update();
+				break;
+			case BUTTON_DELETE:
+				
 			default:	
 				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
 				Platform.exit();

@@ -31,6 +31,7 @@ import javafx.application.Platform;
 public class AppModel {
 	public final static int CALENDAR_SCENE = 0;
 	public final static int ENTRY_SCENE = 1;
+	public final static int DELETE_SCENE = 2;
 
 	TimeZone timeZone;
 	GregorianCalendar calendar;

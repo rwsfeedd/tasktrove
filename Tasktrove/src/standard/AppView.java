@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -53,11 +54,44 @@ public class AppView{
 		switch(model.getCurrentScene()) {
 			case AppModel.ENTRY_SCENE: primaryStage.setScene(getSceneEntry());
 				break;
+			case AppModel.DELETE_SCENE: primaryStage.setScene(getSceneDelete());
+				break;
 			default: primaryStage.setScene(getSceneCalendar());
 		}
 		primaryStage.show();
 	}
 
+	private Scene getSceneDelete() {
+		LinkedList<CalendarDate> currentDates = model.getCurrentDates();
+		AnchorPane rootPane = new AnchorPane();
+
+		VBox paneSelection = new VBox();
+		if(!(currentDates == null)) {
+			CheckBox[] nodeSelection = new CheckBox[currentDates.size()];
+			for(int i = 0; i < currentDates.size(); i++) {
+				nodeSelection[i] = new CheckBox(currentDates.get(i).getName() + ": von " + currentDates.get(i).getStartDate().toString() 
+						+ " bis " + currentDates.get(i).getEndDate().toString());
+				paneSelection.getChildren().add(nodeSelection[i]);
+			}
+			rootPane.getChildren().add(paneSelection);
+		}
+		VBox panelButtons = new VBox();
+		Button buttonNewDate = new Button("neuer Termin");
+		buttonNewDate.setOnAction(e -> {controller.handle(AppController.NEW_DATE);});
+		panelButtons.getChildren().add(buttonNewDate);
+		Button buttonCancel = new Button("Abbrechen");
+		buttonCancel.setOnAction(e->{controller.handle(AppController.BUTTON_CANCEL);});
+		panelButtons.getChildren().add(buttonCancel);
+		Button buttonDelete = new Button("Löschen");
+		buttonDelete.setOnAction(e->{controller.handle(AppController.BUTTON_DELETE);});
+		panelButtons.getChildren().add(buttonDelete);
+		rootPane.getChildren().add(panelButtons);
+
+		AnchorPane.setRightAnchor(panelButtons, 0.0);
+		AnchorPane.setLeftAnchor(paneSelection, 0.0);
+		
+		return new Scene(rootPane);
+	}
 	private Scene getSceneCalendar() {
 		//buildingCalendarScene
 		int[] calendarData = model.getCalendarInfo();
@@ -97,8 +131,14 @@ public class AppView{
 			if((i+calendarData[0])%7 > 5) y++;
 		}
 	
+		VBox panelButtons = new VBox();
 		Button buttonNewDate = new Button("neuer Termin");
 		buttonNewDate.setOnAction(e -> {controller.handle(AppController.NEW_DATE);});
+		panelButtons.getChildren().add(buttonNewDate);
+
+		Button buttonDeleteDate = new Button("Termin löschen");
+		buttonDeleteDate.setOnAction(e->{controller.handle(AppController.BUTTON_DELETE_DATE);});
+		panelButtons.getChildren().add(buttonDeleteDate);
 
 		//Pane für Monatsauswahl initialisieren
 		HBox paneMonth = new HBox();
@@ -130,9 +170,9 @@ public class AppView{
 		paneMonth.getChildren().addAll(buttonPreviousMonth, labelMonth, labelYear, buttonNextMonth);
 
 		AnchorPane.setTopAnchor(paneMonth, 0.0);
-		AnchorPane.setRightAnchor(buttonNewDate, 0.0);
+		AnchorPane.setRightAnchor(panelButtons, 0.0);
 		AnchorPane.setBottomAnchor(grid, 0.0);
-		rootPane.getChildren().addAll(paneMonth, grid, buttonNewDate); 
+		rootPane.getChildren().addAll(paneMonth, grid, panelButtons); 
 		return new Scene(rootPane);
 	}
 
