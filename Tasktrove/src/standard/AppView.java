@@ -16,6 +16,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -46,6 +47,7 @@ public class AppView{
 	private AppController controller;
 	private CalendarDate calendarDate;
 	private LinkedList<CalendarDate> listDates;
+	private AppTask task;
 
 	public AppView(Stage primaryStage, AppModel model, AppController controller) {
 		this.primaryStage = primaryStage;
@@ -118,39 +120,39 @@ public class AppView{
 	
 	private Scene getSceneTaskCreate() {
 		VBox rootPane = new VBox();
+				
+		Label nameLabel = new Label("Name");
+		TextField nameText = new TextField();
+		rootPane.getChildren().addAll(nameLabel, nameText);
 		
+		Label difficultyLabel = new Label("Schwierigkeit");
+		ChoiceBox<String> difficultySelect = new ChoiceBox<String>();
+		difficultySelect.getItems().addAll(AppTask.EINFACH, AppTask.MITTEL, AppTask.SCHWER);
+		rootPane.getChildren().addAll(difficultyLabel, difficultySelect);
+		
+		Label typLabel = new Label("Typ");
+		ChoiceBox<String> typeSelect = new ChoiceBox<String>();
+		typeSelect.getItems().addAll(AppTask.TAG, AppTask.WOCHE, AppTask.MONAT);
+		rootPane.getChildren().addAll(typLabel, typeSelect);
+
 		HBox buttonBar = new HBox();
 		rootPane.getChildren().add(buttonBar);
 		Button cancelButton = new Button("abbrechen");
-		cancelButton.setOnAction(e->{ 
-			
-			
-			controller.handle(AppController.TaskCreateScene.BUTTON_CANCEL);}); // Tasks mit CheckBox auswählbar
-		
-		
+		cancelButton.setOnAction(e->{controller.handle(AppController.TaskCreateScene.BUTTON_CANCEL);});
 		buttonBar.getChildren().add(cancelButton);
 		Button saveButton = new Button("speichern");
 		saveButton.setOnAction(e-> { 
-			
-			
-			controller.handle(AppController.TaskCreateScene.BUTTON_SAVE);}); // Task erstellScreen
-		
+			AppTask task = new AppTask();
+			task.setName(nameText.getText());
+			task.setDifficulty(AppTask.parseStringToDifficulty(difficultySelect.getValue()));
+			task.setType(AppTask.parseStringToType(typeSelect.getValue()));
+			if(task.isValid()) { 
+				this.task = task;
+				controller.handle(AppController.TaskCreateScene.BUTTON_SAVE);
+			}	
+			}); // Task erstellScreen
 		
 		buttonBar.getChildren().add(saveButton);
-		
-		//Noch überarbeiten für CreateTask
-
-		VBox activeTasksPane = new VBox();
-		rootPane.getChildren().add(activeTasksPane);
-		Label activeTasksLabel = new Label("aktive Aufgaben");
-		activeTasksPane.getChildren().add(activeTasksLabel);
-
-		//alle Aufgaben einfügen als CheckBoxes
-
-		Label doneTasksLabel = new Label("fertige Aufgaben");
-		activeTasksPane.getChildren().add(doneTasksLabel);
-		
-		//alle Aufgaben einfügen als CheckBoxes
 
 		return new Scene(rootPane);
 	}
@@ -169,7 +171,7 @@ public class AppView{
 		
 		
 		buttonBar.getChildren().add(cancelButton);
-		Button deleteButton = new Button("erstellen");
+		Button deleteButton = new Button("löschen");
 		deleteButton.setOnAction(e-> { 
 			
 			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);}); // Task erstellScreen
