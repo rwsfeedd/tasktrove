@@ -92,11 +92,25 @@ public class AppView{
 	
 	
 	private Scene getSceneDeleteDate() {
-		listDates = model.getCurrentDates();
-		ScrollPane rootPane = new ScrollPane();
-		LinkedList<CheckBox> nodeSelection = new LinkedList<CheckBox>();
+		VBox rootPane = new VBox();
+		ScrollPane datesPane = new ScrollPane();
+		rootPane.getChildren().add(datesPane);
+
 
 		VBox innerPane = new VBox();
+		datesPane.setContent(innerPane);
+		
+		listDates = model.getCurrentDates();
+
+		LinkedList<CheckBox> nodeSelection = new LinkedList<CheckBox>();
+		if(!(listDates == null)) {
+			for(int i = 0; i < listDates.size(); i++) {
+				nodeSelection.add(new CheckBox(listDates.get(i).getName() + ": von " + listDates.get(i).getStartDate().toString() 
+						+ " bis " + listDates.get(i).getEndDate().toString()));
+				innerPane.getChildren().add(nodeSelection.getLast());
+			}
+		}
+
 		HBox panelButtons = new HBox();
 		Button buttonCancel = new Button("Abbrechen");
 		buttonCancel.setOnAction(e->{controller.handle(DateDeleteScene.BUTTON_CANCEL);});
@@ -117,18 +131,8 @@ public class AppView{
 			//System.out.println(listDates.get(0).getName());
 			controller.handle(DateDeleteScene.BUTTON_DELETE);});
 		panelButtons.getChildren().add(buttonDelete);
-		innerPane.getChildren().add(panelButtons);
+		rootPane.getChildren().add(panelButtons);
 
-		VBox paneSelection = new VBox();
-		if(!(listDates == null)) {
-			for(int i = 0; i < listDates.size(); i++) {
-				nodeSelection.add(new CheckBox(listDates.get(i).getName() + ": von " + listDates.get(i).getStartDate().toString() 
-						+ " bis " + listDates.get(i).getEndDate().toString()));
-				paneSelection.getChildren().add(nodeSelection.getLast());
-			}
-			innerPane.getChildren().add(paneSelection);
-		}
-		rootPane.setContent(innerPane);
 		return new Scene(rootPane);
 	}
 	private Scene getSceneCalendar() {
