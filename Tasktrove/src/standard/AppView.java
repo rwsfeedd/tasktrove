@@ -268,18 +268,6 @@ public class AppView{
 	private Scene getSceneTaskDefault() {
 		VBox rootPane = new VBox();
 		
-		HBox buttonBar = new HBox();
-		rootPane.getChildren().add(buttonBar);
-		Button cancelButton = new Button("abbrechen");
-		cancelButton.setOnAction(e->{controller.handle(AppController.TaskStandardScene.BUTTON_CANCEL);});
-		buttonBar.getChildren().add(cancelButton);
-		Button deleteButton = new Button("löschen");
-		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskStandardScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
-		buttonBar.getChildren().add(deleteButton);
-		Button createButton = new Button("erstellen");
-		createButton.setOnAction(e-> { controller.handle(AppController.TaskStandardScene.BUTTON_CREATE);}); // Task erstellScreen
-		buttonBar.getChildren().add(createButton);
-		
 		LinkedList<AppTask> listTasks = model.getTasks();
 		LinkedList<AppTask>	listDoneTasks = new LinkedList<AppTask>(); 
 		LinkedList<AppTask> listActiveTasks = new LinkedList<AppTask>();
@@ -293,13 +281,13 @@ public class AppView{
 			}
 		}
 		
+		//alle aktiven Aufgaben darstellen
 		ScrollPane rootActiveTasks = new ScrollPane();
 		VBox activeTasksPane = new VBox();
 		rootActiveTasks.setContent(activeTasksPane);
 		rootPane.getChildren().add(rootActiveTasks);
 		Label activeTasksLabel = new Label("aktive Aufgaben");
 		activeTasksPane.getChildren().add(activeTasksLabel);
-		//alle aktiven Aufgaben einfügen als CheckBoxes
 		LinkedList<CheckBox> activeTaskSelection = new LinkedList<CheckBox>();
 		if(!listActiveTasks.isEmpty()) {
 			for(int i = 0; i < listTasks.size(); i++) {
@@ -312,13 +300,13 @@ public class AppView{
 			}
 		}
 
+		//alle fertigen Aufgaben in CheckBox-Format initialisieren
 		ScrollPane rootDoneTasks = new ScrollPane();
 		VBox doneTasksPane = new VBox();
 		rootDoneTasks.setContent(doneTasksPane);
 		rootPane.getChildren().add(rootDoneTasks);
 		Label doneTasksLabel = new Label("fertige Aufgaben");
 		doneTasksPane.getChildren().add(doneTasksLabel);
-		//alle fertigen Aufgaben einfügen als CheckBoxes
 		LinkedList<CheckBox> doneTaskSelection = new LinkedList<CheckBox>();
 		if(!listDoneTasks.isEmpty()) {
 			for(int i = 0; i < listTasks.size(); i++) {
@@ -331,6 +319,20 @@ public class AppView{
 			}
 		}
 
+		//Buttons intitialisieren und darstellen
+		HBox buttonBar = new HBox();
+		rootPane.getChildren().add(buttonBar);
+		Button cancelButton = new Button("abbrechen");
+		cancelButton.setOnAction(e->{controller.handle(AppController.TaskStandardScene.BUTTON_CANCEL);});
+		buttonBar.getChildren().add(cancelButton);
+		Button deleteButton = new Button("löschen");
+		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskStandardScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
+		buttonBar.getChildren().add(deleteButton);
+		Button createButton = new Button("erstellen");
+		createButton.setOnAction(e-> { controller.handle(AppController.TaskStandardScene.BUTTON_CREATE);}); // Task erstellScreen
+		buttonBar.getChildren().add(createButton);
+
+		
 		return new Scene(rootPane);
 	}
 	
@@ -374,27 +376,11 @@ public class AppView{
 	}
 	
 	private Scene getSceneTaskDelete() {
-		ScrollPane rootPane = new ScrollPane();
+		VBox rootPane = new VBox();
+		ScrollPane taskPane = new ScrollPane();
+		rootPane.getChildren().add(taskPane);
 		VBox innerPane = new VBox();
-		rootPane.setContent(innerPane);
-		
-		HBox buttonBar = new HBox();
-		innerPane.getChildren().add(buttonBar);
-		Button cancelButton = new Button("abbrechen");
-		cancelButton.setOnAction(e->{ 
-			
-			controller.handle(AppController.TaskDeleteScene.BUTTON_CANCEL);}); // Tasks mit CheckBox auswählbar
-		
-		
-		buttonBar.getChildren().add(cancelButton);
-		Button deleteButton = new Button("löschen");
-		deleteButton.setOnAction(e-> { 
-			
-			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);}); // Task erstellScreen
-		
-		
-		buttonBar.getChildren().add(deleteButton);
-	
+		taskPane.setContent(innerPane);
 		
 		//Noch überarbeiten für DeleteTask
 		
@@ -409,6 +395,23 @@ public class AppView{
 		activeTasksPane.getChildren().add(doneTasksLabel);
 		
 		//alle Aufgaben einfügen als CheckBoxes
+
+		HBox buttonBar = new HBox();
+		rootPane.getChildren().add(buttonBar);
+		Button cancelButton = new Button("abbrechen");
+		cancelButton.setOnAction(e->{ 
+			
+			controller.handle(AppController.TaskDeleteScene.BUTTON_CANCEL);}); // Tasks mit CheckBox auswählbar
+		
+		
+		buttonBar.getChildren().add(cancelButton);
+		Button deleteButton = new Button("löschen");
+		deleteButton.setOnAction(e-> { 
+			
+			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);}); // Task erstellScreen
+		
+		
+		buttonBar.getChildren().add(deleteButton);
 
 		return new Scene(rootPane);
 	}
