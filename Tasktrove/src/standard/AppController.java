@@ -137,7 +137,7 @@ public class AppController extends Application{
 		switch(componentID) {
 		case BUTTON_SAVE_DATA:
 				CalendarDate calendarDate = view.getCalendarDate();
-				if((calendarDate.validate() == CalendarDate.VALID)) model.writeIntoFile(calendarDate); 
+				if((calendarDate.validate() == CalendarDate.VALID)) model.writeDateIntoFile(calendarDate); 
 				if((calendarDate.validate() & CalendarDate.INVALID_NAME) == CalendarDate.INVALID_NAME) System.out.println("kein valider Name!");
 				if((calendarDate.validate() & CalendarDate.INVALID_START_DATE) == CalendarDate.INVALID_START_DATE) System.out.println("kein valides Startjahr!");
 				if((calendarDate.validate() & CalendarDate.INVALID_END_DATE) == CalendarDate.INVALID_END_DATE) System.out.println("kein valides Endjahr!");
@@ -164,7 +164,7 @@ public class AppController extends Application{
 				view.update();
 				break;
 		case BUTTON_DELETE:
-			model.deleteInFile(view.getListDates()); 
+			model.deleteDatesInFile(view.getListDates()); 
 			view.update();
 			break;
 		default:	

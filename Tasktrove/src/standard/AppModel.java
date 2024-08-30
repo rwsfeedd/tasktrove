@@ -145,7 +145,11 @@ public class AppModel {
 			currentMonth = currentMonth.minus(1);
 		}
 	}
-	
+
+	public Month getCurrentMonth() {
+		return currentMonth;
+	}
+
 	public int getCurrentYear() {
 		return currentYear;
 	}
@@ -157,7 +161,7 @@ public class AppModel {
 	 * Creates new xmlFile for CalendarDate Storage if needed. 
 	 * @param calendarDate
 	 */
-	public void writeIntoFile(CalendarDate calendarDate) {
+	public void writeDateIntoFile(CalendarDate calendarDate) {
 		if(calendarDate == null) {
 			System.err.println("calendarDate null bei Methode writeIntoFile() in Klasse AppModel");
 			return;
@@ -192,7 +196,7 @@ public class AppModel {
 		
 	} 
 	
-	public void deleteInFile(LinkedList<CalendarDate> removableDates) {
+	public void deleteDatesInFile(LinkedList<CalendarDate> removableDates) {
 		if(removableDates == null) {
 			System.err.println("calendarDate null bei Methode deleteInFile() in Klasse AppModel");
 			return;
@@ -258,9 +262,7 @@ public class AppModel {
 		return processor.readFromXMLFile();
 	}
 	
-	public Month getCurrentMonth() {
-		return currentMonth;
-	}
+	
 	
 	
 	

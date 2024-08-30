@@ -55,7 +55,7 @@ public class AppFileProcessor {
 					if(reader.getLocalName().equals(AUFGABE)) list.add(new AppTask());
 					if(reader.getLocalName().equals(AUFGABEN_NAME)) list.getLast().setName(reader.getElementText());
 					if(reader.getLocalName().equals(AUFGABEN_SCHWIERIGKEIT)) list.getLast().setDifficulty(AppTask.Difficulty.valueOf(reader.getElementText()));
-					if(reader.getLocalName().equals(AUFGABEN_TYP)) list.getLast().setTyp(AppTask.Type.valueOf(reader.getElementText()));
+					if(reader.getLocalName().equals(AUFGABEN_TYP)) list.getLast().setType(AppTask.Type.valueOf(reader.getElementText()));
 					if(reader.getLocalName().equals(AUFGABE_ERLEDIGT)) list.getLast().setDone(Boolean.parseBoolean(reader.getElementText()));
 				}
 			}
@@ -132,7 +132,7 @@ public class AppFileProcessor {
 
 			writer.writeCharacters("\n\t\t");
 			writer.writeStartElement(AUFGABEN_TYP);
-			writer.writeCharacters(task.getTyp().toString());
+			writer.writeCharacters(task.getType().toString());
 			writer.writeEndElement();
 
 			writer.writeCharacters("\n\t\t");
