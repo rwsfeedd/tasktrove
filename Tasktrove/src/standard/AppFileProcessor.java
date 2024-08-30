@@ -177,7 +177,7 @@ public class AppFileProcessor {
 			e.printStackTrace();
 		}
 	}
-public LinkedList<AppTask> readTasks() {
+	public LinkedList<AppTask> readTasks() {
 		LinkedList<AppTask> list = new LinkedList<AppTask>();
 		try {
 			FileInputStream fis = new FileInputStream(xmlDataFile);

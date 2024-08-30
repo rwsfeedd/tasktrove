@@ -293,6 +293,22 @@ public class AppModel {
 	//deleteTasksFromFile
 	//rewriteTasksFromFile
 	
+	public LinkedList<AppTask> getTasks() {
+		if(baseDir == null) {
+			return new LinkedList<AppTask>();
+		}
+		File xmlDataFile = new File(baseDir, "Tasks.xml");
+
+		try {
+			xmlDataFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+		return processor.readTasks();
+	}
+
 	public void setBaseDir(File baseDir) {
 		this.baseDir = baseDir;
 	}

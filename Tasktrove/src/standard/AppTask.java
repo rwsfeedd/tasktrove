@@ -46,19 +46,49 @@ public class AppTask {
 	}
 	
 	public static Difficulty parseStringToDifficulty(String str) {
+		if(str == null) return null;
 		if(str.equals(EINFACH)) return Difficulty.LOW;
 		if(str.equals(MITTEL)) return Difficulty.MEDIUM;
 		if(str.equals(SCHWER)) return Difficulty.HIGH;
 		System.err.println("Eingabestring kann keinem Wert von enum Difficulty zugeordnet werden");
 		return null;
 	}
+
+	public static String parseDifficultyToString(Difficulty difficulty) {
+		switch(difficulty) {
+		case LOW:
+			return EINFACH;
+		case MEDIUM:
+			return MITTEL;
+		case HIGH:
+			return SCHWER;
+		default:
+			System.err.println("Wert von enum Difficulty kann keinem String zugeordnet werden!");
+			return null;
+		}
+	}
 	
 	public static Type parseStringToType(String str) {
+		if(str == null) return null;
 		if(str.equals(TAG)) return Type.DAILY;
 		if(str.equals(WOCHE)) return Type.WEEKLY;
 		if(str.equals(MONAT)) return Type.MONHLY;
-		System.err.println("Eingabestring kann keinem Wert von enum Type zugeordnet werden");
+		System.err.println("Eingabestring kann keinem Wert von enum Type zugeordnet werden!");
 		return null;
+	}
+
+	public static String parseTypeToString(Type type) {
+		switch(type) {
+		case DAILY:
+			return TAG;
+		case WEEKLY:
+			return WOCHE;
+		case MONHLY:
+			return MONAT;
+		default:
+			System.err.println("Wert von enum Type kann keinem String zugeordnet werden!");
+			return null;
+		}
 	}
 
 	public String getName() {
