@@ -96,12 +96,16 @@ public class AppView{
 		
 		HBox buttonBar = new HBox();
 		innerPane.getChildren().add(buttonBar);
+		Button cancelButton = new Button("abbrechen");
+		cancelButton.setOnAction(e->{controller.handle(AppController.TaskStandardScene.BUTTON_CANCEL);});
+		buttonBar.getChildren().add(cancelButton);
 		Button deleteButton = new Button("löschen");
 		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskStandardScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
 		buttonBar.getChildren().add(deleteButton);
 		Button createButton = new Button("erstellen");
 		createButton.setOnAction(e-> { controller.handle(AppController.TaskStandardScene.BUTTON_CREATE);}); // Task erstellScreen
 		buttonBar.getChildren().add(createButton);
+		
 		
 		VBox activeTasksPane = new VBox();
 		innerPane.getChildren().add(activeTasksPane);
@@ -350,6 +354,9 @@ public class AppView{
 		pane.getChildren().addAll(labelEndTime, fieldEndTime);
 
 		HBox buttonPanel = new HBox();
+		Button buttonCancel = new Button("Abbrechen");
+		buttonCancel.setOnAction(e->{controller.handle(DateEntryScene.BUTTON_CANCEL);});
+		buttonPanel.getChildren().add(buttonCancel);
 		Button buttonSaveData = new Button("Speichern");
 		buttonSaveData.setOnAction(e->{
 			calendarDate = new CalendarDate(textFieldName.getText(), datePickerStart.getValue(), 
@@ -357,9 +364,7 @@ public class AppView{
 			controller.handle(DateEntryScene.BUTTON_SAVE_DATA);
 			});
 		buttonPanel.getChildren().add(buttonSaveData);
-		Button buttonCancel = new Button("Abbrechen");
-		buttonCancel.setOnAction(e->{controller.handle(DateEntryScene.BUTTON_CANCEL);});
-		buttonPanel.getChildren().add(buttonCancel);
+		
 		
 		pane.getChildren().add(buttonPanel);
 		

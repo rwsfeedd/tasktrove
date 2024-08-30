@@ -262,9 +262,12 @@ public class AppModel {
 		return processor.readFromXMLFile();
 	}
 	
+	public void writeTaskIntoFile() {
+		
+	}
 	
-	
-	
+	//deleteTasksFromFile
+	//rewriteTasksFromFile
 	
 	public void setBaseDir(File baseDir) {
 		this.baseDir = baseDir;
