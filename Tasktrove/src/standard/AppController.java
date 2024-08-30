@@ -56,6 +56,7 @@ public class AppController extends Application{
 		BUTTON_CANCEL,
 		BUTTON_DELETE,
 		BUTTON_CREATE,
+		BUTTON_DONE
 	}
 
 	public static enum TaskCreateScene {
@@ -188,6 +189,14 @@ public class AppController extends Application{
 			model.setCurrentScene(AppModel.CurrentScene.CALENDAR_SCENE);
 			view.update();
 			break;
+		case BUTTON_DONE:
+			//Tasks deren Status geändert werden sollen von view abrufen
+			LinkedList<AppTask> listTasks = view.getListTasks();
+			//Tasks an Model übergeben, welches die Änderungen in das File schreibt
+
+			//view holt sich diese neue Taskliste ab und wird geupdated 
+			
+			view.update();
 		default:
 			System.err.println("Unbekannte Komponente in handle(TaskDefaultScene) von AppController-Instanz!");
 			Platform.exit();

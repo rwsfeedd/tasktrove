@@ -37,6 +37,7 @@ import javafx.stage.Window;
 import standard.AppController.CalendarScene;
 import standard.AppController.DateDeleteScene;
 import standard.AppController.DateEntryScene;
+import standard.AppController.TaskStandardScene;
 import standard.AppModel.CurrentScene;
 
 public class AppView{
@@ -48,6 +49,7 @@ public class AppView{
 	private CalendarDate calendarDate;
 	private LinkedList<CalendarDate> listDates;
 	private AppTask task;
+	private LinkedList<AppTask> listTasks;
 
 	public AppView(Stage primaryStage, AppModel model, AppController controller) {
 		this.primaryStage = primaryStage;
@@ -55,7 +57,7 @@ public class AppView{
 		this.controller = controller;
 		primaryStage.setMinHeight(heightWindow); 		
 		primaryStage.setMinWidth(widthWindow);
-
+		
 	}
 
 	public void update() {
@@ -323,14 +325,31 @@ public class AppView{
 		HBox buttonBar = new HBox();
 		rootPane.getChildren().add(buttonBar);
 		Button cancelButton = new Button("abbrechen");
-		cancelButton.setOnAction(e->{controller.handle(AppController.TaskStandardScene.BUTTON_CANCEL);});
+		cancelButton.setOnAction(e->{controller.handle(TaskStandardScene.BUTTON_CANCEL);});
 		buttonBar.getChildren().add(cancelButton);
 		Button deleteButton = new Button("löschen");
-		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskStandardScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
+		deleteButton.setOnAction(e->{ controller.handle(TaskStandardScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
 		buttonBar.getChildren().add(deleteButton);
 		Button createButton = new Button("erstellen");
-		createButton.setOnAction(e-> { controller.handle(AppController.TaskStandardScene.BUTTON_CREATE);}); // Task erstellScreen
+		createButton.setOnAction(e-> { controller.handle(TaskStandardScene.BUTTON_CREATE);}); // Task erstellScreen
 		buttonBar.getChildren().add(createButton);
+		Button doneButton = new Button("fertiggestellt");
+		doneButton.setOnAction(e->{
+			LinkedList<AppTask> listChangedTasks = new LinkedList<AppTask>();
+			if(!activeTaskSelection.isEmpty()) {
+				for(int i = 0; i < activeTaskSelection.size(); i++) {
+					if(activeTaskSelection.get(i).isSelected()) listChangedTasks.add(listActiveTasks.get(i));
+				}
+			}
+			if(!doneTaskSelection.isEmpty()) {
+				for(int i = 0; i < doneTaskSelection.size(); i++) {
+					if(doneTaskSelection.get(i).isSelected()) listChangedTasks.add(listDoneTasks.get(i));
+				}
+			}
+			this.listTasks = listChangedTasks;
+			controller.handle(TaskStandardScene.BUTTON_DONE);
+		});
+		buttonBar.getChildren().add(doneButton);
 
 		
 		return new Scene(rootPane);
@@ -431,5 +450,9 @@ public class AppView{
 	
 	public AppTask getTask() {
 		return task;
+	}
+	
+	public LinkedList<AppTask> getListTasks() {
+		return listTasks;
 	}
 }
