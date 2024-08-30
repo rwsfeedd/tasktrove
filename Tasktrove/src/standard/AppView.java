@@ -89,153 +89,7 @@ public class AppView{
 		primaryStage.show();
 	}
 
-	private Scene getSceneTaskDefault() {
-		VBox rootPane = new VBox();
-		
-		HBox buttonBar = new HBox();
-		rootPane.getChildren().add(buttonBar);
-		Button cancelButton = new Button("abbrechen");
-		cancelButton.setOnAction(e->{controller.handle(AppController.TaskStandardScene.BUTTON_CANCEL);});
-		buttonBar.getChildren().add(cancelButton);
-		Button deleteButton = new Button("löschen");
-		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskStandardScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
-		buttonBar.getChildren().add(deleteButton);
-		Button createButton = new Button("erstellen");
-		createButton.setOnAction(e-> { controller.handle(AppController.TaskStandardScene.BUTTON_CREATE);}); // Task erstellScreen
-		buttonBar.getChildren().add(createButton);
-		
-		LinkedList<AppTask> listTasks = model.getTasks();
-		LinkedList<AppTask>	listDoneTasks = new LinkedList<AppTask>(); 
-		LinkedList<AppTask> listActiveTasks = new LinkedList<AppTask>();
-		if(!listTasks.isEmpty()) {
-			for(int i = 0; i < listTasks.size(); i++) {
-				if(!listTasks.get(i).isDone()) {
-					listActiveTasks.add(listTasks.get(i));
-				} else {
-					listDoneTasks.add(listTasks.get(i));
-				}
-			}
-		}
-		
-		ScrollPane rootActiveTasks = new ScrollPane();
-		VBox activeTasksPane = new VBox();
-		rootActiveTasks.setContent(activeTasksPane);
-		rootPane.getChildren().add(rootActiveTasks);
-		Label activeTasksLabel = new Label("aktive Aufgaben");
-		activeTasksPane.getChildren().add(activeTasksLabel);
-		//alle aktiven Aufgaben einfügen als CheckBoxes
-		LinkedList<CheckBox> activeTaskSelection = new LinkedList<CheckBox>();
-		if(!listActiveTasks.isEmpty()) {
-			for(int i = 0; i < listTasks.size(); i++) {
-				activeTaskSelection.add(new CheckBox(listTasks.get(i).getName() 
-						+ " Schwierigkeit:" 
-						+ AppTask.parseDifficultyToString(listTasks.get(i).getDifficulty()) 
-						+ " Typ:" 
-						+ AppTask.parseTypeToString(listTasks.get(i).getType())));
-				activeTasksPane.getChildren().add(activeTaskSelection.getLast());
-			}
-		}
-
-		ScrollPane rootDoneTasks = new ScrollPane();
-		VBox doneTasksPane = new VBox();
-		rootDoneTasks.setContent(doneTasksPane);
-		rootPane.getChildren().add(rootDoneTasks);
-		Label doneTasksLabel = new Label("fertige Aufgaben");
-		doneTasksPane.getChildren().add(doneTasksLabel);
-		//alle fertigen Aufgaben einfügen als CheckBoxes
-		LinkedList<CheckBox> doneTaskSelection = new LinkedList<CheckBox>();
-		if(!listDoneTasks.isEmpty()) {
-			for(int i = 0; i < listTasks.size(); i++) {
-				doneTaskSelection.add(new CheckBox(listTasks.get(i).getName() 
-						+ " Schwierigkeit:" 
-						+ AppTask.parseDifficultyToString(listTasks.get(i).getDifficulty()) 
-						+ " Typ:" 
-						+ AppTask.parseTypeToString(listTasks.get(i).getType())));
-				doneTasksPane.getChildren().add(doneTaskSelection.getLast());
-			}
-		}
-
-		return new Scene(rootPane);
-	}
 	
-	private Scene getSceneTaskCreate() {
-		VBox rootPane = new VBox();
-				
-		Label nameLabel = new Label("Name");
-		TextField nameText = new TextField();
-		rootPane.getChildren().addAll(nameLabel, nameText);
-		
-		Label difficultyLabel = new Label("Schwierigkeit");
-		ChoiceBox<String> difficultySelect = new ChoiceBox<String>();
-		difficultySelect.getItems().addAll(AppTask.EINFACH, AppTask.MITTEL, AppTask.SCHWER);
-		rootPane.getChildren().addAll(difficultyLabel, difficultySelect);
-		
-		Label typLabel = new Label("Typ");
-		ChoiceBox<String> typeSelect = new ChoiceBox<String>();
-		typeSelect.getItems().addAll(AppTask.TAG, AppTask.WOCHE, AppTask.MONAT);
-		rootPane.getChildren().addAll(typLabel, typeSelect);
-
-		HBox buttonBar = new HBox();
-		rootPane.getChildren().add(buttonBar);
-		Button cancelButton = new Button("abbrechen");
-		cancelButton.setOnAction(e->{controller.handle(AppController.TaskCreateScene.BUTTON_CANCEL);});
-		buttonBar.getChildren().add(cancelButton);
-		Button saveButton = new Button("speichern");
-		saveButton.setOnAction(e-> { 
-			AppTask task = new AppTask();
-			task.setName(nameText.getText());
-			task.setDifficulty(AppTask.parseStringToDifficulty(difficultySelect.getValue()));
-			task.setType(AppTask.parseStringToType(typeSelect.getValue()));
-			if(task.isValid()) { 
-				this.task = task;
-				controller.handle(AppController.TaskCreateScene.BUTTON_SAVE);
-			}	
-			}); // Task erstellScreen
-		
-		buttonBar.getChildren().add(saveButton);
-
-		return new Scene(rootPane);
-	}
-	
-	private Scene getSceneTaskDelete() {
-		ScrollPane rootPane = new ScrollPane();
-		VBox innerPane = new VBox();
-		rootPane.setContent(innerPane);
-		
-		HBox buttonBar = new HBox();
-		innerPane.getChildren().add(buttonBar);
-		Button cancelButton = new Button("abbrechen");
-		cancelButton.setOnAction(e->{ 
-			
-			controller.handle(AppController.TaskDeleteScene.BUTTON_CANCEL);}); // Tasks mit CheckBox auswählbar
-		
-		
-		buttonBar.getChildren().add(cancelButton);
-		Button deleteButton = new Button("löschen");
-		deleteButton.setOnAction(e-> { 
-			
-			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);}); // Task erstellScreen
-		
-		
-		buttonBar.getChildren().add(deleteButton);
-	
-		
-		//Noch überarbeiten für DeleteTask
-		
-		VBox activeTasksPane = new VBox();
-		innerPane.getChildren().add(activeTasksPane);
-		Label activeTasksLabel = new Label("aktive Aufgaben");
-		activeTasksPane.getChildren().add(activeTasksLabel);
-
-		//alle Aufgaben einfügen als CheckBoxes
-
-		Label doneTasksLabel = new Label("fertige Aufgaben");
-		activeTasksPane.getChildren().add(doneTasksLabel);
-		
-		//alle Aufgaben einfügen als CheckBoxes
-
-		return new Scene(rootPane);
-	}
 	
 	private Scene getSceneDeleteDate() {
 		listDates = model.getCurrentDates();
@@ -405,6 +259,154 @@ public class AppView{
 		pane.getChildren().add(buttonPanel);
 		
 		return new Scene(pane);
+	}
+	
+	private Scene getSceneTaskDefault() {
+		VBox rootPane = new VBox();
+		
+		HBox buttonBar = new HBox();
+		rootPane.getChildren().add(buttonBar);
+		Button cancelButton = new Button("abbrechen");
+		cancelButton.setOnAction(e->{controller.handle(AppController.TaskStandardScene.BUTTON_CANCEL);});
+		buttonBar.getChildren().add(cancelButton);
+		Button deleteButton = new Button("löschen");
+		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskStandardScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
+		buttonBar.getChildren().add(deleteButton);
+		Button createButton = new Button("erstellen");
+		createButton.setOnAction(e-> { controller.handle(AppController.TaskStandardScene.BUTTON_CREATE);}); // Task erstellScreen
+		buttonBar.getChildren().add(createButton);
+		
+		LinkedList<AppTask> listTasks = model.getTasks();
+		LinkedList<AppTask>	listDoneTasks = new LinkedList<AppTask>(); 
+		LinkedList<AppTask> listActiveTasks = new LinkedList<AppTask>();
+		if(!listTasks.isEmpty()) {
+			for(int i = 0; i < listTasks.size(); i++) {
+				if(!listTasks.get(i).isDone()) {
+					listActiveTasks.add(listTasks.get(i));
+				} else {
+					listDoneTasks.add(listTasks.get(i));
+				}
+			}
+		}
+		
+		ScrollPane rootActiveTasks = new ScrollPane();
+		VBox activeTasksPane = new VBox();
+		rootActiveTasks.setContent(activeTasksPane);
+		rootPane.getChildren().add(rootActiveTasks);
+		Label activeTasksLabel = new Label("aktive Aufgaben");
+		activeTasksPane.getChildren().add(activeTasksLabel);
+		//alle aktiven Aufgaben einfügen als CheckBoxes
+		LinkedList<CheckBox> activeTaskSelection = new LinkedList<CheckBox>();
+		if(!listActiveTasks.isEmpty()) {
+			for(int i = 0; i < listTasks.size(); i++) {
+				activeTaskSelection.add(new CheckBox(listTasks.get(i).getName() 
+						+ " Schwierigkeit:" 
+						+ AppTask.parseDifficultyToString(listTasks.get(i).getDifficulty()) 
+						+ " Typ:" 
+						+ AppTask.parseTypeToString(listTasks.get(i).getType())));
+				activeTasksPane.getChildren().add(activeTaskSelection.getLast());
+			}
+		}
+
+		ScrollPane rootDoneTasks = new ScrollPane();
+		VBox doneTasksPane = new VBox();
+		rootDoneTasks.setContent(doneTasksPane);
+		rootPane.getChildren().add(rootDoneTasks);
+		Label doneTasksLabel = new Label("fertige Aufgaben");
+		doneTasksPane.getChildren().add(doneTasksLabel);
+		//alle fertigen Aufgaben einfügen als CheckBoxes
+		LinkedList<CheckBox> doneTaskSelection = new LinkedList<CheckBox>();
+		if(!listDoneTasks.isEmpty()) {
+			for(int i = 0; i < listTasks.size(); i++) {
+				doneTaskSelection.add(new CheckBox(listTasks.get(i).getName() 
+						+ " Schwierigkeit:" 
+						+ AppTask.parseDifficultyToString(listTasks.get(i).getDifficulty()) 
+						+ " Typ:" 
+						+ AppTask.parseTypeToString(listTasks.get(i).getType())));
+				doneTasksPane.getChildren().add(doneTaskSelection.getLast());
+			}
+		}
+
+		return new Scene(rootPane);
+	}
+	
+	private Scene getSceneTaskCreate() {
+		VBox rootPane = new VBox();
+				
+		Label nameLabel = new Label("Name");
+		TextField nameText = new TextField();
+		rootPane.getChildren().addAll(nameLabel, nameText);
+		
+		Label difficultyLabel = new Label("Schwierigkeit");
+		ChoiceBox<String> difficultySelect = new ChoiceBox<String>();
+		difficultySelect.getItems().addAll(AppTask.EINFACH, AppTask.MITTEL, AppTask.SCHWER);
+		rootPane.getChildren().addAll(difficultyLabel, difficultySelect);
+		
+		Label typLabel = new Label("Typ");
+		ChoiceBox<String> typeSelect = new ChoiceBox<String>();
+		typeSelect.getItems().addAll(AppTask.TAG, AppTask.WOCHE, AppTask.MONAT);
+		rootPane.getChildren().addAll(typLabel, typeSelect);
+
+		HBox buttonBar = new HBox();
+		rootPane.getChildren().add(buttonBar);
+		Button cancelButton = new Button("abbrechen");
+		cancelButton.setOnAction(e->{controller.handle(AppController.TaskCreateScene.BUTTON_CANCEL);});
+		buttonBar.getChildren().add(cancelButton);
+		Button saveButton = new Button("speichern");
+		saveButton.setOnAction(e-> { 
+			AppTask task = new AppTask();
+			task.setName(nameText.getText());
+			task.setDifficulty(AppTask.parseStringToDifficulty(difficultySelect.getValue()));
+			task.setType(AppTask.parseStringToType(typeSelect.getValue()));
+			if(task.isValid()) { 
+				this.task = task;
+				controller.handle(AppController.TaskCreateScene.BUTTON_SAVE);
+			}	
+			}); // Task erstellScreen
+		
+		buttonBar.getChildren().add(saveButton);
+
+		return new Scene(rootPane);
+	}
+	
+	private Scene getSceneTaskDelete() {
+		ScrollPane rootPane = new ScrollPane();
+		VBox innerPane = new VBox();
+		rootPane.setContent(innerPane);
+		
+		HBox buttonBar = new HBox();
+		innerPane.getChildren().add(buttonBar);
+		Button cancelButton = new Button("abbrechen");
+		cancelButton.setOnAction(e->{ 
+			
+			controller.handle(AppController.TaskDeleteScene.BUTTON_CANCEL);}); // Tasks mit CheckBox auswählbar
+		
+		
+		buttonBar.getChildren().add(cancelButton);
+		Button deleteButton = new Button("löschen");
+		deleteButton.setOnAction(e-> { 
+			
+			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);}); // Task erstellScreen
+		
+		
+		buttonBar.getChildren().add(deleteButton);
+	
+		
+		//Noch überarbeiten für DeleteTask
+		
+		VBox activeTasksPane = new VBox();
+		innerPane.getChildren().add(activeTasksPane);
+		Label activeTasksLabel = new Label("aktive Aufgaben");
+		activeTasksPane.getChildren().add(activeTasksLabel);
+
+		//alle Aufgaben einfügen als CheckBoxes
+
+		Label doneTasksLabel = new Label("fertige Aufgaben");
+		activeTasksPane.getChildren().add(doneTasksLabel);
+		
+		//alle Aufgaben einfügen als CheckBoxes
+
+		return new Scene(rootPane);
 	}
 	
 	public File getBaseDirectory() {
