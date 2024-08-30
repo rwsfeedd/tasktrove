@@ -292,12 +292,12 @@ public class AppView{
 		activeTasksPane.getChildren().add(activeTasksLabel);
 		LinkedList<CheckBox> activeTaskSelection = new LinkedList<CheckBox>();
 		if(!listActiveTasks.isEmpty()) {
-			for(int i = 0; i < listTasks.size(); i++) {
-				activeTaskSelection.add(new CheckBox(listTasks.get(i).getName() 
+			for(int i = 0; i < listActiveTasks.size(); i++) {
+				activeTaskSelection.add(new CheckBox(listActiveTasks.get(i).getName() 
 						+ " Schwierigkeit:" 
-						+ AppTask.parseDifficultyToString(listTasks.get(i).getDifficulty()) 
+						+ AppTask.parseDifficultyToString(listActiveTasks.get(i).getDifficulty()) 
 						+ " Typ:" 
-						+ AppTask.parseTypeToString(listTasks.get(i).getType())));
+						+ AppTask.parseTypeToString(listActiveTasks.get(i).getType())));
 				activeTasksPane.getChildren().add(activeTaskSelection.getLast());
 			}
 		}
@@ -311,12 +311,12 @@ public class AppView{
 		doneTasksPane.getChildren().add(doneTasksLabel);
 		LinkedList<CheckBox> doneTaskSelection = new LinkedList<CheckBox>();
 		if(!listDoneTasks.isEmpty()) {
-			for(int i = 0; i < listTasks.size(); i++) {
-				doneTaskSelection.add(new CheckBox(listTasks.get(i).getName() 
+			for(int i = 0; i < listDoneTasks.size(); i++) {
+				doneTaskSelection.add(new CheckBox(listDoneTasks.get(i).getName() 
 						+ " Schwierigkeit:" 
-						+ AppTask.parseDifficultyToString(listTasks.get(i).getDifficulty()) 
+						+ AppTask.parseDifficultyToString(listDoneTasks.get(i).getDifficulty()) 
 						+ " Typ:" 
-						+ AppTask.parseTypeToString(listTasks.get(i).getType())));
+						+ AppTask.parseTypeToString(listDoneTasks.get(i).getType())));
 				doneTasksPane.getChildren().add(doneTaskSelection.getLast());
 			}
 		}

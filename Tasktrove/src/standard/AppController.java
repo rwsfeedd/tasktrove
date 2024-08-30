@@ -193,10 +193,10 @@ public class AppController extends Application{
 			//Tasks deren Status geändert werden sollen von view abrufen
 			LinkedList<AppTask> listTasks = view.getListTasks();
 			//Tasks an Model übergeben, welches die Änderungen in das File schreibt
-
+			model.updateTasksInFile(listTasks);
 			//view holt sich diese neue Taskliste ab und wird geupdated 
-			
 			view.update();
+			break;
 		default:
 			System.err.println("Unbekannte Komponente in handle(TaskDefaultScene) von AppController-Instanz!");
 			Platform.exit();

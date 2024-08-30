@@ -45,6 +45,14 @@ public class AppTask {
 		return true;
 	}
 	
+	public boolean equals(AppTask task) {
+		if(!(this.getName().equals(task.getName()))) return false;
+		if(this.getDifficulty() != task.getDifficulty()) return false;
+		if(this.getType() != task.getType()) return false;
+		if(this.isDone() != task.isDone()) return false;
+		return true;
+	}
+	
 	public static Difficulty parseStringToDifficulty(String str) {
 		if(str == null) return null;
 		if(str.equals(EINFACH)) return Difficulty.LOW;
@@ -121,6 +129,14 @@ public class AppTask {
 
 	public void setDone(boolean done) {
 		this.done = done;
+	}
+	
+	public void invertDone() {
+		if(this.done == true) {
+			this.done = false;
+		}else {
+			this.done = true;
+		}
 	}
 
 }

@@ -290,6 +290,46 @@ public class AppModel {
 		}
 	}
 	
+	public void updateTasksInFile(LinkedList<AppTask> listChangedTasks) {
+		//LinkedList<AppTask> listChangedTasks =  
+		
+		if(listChangedTasks == null) {
+			System.err.println("TerminListe null bei Methode updateTasksInFile() in Klasse AppModel");
+			return;
+		}
+		if(listChangedTasks.isEmpty()) {
+			System.err.println("TerminListe leer bei Methode updateTasksInFile() in Klasse AppModel");
+			return;
+		}
+		if(!baseDir.exists()) {
+			baseDir.mkdir();
+		}
+		if(!baseDir.canRead() || !baseDir.canWrite()) {
+			controller.handle(CalendarScene.NO_BASE_DIR);
+		}
+		try {
+			xmlDataFile = new File(baseDir, "Tasks.xml");
+			if(!xmlDataFile.exists()) {
+				xmlDataFile.createNewFile();
+			}
+		}catch (Exception ex){
+			ex.printStackTrace();
+			Platform.exit();
+		}
+
+		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+
+		LinkedList<AppTask> listOriginalTasks = processor.readTasks();
+		for(int i = 0; i < listOriginalTasks.size(); i++) {
+			for(int l = 0; l < listChangedTasks.size(); l++) {
+				if(listOriginalTasks.get(i).equals(listChangedTasks.get(l))) {
+					listOriginalTasks.get(i).invertDone();
+				}
+			}
+		}
+		
+		processor.rewriteTasksIntoXML(listOriginalTasks);
+	}
 	//deleteTasksFromFile
 	//rewriteTasksFromFile
 	
