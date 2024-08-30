@@ -68,8 +68,14 @@ public class AppView{
 			case AppModel.CurrentScene.CALENDAR_SCENE:
 				primaryStage.setScene(getSceneCalendar());
 				break;
-			case AppModel.CurrentScene.TASK_SCENE:
-				primaryStage.setScene(getSceneTasks());
+			case AppModel.CurrentScene.TASK_DEFAULT_SCENE:
+				primaryStage.setScene(getSceneTaskDefault());
+				break;
+			case AppModel.CurrentScene.TASK_CREATE_SCENE:
+				primaryStage.setScene(getSceneTaskCreate());
+				break;
+			case AppModel.CurrentScene.TASK_DELETE_SCENE:
+				primaryStage.setScene(getSceneTaskDelete());
 				break;
 			default: 
 				primaryStage.setScene(getSceneCalendar());
@@ -81,7 +87,7 @@ public class AppView{
 		primaryStage.show();
 	}
 
-	private Scene getSceneTasks() {
+	private Scene getSceneTaskDefault() {
 		ScrollPane rootPane = new ScrollPane();
 		VBox innerPane = new VBox();
 		rootPane.setContent(innerPane);
@@ -89,11 +95,90 @@ public class AppView{
 		HBox buttonBar = new HBox();
 		innerPane.getChildren().add(buttonBar);
 		Button deleteButton = new Button("löschen");
-		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
+		deleteButton.setOnAction(e->{ controller.handle(AppController.TaskStandardScene.BUTTON_DELETE);}); // Tasks mit CheckBox auswählbar
 		buttonBar.getChildren().add(deleteButton);
 		Button createButton = new Button("erstellen");
-		createButton.setOnAction(e-> { controller.handle(AppController.TaskScene.BUTTON_CREATE);}); // Task erstellScreen
+		createButton.setOnAction(e-> { controller.handle(AppController.TaskStandardScene.BUTTON_CREATE);}); // Task erstellScreen
 		buttonBar.getChildren().add(createButton);
+		
+		VBox activeTasksPane = new VBox();
+		innerPane.getChildren().add(activeTasksPane);
+		Label activeTasksLabel = new Label("aktive Aufgaben");
+		activeTasksPane.getChildren().add(activeTasksLabel);
+
+		//alle Aufgaben einfügen als CheckBoxes
+
+		Label doneTasksLabel = new Label("fertige Aufgaben");
+		activeTasksPane.getChildren().add(doneTasksLabel);
+		
+		//alle Aufgaben einfügen als CheckBoxes
+
+		return new Scene(rootPane);
+	}
+	
+	private Scene getSceneTaskCreate() {
+		VBox rootPane = new VBox();
+		
+		HBox buttonBar = new HBox();
+		rootPane.getChildren().add(buttonBar);
+		Button cancelButton = new Button("abbrechen");
+		cancelButton.setOnAction(e->{ 
+			
+			
+			controller.handle(AppController.TaskCreateScene.BUTTON_CANCEL);}); // Tasks mit CheckBox auswählbar
+		
+		
+		buttonBar.getChildren().add(cancelButton);
+		Button saveButton = new Button("speichern");
+		saveButton.setOnAction(e-> { 
+			
+			
+			controller.handle(AppController.TaskCreateScene.BUTTON_SAVE);}); // Task erstellScreen
+		
+		
+		buttonBar.getChildren().add(saveButton);
+		
+		//Noch überarbeiten für CreateTask
+
+		VBox activeTasksPane = new VBox();
+		rootPane.getChildren().add(activeTasksPane);
+		Label activeTasksLabel = new Label("aktive Aufgaben");
+		activeTasksPane.getChildren().add(activeTasksLabel);
+
+		//alle Aufgaben einfügen als CheckBoxes
+
+		Label doneTasksLabel = new Label("fertige Aufgaben");
+		activeTasksPane.getChildren().add(doneTasksLabel);
+		
+		//alle Aufgaben einfügen als CheckBoxes
+
+		return new Scene(rootPane);
+	}
+	
+	private Scene getSceneTaskDelete() {
+		ScrollPane rootPane = new ScrollPane();
+		VBox innerPane = new VBox();
+		rootPane.setContent(innerPane);
+		
+		HBox buttonBar = new HBox();
+		innerPane.getChildren().add(buttonBar);
+		Button cancelButton = new Button("abbrechen");
+		cancelButton.setOnAction(e->{ 
+			
+			controller.handle(AppController.TaskDeleteScene.BUTTON_CANCEL);}); // Tasks mit CheckBox auswählbar
+		
+		
+		buttonBar.getChildren().add(cancelButton);
+		Button deleteButton = new Button("erstellen");
+		deleteButton.setOnAction(e-> { 
+			
+			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);}); // Task erstellScreen
+		
+		
+		buttonBar.getChildren().add(deleteButton);
+	
+		
+		//Noch überarbeiten für DeleteTask
 		
 		VBox activeTasksPane = new VBox();
 		innerPane.getChildren().add(activeTasksPane);

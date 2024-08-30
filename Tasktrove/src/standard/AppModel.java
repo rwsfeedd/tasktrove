@@ -34,7 +34,9 @@ public class AppModel {
 		CALENDAR_SCENE,
 		ENTRY_SCENE,
 		DELETE_SCENE,
-		TASK_SCENE
+		TASK_DEFAULT_SCENE,
+		TASK_CREATE_SCENE,
+		TASK_DELETE_SCENE
 	}
 
 	TimeZone timeZone;
@@ -48,7 +50,7 @@ public class AppModel {
 	private File configFile;
 	private AppController controller;
 
-	public AppModel(AppController controller, File baseDir) {
+	public AppModel(AppController controller, File baseDir) { 
 		currentScene = CurrentScene.CALENDAR_SCENE;
 		this.controller = controller;
 		timeZone = TimeZone.getDefault();
@@ -147,6 +149,7 @@ public class AppModel {
 	public int getCurrentYear() {
 		return currentYear;
 	}
+
 	/**
 	 * Writes specified CalendarDate into the right xml File.
 	 * Creates new Directory for FileStorage if needed. 

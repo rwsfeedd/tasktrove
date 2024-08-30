@@ -52,11 +52,22 @@ public class AppController extends Application{
 		BUTTON_DELETE
 	}
 	
-	public static enum TaskScene {
+	public static enum TaskStandardScene {
+		BUTTON_CANCEL,
 		BUTTON_DELETE,
-		BUTTON_CREATE
+		BUTTON_CREATE,
 	}
 
+	public static enum TaskCreateScene {
+		BUTTON_CANCEL,
+		BUTTON_SAVE,
+	}
+
+	public static enum TaskDeleteScene {
+		BUTTON_CANCEL,
+		BUTTON_DELETE
+	}
+	
 	public AppModel model;
 	public AppView view;
 
@@ -113,11 +124,11 @@ public class AppController extends Application{
 				view.update();
 				break;
 			case BUTTON_TASKS:
-				model.setCurrentScene(AppModel.CurrentScene.TASK_SCENE);
+				model.setCurrentScene(AppModel.CurrentScene.TASK_DEFAULT_SCENE);
 				view.update();
 				break;
 			default:	
-				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
+				System.err.println("Unbekannte Komponente in handle(CalendarScene) von AppController-Instanz!");
 				Platform.exit();
 		}
 	}
@@ -141,7 +152,7 @@ public class AppController extends Application{
 				view.update();
 				break;
 		default:	
-				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
+				System.err.println("Unbekannte Komponente in handle(DateEntryScene) von AppController-Instanz!");
 				Platform.exit();
 		}
 	}
@@ -157,17 +168,68 @@ public class AppController extends Application{
 			view.update();
 			break;
 		default:	
-				System.err.println("Unbekannte Komponente in handle() von AppController-Instanz!");
+				System.err.println("Unbekannte Komponente in handle(DateDeleteScene) von AppController-Instanz!");
 				Platform.exit();
+				break;
 		}
 	}
 	
-	public void handle(TaskScene componentID) {
+	public void handle(TaskStandardScene componentID) {
 		switch(componentID) {
 		case BUTTON_CREATE:
+			model.setCurrentScene(AppModel.CurrentScene.TASK_CREATE_SCENE);
+			view.update();
 			break;
 		case BUTTON_DELETE:
+			model.setCurrentScene(AppModel.CurrentScene.TASK_DELETE_SCENE);
+			view.update();
 			break;
+		case BUTTON_CANCEL:
+			model.setCurrentScene(AppModel.CurrentScene.CALENDAR_SCENE);
+			view.update();
+			break;
+		default:
+			System.err.println("Unbekannte Komponente in handle(TaskDefaultScene) von AppController-Instanz!");
+			Platform.exit();
+			break;
+		}
+	}
+	
+	public void handle(TaskCreateScene componentID) {
+		switch(componentID) {
+		case BUTTON_CANCEL:
+			model.setCurrentScene(AppModel.CurrentScene.TASK_DEFAULT_SCENE);
+			view.update();
+			break;
+		case BUTTON_SAVE:
+			
+			//Task speichern implementieren
+			
+			break;
+		default:
+			System.err.println("Unbekannte Komponente in handle(TaskCreateScene) von AppController-Instanz!");
+			Platform.exit();
+			break;
+		
+		}
+	}
+	
+	public void handle(TaskDeleteScene componentID) {
+		switch(componentID) {
+		case BUTTON_CANCEL:
+			model.setCurrentScene(AppModel.CurrentScene.TASK_DEFAULT_SCENE);
+			view.update();
+			break;
+		case BUTTON_DELETE:
+			
+			//Task löschen implementieren
+			
+			break;
+		default:
+			System.err.println("Unbekannte Komponente in handle(TaskDeleteScene) von AppController-Instanz!");
+			Platform.exit();
+			break;
+		
 		}
 	}
 	
