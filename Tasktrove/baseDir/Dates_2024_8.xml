@@ -65,30 +65,6 @@
 	</termin>
 
 	<termin>
-		<name>Nummer10</name>
-		<datumVon>2024-8-7</datumVon>
-		<datumBis>2024-8-8</datumBis>
-		<uhrzeitVon>13:44</uhrzeitVon>
-		<uhrzeitBis>18:54</uhrzeitBis>
-	</termin>
-
-	<termin>
-		<name>Nummer11</name>
-		<datumVon>2024-8-7</datumVon>
-		<datumBis>2024-8-8</datumBis>
-		<uhrzeitVon>13:44</uhrzeitVon>
-		<uhrzeitBis>18:54</uhrzeitBis>
-	</termin>
-
-	<termin>
-		<name>Nummer12</name>
-		<datumVon>2024-8-7</datumVon>
-		<datumBis>2024-8-8</datumBis>
-		<uhrzeitVon>13:44</uhrzeitVon>
-		<uhrzeitBis>18:54</uhrzeitBis>
-	</termin>
-
-	<termin>
 		<name>wichtig0</name>
 		<datumVon>2024-8-14</datumVon>
 		<datumBis>2024-8-31</datumBis>

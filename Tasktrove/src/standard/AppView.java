@@ -383,4 +383,8 @@ public class AppView{
 	public LinkedList<CalendarDate> getListDates() {
 		return listDates;
 	}
+	
+	public AppTask getTask() {
+		return task;
+	}
 }

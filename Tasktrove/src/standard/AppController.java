@@ -202,9 +202,8 @@ public class AppController extends Application{
 			view.update();
 			break;
 		case BUTTON_SAVE:
-			
-			//Task speichern implementieren
-			
+			AppTask task = view.getTask();
+			if(task.isValid()) model.writeTaskIntoFile(task);
 			break;
 		default:
 			System.err.println("Unbekannte Komponente in handle(TaskCreateScene) von AppController-Instanz!");

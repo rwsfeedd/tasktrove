@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aufgabenListe>
+	<aufgabe>
+		<name>erster Termin</name>
+		<schwierigkeit>LOW</schwierigkeit>
+		<typ>DAILY</typ>
+		<erledigt>false</erledigt>
+	</aufgabe>
+</aufgabenListe>

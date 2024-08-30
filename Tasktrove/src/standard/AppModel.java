@@ -262,8 +262,32 @@ public class AppModel {
 		return processor.readFromXMLFile();
 	}
 	
-	public void writeTaskIntoFile() {
-		
+	public void writeTaskIntoFile(AppTask task) {
+	if(task == null) {
+			System.err.println("calendarDate null bei Methode writeIntoFile() in Klasse AppModel");
+			return;
+		}
+		if(!baseDir.exists()) {
+			baseDir.mkdir();
+		}
+		if(!baseDir.canRead() || !baseDir.canWrite()) {
+			controller.handle(CalendarScene.NO_BASE_DIR);
+		}
+		try {
+			xmlDataFile = new File(baseDir, "Tasks.xml");
+			if(!xmlDataFile.exists()) {
+				xmlDataFile.createNewFile();
+			}
+		}catch (Exception ex){
+			ex.printStackTrace();
+			Platform.exit();
+		}
+		try {
+			AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+			processor.appendTaskToXML(task);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//deleteTasksFromFile
