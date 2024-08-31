@@ -155,13 +155,16 @@ public class AppView{
 		buttonPreviousMonth.setOnAction(e -> {controller.handle(CalendarScene.BUTTON_PREVIOUS_MONTH);});
 		paneTop.getChildren().add(buttonPreviousMonth);
 		//Label zur Anzeige des Monats initialisieren
-		Label labelMonth = new Label(model.getStringCurrentMonth());
-		labelMonth.setMinWidth(70);
+		Label labelMonth = new Label("Monat:" + model.getStringCurrentMonth());
+		labelMonth.setMinWidth(100);
 		paneTop.getChildren().add(labelMonth);
 		//Label zur Anzeige des Jahres initialisieren
-		Label labelYear = new Label("" + model.getCurrentYear());
-		labelYear.setMinWidth(40);
+		Label labelYear = new Label("Jahr:" + Integer.toString(model.getCurrentYear()));
+		labelYear.setMinWidth(70);
 		paneTop.getChildren().add(labelYear);
+		//Label zur Anzeige der Punkte initialisieren
+		Label labelPoints = new Label("Punkte:" + Integer.toString(model.getPoints()));
+		paneTop.getChildren().add(labelPoints);
 		//Button für Wechsel in nächsten Monat initialisieren
 		Canvas graphicNextMonth = new Canvas(15, 15);
 		GraphicsContext gcNextMonth = graphicNextMonth.getGraphicsContext2D();

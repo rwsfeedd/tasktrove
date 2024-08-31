@@ -39,8 +39,8 @@ public class AppModel {
 		TASK_DELETE_SCENE
 	}
 
-	TimeZone timeZone;
-	GregorianCalendar calendar;
+	private TimeZone timeZone;
+	private GregorianCalendar calendar;
 	private CurrentScene currentScene;
 	private LinkedList<CalendarDate> currentDates;
 	private Month currentMonth;
@@ -49,6 +49,7 @@ public class AppModel {
 	private File xmlDataFile;
 	private File configFile;
 	private AppController controller;
+	private int points;
 
 	public AppModel(AppController controller, File baseDir) { 
 		currentScene = CurrentScene.CALENDAR_SCENE;
@@ -58,6 +59,7 @@ public class AppModel {
 		currentMonth = CalendarDate.parseMonthCalendarToEnum(calendar.get(GregorianCalendar.MONTH));
 		currentYear = calendar.get(Calendar.YEAR);
 		this.baseDir = baseDir;
+		points = 0;
 	}
 	
 	public int[] getCalendarInfo() {
@@ -332,7 +334,6 @@ public class AppModel {
 	}
 	
 	public void addPointsInFile(int addedPoints) {
-		
 		try {
 			if(!baseDir.exists()) {
 				baseDir.mkdir();
@@ -417,5 +418,24 @@ public class AppModel {
 
 	public void setBaseDir(File baseDir) {
 		this.baseDir = baseDir;
+	}
+	
+	public int getPoints() {
+		try {
+			if(!baseDir.exists()) {
+				baseDir.mkdir();
+			}
+			if(!baseDir.canRead() || !baseDir.canWrite()) {
+				controller.handle(CalendarScene.NO_BASE_DIR);
+			}
+			xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + currentMonth.getValue() + ".xml");
+			if(!xmlDataFile.exists()) {
+				return 0;
+			}
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
+		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+		return processor.readPoints();
 	}
 }

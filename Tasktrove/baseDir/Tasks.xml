@@ -11,7 +11,7 @@
 		<name>erster1</name>
 		<schwierigkeit>LOW</schwierigkeit>
 		<typ>DAILY</typ>
-		<erledigt>false</erledigt>
+		<erledigt>true</erledigt>
 	</aufgabe>
 
 	<aufgabe>
@@ -24,6 +24,13 @@
 	<aufgabe>
 		<name>erster123456</name>
 		<schwierigkeit>LOW</schwierigkeit>
+		<typ>DAILY</typ>
+		<erledigt>true</erledigt>
+	</aufgabe>
+
+	<aufgabe>
+		<name>schwerer Termin</name>
+		<schwierigkeit>HIGH</schwierigkeit>
 		<typ>DAILY</typ>
 		<erledigt>true</erledigt>
 	</aufgabe>
