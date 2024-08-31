@@ -331,6 +331,27 @@ public class AppModel {
 		processor.rewriteTasksIntoXML(listOriginalTasks);
 	}
 	
+	public void addPointsInFile(int addedPoints) {
+		
+		try {
+			if(!baseDir.exists()) {
+				baseDir.mkdir();
+			}
+			if(!baseDir.canRead() || !baseDir.canWrite()) {
+				controller.handle(CalendarScene.NO_BASE_DIR);
+			}
+			xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + currentMonth.getValue() + ".xml");
+			if(!xmlDataFile.exists()) {
+				xmlDataFile.createNewFile();
+			}
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
+		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+		processor.addPoints(addedPoints);
+		//addPoints()
+	}
+	
 	public void deleteTasksInFile(LinkedList<AppTask> removableTasks) {
 		if(removableTasks == null) {
 			System.err.println("removableTasks null bei Methode deleteInFile() in Klasse AppModel");

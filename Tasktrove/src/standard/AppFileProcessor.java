@@ -295,7 +295,7 @@ public class AppFileProcessor {
 		}
 	}
 	
-	private void addPoints(int addedPoints) {
+	public void addPoints(int addedPoints) {
 		try {
 			int points = readPoints() + addedPoints;
 			LinkedList<CalendarDate> listDates = readFromXMLFile();

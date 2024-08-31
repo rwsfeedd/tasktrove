@@ -194,6 +194,26 @@ public class AppController extends Application{
 			LinkedList<AppTask> listTasks = view.getListTasks();
 			//Tasks an Model übergeben, welches die Änderungen in das File schreibt
 			model.updateTasksInFile(listTasks);
+			//wenn aktive Aufgaben geändert wurden, müssen die Punkte noch richtig addiert werden
+			int punkte = 0;
+			for(int i = 0; i < listTasks.size(); i++) {
+				if(!(listTasks.get(i).isDone())) {
+					switch(listTasks.get(i).getDifficulty()) {
+					case LOW:
+						punkte += 2;
+						break;
+					case MEDIUM:
+						punkte += 5;
+						break;
+					case HIGH:
+						punkte += 8;
+						break;
+					}
+				}
+			}
+			if(punkte != 0) {
+				model.addPointsInFile(punkte);
+			}
 			//view holt sich diese neue Taskliste ab und wird geupdated 
 			view.update();
 			break;
