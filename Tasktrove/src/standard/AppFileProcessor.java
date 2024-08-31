@@ -31,6 +31,8 @@ public class AppFileProcessor {
 	private final String AUFGABEN_TYP = "typ";
 	private final String AUFGABE_ERLEDIGT = "erledigt";
 	
+	private final String PUNKTE = "punkte";
+	
 	
 	private File xmlDataFile;
 	
@@ -90,6 +92,7 @@ public class AppFileProcessor {
 
 	public void appendToXMLFile(CalendarDate calendarDate) {
 		try{
+			int punkte = readPoints();
 			LinkedList<CalendarDate> list = readFromXMLFile();
 			FileOutputStream fos = new FileOutputStream(xmlDataFile);
 			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
@@ -98,6 +101,8 @@ public class AppFileProcessor {
 			writer.writeCharacters("\n");
 			writer.writeStartElement(TERMIN_LISTE);
 			
+			writePoints(punkte, writer);
+
 			if(list != null && !list.isEmpty()) {
 				for(int i = 0; i < list.size(); i++) {
 					writeDate(list.get(i), writer);
@@ -116,19 +121,22 @@ public class AppFileProcessor {
 	
 	public void rewriteXMLFile(LinkedList<CalendarDate> listDates) {
 		try {
+			int points = readPoints();
 			FileOutputStream fos = new FileOutputStream(xmlDataFile);
 			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
 			XMLStreamWriter writer = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");
 			writer.writeStartDocument("utf-8", "1.0");
 			writer.writeCharacters("\n");
 			writer.writeStartElement(TERMIN_LISTE);
-			
+
+			writePoints(points, writer);
 
 			if(!(listDates == null) && !(listDates.size() < 1)) {
 				for(int i = 0; i < listDates.size(); i++) {
 					writeDate(listDates.get(i), writer);
 				}//for
 			}
+
 			writer.writeEndDocument();
 			writer.flush();
 			writer.close();
@@ -287,8 +295,66 @@ public class AppFileProcessor {
 		}
 	}
 	
-	public void deleteTaskInXML(AppTask task) {
-		
-	}
+	private void addPoints(int addedPoints) {
+		try {
+			int points = readPoints() + addedPoints;
+			LinkedList<CalendarDate> listDates = readFromXMLFile();
+			FileOutputStream fos = new FileOutputStream(xmlDataFile);
+			XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
+			XMLStreamWriter writer = xmlOutputFactory.createXMLStreamWriter(fos, "utf-8");
+			writer.writeStartDocument("utf-8", "1.0");
+			writer.writeCharacters("\n");
+			writer.writeStartElement(TERMIN_LISTE);
 
+			writePoints(points, writer);
+
+			if(!(listDates == null) && !(listDates.size() < 1)) {
+				for(int i = 0; i < listDates.size(); i++) {
+					writeDate(listDates.get(i), writer);
+				}//for
+			}
+
+			writer.writeEndDocument();
+			writer.flush();
+			writer.close();
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void writePoints(int i, XMLStreamWriter writer) {
+		try {
+			writer.writeCharacters("\n\t");
+			writer.writeStartElement(PUNKTE);
+			writer.writeCharacters(Integer.toString(i));
+			writer.writeEndElement();
+			writer.writeCharacters("\n");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	public int readPoints() {
+		int ret = 0;
+		try {
+			FileInputStream fis = new FileInputStream(xmlDataFile);
+			XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
+			XMLStreamReader reader = xmlInputFactory.createXMLStreamReader(fis, "utf-8");
+
+			if(xmlDataFile.length()<=0) return 0;
+			while(reader.hasNext()){
+				reader.next();
+				if(reader.getEventType() == XMLStreamConstants.START_ELEMENT) {
+					if(reader.getLocalName().equals(PUNKTE)) {
+						ret = Integer.parseInt(reader.getElementText());
+						break;
+					}
+				}
+			}
+			reader.close();
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return ret;
+	}
 }

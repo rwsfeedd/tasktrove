@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <terminListe>
+	<points>0</points>
 	<termin>
 		<name>Wichtiger Arzttermin</name>
 		<datumVon>2024-8-6</datumVon>
