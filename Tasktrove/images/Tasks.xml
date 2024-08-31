@@ -4,7 +4,7 @@
 		<name>erster</name>
 		<schwierigkeit>LOW</schwierigkeit>
 		<typ>DAILY</typ>
-		<erledigt>true</erledigt>
+		<erledigt>false</erledigt>
 	</aufgabe>
 
 	<aufgabe>
@@ -39,13 +39,13 @@
 		<name>erster12345</name>
 		<schwierigkeit>LOW</schwierigkeit>
 		<typ>DAILY</typ>
-		<erledigt>false</erledigt>
+		<erledigt>true</erledigt>
 	</aufgabe>
 
 	<aufgabe>
 		<name>erster123456</name>
 		<schwierigkeit>LOW</schwierigkeit>
 		<typ>DAILY</typ>
-		<erledigt>false</erledigt>
+		<erledigt>true</erledigt>
 	</aufgabe>
 </aufgabenListe>

@@ -229,9 +229,11 @@ public class AppController extends Application{
 			view.update();
 			break;
 		case BUTTON_DELETE:
-			
-			//Task löschen implementieren
-			
+			LinkedList<AppTask> listChangedTasks = view.getListTasks();
+			if(!listChangedTasks.isEmpty()) {
+				model.deleteTasksInFile(listChangedTasks);
+			}
+			view.update();
 			break;
 		default:
 			System.err.println("Unbekannte Komponente in handle(TaskDeleteScene) von AppController-Instanz!");

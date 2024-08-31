@@ -226,8 +226,8 @@ public class AppModel {
 					AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
 					LinkedList<CalendarDate> listOriginal = processor.readFromXMLFile();
 					LinkedList<CalendarDate> listRet = new LinkedList<CalendarDate>();
-					if(listRet != null) {
-						while(!(listOriginal.isEmpty()) && !(listOriginal == null)) {
+					if(listOriginal != null) {
+						while(!(listOriginal.isEmpty()) && listOriginal != null) {
 							if(listOriginal.getLast().compareTo(removableDates.getLast()) == 0) {
 								listOriginal.removeLast();
 							} else {
@@ -330,6 +330,51 @@ public class AppModel {
 		
 		processor.rewriteTasksIntoXML(listOriginalTasks);
 	}
+	
+	public void deleteTasksInFile(LinkedList<AppTask> removableTasks) {
+		if(removableTasks == null) {
+			System.err.println("removableTasks null bei Methode deleteInFile() in Klasse AppModel");
+			return;
+		}
+		if(!baseDir.exists()) {
+			baseDir.mkdir();
+		}
+		if(!baseDir.canRead() || !baseDir.canWrite()) {
+			controller.handle(CalendarScene.NO_BASE_DIR);
+		}
+		try {
+			xmlDataFile = new File(baseDir, "Tasks.xml");
+			if(!xmlDataFile.exists()) {
+				System.err.println("Kein File für Tasks gefunden!");
+				return;
+			}
+		}catch (Exception ex){
+			ex.printStackTrace();
+			Platform.exit();
+		}
+
+		try {
+			AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+			LinkedList<AppTask> listOriginal = processor.readTasks();
+			LinkedList<AppTask> listRet = new LinkedList<AppTask>();
+			if(listOriginal == null) {
+				System.err.println("Keine Termine vorhanden, die gelöscht werden können");
+				return;
+			}
+			for(int i = 0; i < removableTasks.size(); i++) {
+				for(int l = 0; l < listOriginal.size(); l++) {
+					if(listOriginal.get(l).equals(removableTasks.get(i))) {
+						listOriginal.remove(l);
+						break;
+					}
+				}
+			}//for
+			processor.rewriteTasksIntoXML(listOriginal);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+}//deleteInFile()
+	
 	//deleteTasksFromFile
 	//rewriteTasksFromFile
 	

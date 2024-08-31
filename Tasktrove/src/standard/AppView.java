@@ -57,6 +57,7 @@ public class AppView{
 		this.controller = controller;
 		primaryStage.setMinHeight(heightWindow); 		
 		primaryStage.setMinWidth(widthWindow);
+		primaryStage.setTitle("TaskTrove");
 		
 	}
 
@@ -283,7 +284,7 @@ public class AppView{
 			}
 		}
 		
-		//alle aktiven Aufgaben darstellen
+		//alle aktiven Aufgaben in CheckBox-Format initialisieren
 		ScrollPane rootActiveTasks = new ScrollPane();
 		VBox activeTasksPane = new VBox();
 		rootActiveTasks.setContent(activeTasksPane);
@@ -396,37 +397,81 @@ public class AppView{
 	
 	private Scene getSceneTaskDelete() {
 		VBox rootPane = new VBox();
-		ScrollPane taskPane = new ScrollPane();
-		rootPane.getChildren().add(taskPane);
-		VBox innerPane = new VBox();
-		taskPane.setContent(innerPane);
+				
+		LinkedList<AppTask> listTasks = model.getTasks();
+		//Aufgabenliste in fertige und aktive Aufgaben trennen
+		LinkedList<AppTask>	listDoneTasks = new LinkedList<AppTask>(); 
+		LinkedList<AppTask> listActiveTasks = new LinkedList<AppTask>();
+		if(!listTasks.isEmpty()) {
+			for(int i = 0; i < listTasks.size(); i++) {
+				if(!listTasks.get(i).isDone()) {
+					listActiveTasks.add(listTasks.get(i));
+				} else {
+					listDoneTasks.add(listTasks.get(i));
+				}
+			}
+		}
 		
-		//Noch überarbeiten für DeleteTask
-		
+		//alle aktiven Aufgaben in CheckBox-Format initialisieren
+		ScrollPane rootActiveTasks = new ScrollPane();
 		VBox activeTasksPane = new VBox();
-		innerPane.getChildren().add(activeTasksPane);
+		rootActiveTasks.setContent(activeTasksPane);
+		rootPane.getChildren().add(rootActiveTasks);
 		Label activeTasksLabel = new Label("aktive Aufgaben");
 		activeTasksPane.getChildren().add(activeTasksLabel);
+		LinkedList<CheckBox> activeTaskSelection = new LinkedList<CheckBox>();
+		if(!listActiveTasks.isEmpty()) {
+			for(int i = 0; i < listActiveTasks.size(); i++) {
+				activeTaskSelection.add(new CheckBox(listActiveTasks.get(i).getName() 
+						+ " Schwierigkeit:" 
+						+ AppTask.parseDifficultyToString(listActiveTasks.get(i).getDifficulty()) 
+						+ " Typ:" 
+						+ AppTask.parseTypeToString(listActiveTasks.get(i).getType())));
+				activeTasksPane.getChildren().add(activeTaskSelection.getLast());
+			}
+		}
 
-		//alle Aufgaben einfügen als CheckBoxes
-
+		//alle fertigen Aufgaben in CheckBox-Format initialisieren
+		ScrollPane rootDoneTasks = new ScrollPane();
+		VBox doneTasksPane = new VBox();
+		rootDoneTasks.setContent(doneTasksPane);
+		rootPane.getChildren().add(rootDoneTasks);
 		Label doneTasksLabel = new Label("fertige Aufgaben");
-		activeTasksPane.getChildren().add(doneTasksLabel);
-		
-		//alle Aufgaben einfügen als CheckBoxes
+		doneTasksPane.getChildren().add(doneTasksLabel);
+		LinkedList<CheckBox> doneTaskSelection = new LinkedList<CheckBox>();
+		if(!listDoneTasks.isEmpty()) {
+			for(int i = 0; i < listDoneTasks.size(); i++) {
+				doneTaskSelection.add(new CheckBox(listDoneTasks.get(i).getName() 
+						+ " Schwierigkeit:" 
+						+ AppTask.parseDifficultyToString(listDoneTasks.get(i).getDifficulty()) 
+						+ " Typ:" 
+						+ AppTask.parseTypeToString(listDoneTasks.get(i).getType())));
+				doneTasksPane.getChildren().add(doneTaskSelection.getLast());
+			}
+		}
 
 		HBox buttonBar = new HBox();
 		rootPane.getChildren().add(buttonBar);
+
 		Button cancelButton = new Button("abbrechen");
 		cancelButton.setOnAction(e->{ 
-			
 			controller.handle(AppController.TaskDeleteScene.BUTTON_CANCEL);}); // Tasks mit CheckBox auswählbar
-		
-		
 		buttonBar.getChildren().add(cancelButton);
+
 		Button deleteButton = new Button("löschen");
 		deleteButton.setOnAction(e-> { 
-			
+			LinkedList<AppTask> listChangedTasks = new LinkedList<AppTask>();
+			if(!activeTaskSelection.isEmpty()) {
+				for(int i = 0; i < activeTaskSelection.size(); i++) {
+					if(activeTaskSelection.get(i).isSelected()) listChangedTasks.add(listActiveTasks.get(i));
+				}
+			}
+			if(!doneTaskSelection.isEmpty()) {
+				for(int i = 0; i < doneTaskSelection.size(); i++) {
+					if(doneTaskSelection.get(i).isSelected()) listChangedTasks.add(listDoneTasks.get(i));
+				}
+			}
+			this.listTasks = listChangedTasks;
 			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);}); // Task erstellScreen
 		
 		

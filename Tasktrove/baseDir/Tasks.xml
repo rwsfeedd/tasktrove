@@ -18,27 +18,6 @@
 		<name>erster12</name>
 		<schwierigkeit>LOW</schwierigkeit>
 		<typ>DAILY</typ>
-		<erledigt>true</erledigt>
-	</aufgabe>
-
-	<aufgabe>
-		<name>erster123</name>
-		<schwierigkeit>LOW</schwierigkeit>
-		<typ>DAILY</typ>
-		<erledigt>false</erledigt>
-	</aufgabe>
-
-	<aufgabe>
-		<name>erster1234</name>
-		<schwierigkeit>LOW</schwierigkeit>
-		<typ>DAILY</typ>
-		<erledigt>true</erledigt>
-	</aufgabe>
-
-	<aufgabe>
-		<name>erster12345</name>
-		<schwierigkeit>LOW</schwierigkeit>
-		<typ>DAILY</typ>
 		<erledigt>false</erledigt>
 	</aufgabe>
 
