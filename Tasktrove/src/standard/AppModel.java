@@ -1,34 +1,17 @@
 package standard;
 
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.TimeZone;
-
-import javax.xml.XMLConstants;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
 import javafx.application.Platform;
 import standard.AppController.CalendarScene;
+
 public class AppModel {
 	public static enum CurrentScene {
 		CALENDAR_SCENE,
@@ -42,14 +25,11 @@ public class AppModel {
 	private TimeZone timeZone;
 	private GregorianCalendar calendar;
 	private CurrentScene currentScene;
-	private LinkedList<CalendarDate> currentDates;
 	private Month currentMonth;
 	private int currentYear;
 	private File baseDir;
 	private File xmlDataFile;
-	private File configFile;
 	private AppController controller;
-	private int points;
 
 	public AppModel(AppController controller, File baseDir) { 
 		currentScene = CurrentScene.CALENDAR_SCENE;
@@ -59,7 +39,6 @@ public class AppModel {
 		currentMonth = CalendarDate.parseMonthCalendarToEnum(calendar.get(GregorianCalendar.MONTH));
 		currentYear = calendar.get(Calendar.YEAR);
 		this.baseDir = baseDir;
-		points = 0;
 	}
 	
 	public int[] getCalendarInfo() {
@@ -378,7 +357,6 @@ public class AppModel {
 		try {
 			AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
 			LinkedList<AppTask> listOriginal = processor.readTasks();
-			LinkedList<AppTask> listRet = new LinkedList<AppTask>();
 			if(listOriginal == null) {
 				System.err.println("Keine Termine vorhanden, die gelöscht werden können");
 				return;
