@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aufgabenListe>
+	<aufgabe>
+		<name>ewtqw</name>
+		<schwierigkeit>MEDIUM</schwierigkeit>
+		<typ>WEEKLY</typ>
+		<erledigt>false</erledigt>
+	</aufgabe>
+
+	<aufgabe>
+		<name>gergwe12</name>
+		<schwierigkeit>MEDIUM</schwierigkeit>
+		<typ>DAILY</typ>
+		<erledigt>true</erledigt>
+	</aufgabe>
+
+	<aufgabe>
+		<name>einfach</name>
+		<schwierigkeit>LOW</schwierigkeit>
+		<typ>DAILY</typ>
+		<erledigt>true</erledigt>
+	</aufgabe>
+
+	<aufgabe>
+		<name>mittel</name>
+		<schwierigkeit>MEDIUM</schwierigkeit>
+		<typ>DAILY</typ>
+		<erledigt>false</erledigt>
+	</aufgabe>
+</aufgabenListe>

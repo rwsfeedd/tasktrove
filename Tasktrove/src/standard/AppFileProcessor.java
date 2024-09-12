@@ -191,7 +191,7 @@ public class AppFileProcessor {
 			XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
 			XMLStreamReader reader = xmlInputFactory.createXMLStreamReader(fis, "utf-8");
 
-			if(xmlDataFile.length()<=0) return null;
+			if(xmlDataFile.length()<=0) return new LinkedList<AppTask>();
 			while(reader.hasNext()){
 				reader.next();
 				if(reader.getEventType() == XMLStreamConstants.START_ELEMENT) {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<terminListe>
+	<punkte>0</punkte>
+
+	<termin>
+		<name>hrstnbwrt</name>
+		<datumVon>2024-9-3</datumVon>
+		<datumBis>2024-9-20</datumBis>
+		<uhrzeitVon>12:24</uhrzeitVon>
+		<uhrzeitBis>13:55</uhrzeitBis>
+	</termin>
+</terminListe>

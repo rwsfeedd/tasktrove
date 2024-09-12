@@ -2,8 +2,8 @@ module Tasktrove {
 	exports standard;
 	
 	requires transitive javafx.graphics;
-	requires transitive javafx.controls;
-	requires transitive java.desktop;
-	requires transitive javafx.base;
+	requires javafx.controls;
+	requires java.desktop;
+	requires javafx.base;
 	requires transitive java.xml;
 }

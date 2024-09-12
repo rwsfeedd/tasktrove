@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<terminListe>
+	<punkte>0</punkte>
+
+	<termin>
+		<name>reqfgqreg</name>
+		<datumVon>2025-1-6</datumVon>
+		<datumBis>2025-1-8</datumBis>
+		<uhrzeitVon>12:33</uhrzeitVon>
+		<uhrzeitBis>12:44</uhrzeitBis>
+	</termin>
+</terminListe>
