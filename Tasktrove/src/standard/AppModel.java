@@ -21,12 +21,10 @@ public class AppModel {
 		TASK_CREATE_SCENE,
 		TASK_DELETE_SCENE
 	}
-
-	private TimeZone timeZone;
 	private GregorianCalendar calendar;
-	private CurrentScene currentScene;
 	private Month currentMonth;
 	private int currentYear;
+	private CurrentScene currentScene;
 	private File baseDir;
 	private File xmlDataFile;
 	private AppController controller;
@@ -34,7 +32,7 @@ public class AppModel {
 	public AppModel(AppController controller, File baseDir) { 
 		currentScene = CurrentScene.CALENDAR_SCENE;
 		this.controller = controller;
-		timeZone = TimeZone.getDefault();
+		TimeZone timeZone = TimeZone.getDefault();
 		calendar = new GregorianCalendar(timeZone);
 		currentMonth = CalendarDate.parseMonthCalendarToEnum(calendar.get(GregorianCalendar.MONTH));
 		currentYear = calendar.get(Calendar.YEAR);
@@ -209,7 +207,7 @@ public class AppModel {
 					LinkedList<CalendarDate> listRet = new LinkedList<CalendarDate>();
 					if(listOriginal != null) {
 						while(!(listOriginal.isEmpty()) && listOriginal != null) {
-							if(listOriginal.getLast().compareTo(removableDates.getLast()) == 0) {
+							if(listOriginal.getLast().compareTo(removableDates.get(i)) == 0) {
 								listOriginal.removeLast();
 							} else {
 								listRet.add(listOriginal.removeLast());
@@ -225,7 +223,7 @@ public class AppModel {
 				currentDate = currentDate.withDayOfMonth(1);
 			}//while
 		}//for
-}//deleteInFile()
+	}//deleteInFile()
 
 	public LinkedList<CalendarDate> getCurrentDates() {
 		if(baseDir == null) {
@@ -271,8 +269,7 @@ public class AppModel {
 		}
 	}
 	
-	public void updateTasksInFile(LinkedList<AppTask> listChangedTasks) {
-		//LinkedList<AppTask> listChangedTasks =  
+	public void updateTasksInFile(LinkedList<AppTask> listChangedTasks) { 
 		
 		if(listChangedTasks == null) {
 			System.err.println("TerminListe null bei Methode updateTasksInFile() in Klasse AppModel");
@@ -312,25 +309,7 @@ public class AppModel {
 		processor.rewriteTasksIntoXML(listOriginalTasks);
 	}
 	
-	public void addPointsInFile(int addedPoints) {
-		try {
-			if(!baseDir.exists()) {
-				baseDir.mkdir();
-			}
-			if(!baseDir.canRead() || !baseDir.canWrite()) {
-				controller.handle(CalendarScene.NO_BASE_DIR);
-			}
-			xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + currentMonth.getValue() + ".xml");
-			if(!xmlDataFile.exists()) {
-				xmlDataFile.createNewFile();
-			}
-		}catch (Exception ex){
-			ex.printStackTrace();
-		}
-		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
-		processor.addPoints(addedPoints);
-		//addPoints()
-	}
+	
 	
 	public void deleteTasksInFile(LinkedList<AppTask> removableTasks) {
 		if(removableTasks == null) {
@@ -373,10 +352,8 @@ public class AppModel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-}//deleteInFile()
+	}//deleteInFile()
 	
-	//deleteTasksFromFile
-	//rewriteTasksFromFile
 	
 	public LinkedList<AppTask> getTasks() {
 		if(baseDir == null) {
@@ -396,6 +373,26 @@ public class AppModel {
 
 	public void setBaseDir(File baseDir) {
 		this.baseDir = baseDir;
+	}
+	
+	public void addPointsInFile(int addedPoints) {
+		try {
+			if(!baseDir.exists()) {
+				baseDir.mkdir();
+			}
+			if(!baseDir.canRead() || !baseDir.canWrite()) {
+				controller.handle(CalendarScene.NO_BASE_DIR);
+			}
+			xmlDataFile = new File(baseDir, "Dates_" + currentYear + "_" + currentMonth.getValue() + ".xml");
+			if(!xmlDataFile.exists()) {
+				xmlDataFile.createNewFile();
+			}
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
+		AppFileProcessor processor = new AppFileProcessor(xmlDataFile);
+		processor.addPoints(addedPoints);
+		//addPoints()
 	}
 	
 	public int getPoints() {

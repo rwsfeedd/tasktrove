@@ -38,6 +38,13 @@ public class AppView{
 	private AppTask task;
 	private LinkedList<AppTask> listTasks;
 
+	/** Stellt alle Szenen dar, mit den Informationen die in AppModel hinterlegt sind.
+	 * 	Alle Benutzerinteraktionen werden, mit den nötigen Informationen, an AppController weitergeleitet.
+	 * 
+	 * @param primaryStage
+	 * @param model
+	 * @param controller
+	 */
 	public AppView(Stage primaryStage, AppModel model, AppController controller) {
 		this.primaryStage = primaryStage;
 		this.model = model;
@@ -112,6 +119,7 @@ public class AppView{
 				for(int l = 0; l < nodeSelection.size(); l++) {
 					if(nodeSelection.get(l).isSelected() == true) {
 						datesToDelete.add(listDates.get(l));
+						//System.out.println(datesToDelete.getLast());
 					}
 				}
 			}
@@ -163,7 +171,7 @@ public class AppView{
 		paneTop.getChildren().add(buttonNextMonth);
 		//Button für neuen Termin initialisieren 
 		Button buttonNewDate = new Button("neuer Termin");
-		buttonNewDate.setOnAction(e -> {controller.handle(CalendarScene.NEW_DATE);});
+		buttonNewDate.setOnAction(e -> {controller.handle(CalendarScene.BUTTON_NEW_DATE);});
 		paneTop.getChildren().add(buttonNewDate);
 		//Button für löschen von Terminen initialisieren 
 		Button buttonDeleteDate = new Button("Termin löschen");
@@ -461,8 +469,8 @@ public class AppView{
 				}
 			}
 			this.listTasks = listChangedTasks;
-			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);}); // Task erstellScreen
-		
+			controller.handle(AppController.TaskDeleteScene.BUTTON_DELETE);
+			}); // Task erstellScreen
 		
 		buttonBar.getChildren().add(deleteButton);
 

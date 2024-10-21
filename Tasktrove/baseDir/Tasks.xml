@@ -4,7 +4,7 @@
 		<name>ewtqw</name>
 		<schwierigkeit>MEDIUM</schwierigkeit>
 		<typ>WEEKLY</typ>
-		<erledigt>false</erledigt>
+		<erledigt>true</erledigt>
 	</aufgabe>
 
 	<aufgabe>
@@ -25,6 +25,6 @@
 		<name>mittel</name>
 		<schwierigkeit>MEDIUM</schwierigkeit>
 		<typ>DAILY</typ>
-		<erledigt>false</erledigt>
+		<erledigt>true</erledigt>
 	</aufgabe>
 </aufgabenListe>

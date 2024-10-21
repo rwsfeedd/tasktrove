@@ -116,6 +116,8 @@ public class CalendarDate {
 	}
 	
 	public int compareTo(CalendarDate calendarDate) {
+		if(this.getName().compareTo(calendarDate.getName()) != 0) return -1;
+		
 		if(this.getStartDate().compareTo(calendarDate.getStartDate()) < 0)  return -1;
 		if(this.getStartDate().compareTo(calendarDate.getStartDate()) > 0)  return 1;
 		

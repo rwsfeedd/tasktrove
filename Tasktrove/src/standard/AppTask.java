@@ -15,6 +15,7 @@ public class AppTask {
 		WEEKLY,
 		MONHLY
 	}
+	
 	public static final String TAG = "Tagesaufgabe";
 	public static final String WOCHE = "Wochenaufgabe";
 	public static final String MONAT = "Monatsaufgabe";

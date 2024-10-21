@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class AppController extends Application{
 	public static enum CalendarScene {
-		NEW_DATE,
+		BUTTON_NEW_DATE,
 		BUTTON_NEXT_MONTH,
 		BUTTON_PREVIOUS_MONTH,
 		BUTTON_DELETE_DATE,
@@ -44,8 +44,8 @@ public class AppController extends Application{
 		BUTTON_DELETE
 	}
 	
-	public AppModel model;
-	public AppView view;
+	private AppModel model;
+	private AppView view;
 
 	public void start(Stage primaryStage) throws Exception{
 		File baseDir = new File("baseDir");
@@ -74,7 +74,7 @@ public class AppController extends Application{
 
 	public void handle(CalendarScene componentID) {
 		switch(componentID) {
-			case NEW_DATE: 	
+			case BUTTON_NEW_DATE: 	
 				model.setCurrentScene(AppModel.CurrentScene.ENTRY_SCENE);
 				view.update();
 				break;
